@@ -1,2 +1,9 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using BlaisePascal.SmartHouse.Domain;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        Lamp lamp = new Lamp();
+    }
+}
