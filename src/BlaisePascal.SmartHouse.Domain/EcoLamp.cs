@@ -19,7 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private int EcoMaxBrightness; // NEW: Cap luminosità in Eco (0..100).
         private TimeSpan EcoAutoOff;  // NEW: Timer di autospegnimento quando accesa in Eco.
         private DateTime? TurnedOnAt;      // Istante di accensione
-        private DateTime? ScheduledOffAt;  // Istante di spegnimento calcolato
+        public DateTime? ScheduledOffAt { get; private set; }  // Istante di spegnimento calcolato
         private bool WasInEco;             // Per rilevare ingresso in Eco e applicare cap una volta
 
         public enum ColorType
@@ -121,6 +121,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 return MaxConsumption * (Brightness / 100.0f) * alpha;
             }
         }
+        
         /// <summary>
         /// Constructor for EcoLamp class
         /// </summary>
@@ -215,25 +216,23 @@ namespace BlaisePascal.SmartHouse.Domain
             if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
 
-        public void Tick(DateTime now)
+        public void Tick(DateTime now) //To be called periodically to manage Eco mode and auto-off
         {
             if (!IsOn) return;
 
             bool inEco = IsInEco(now);
-            // Applica cap nel momento in cui si entra in Eco
             if (EcoEnabled && inEco && !WasInEco)
                 Brightness = Math.Min(Brightness, EcoMaxBrightness);
 
             WasInEco = inEco;
 
-            // Spegni alla scadenza programmata
-            if (ScheduledOffAt.HasValue && now >= ScheduledOffAt.Value)
+            if (ScheduledOffAt.HasValue && now >= ScheduledOffAt.Value) //Turn off if scheduled time reached
             {
                 TurnOff();
             }
         }
 
-        private bool IsInEco(DateTime dateTime)
+        private bool IsInEco(DateTime dateTime) //Checks if the given time is within the Eco time range
         {
             TimeOnly time = TimeOnly.FromDateTime(dateTime);
             if (EcoStart <= EcoEnd)            
@@ -241,32 +240,36 @@ namespace BlaisePascal.SmartHouse.Domain
             return time >= EcoStart || time < EcoEnd;
         }
 
-        private static DateTime NextOccurrence(DateTime from, TimeOnly time) //
+        private static DateTime NextOccurrence(DateTime from, TimeOnly time) //Finds the next occurrence of a specific time
         {
             DateTime candidate = new DateTime(from.Year, from.Month, from.Day, time.Hour, time.Minute, time.Second, time.Millisecond, from.Kind);
             if (candidate <= from) candidate = candidate.AddDays(1);
             return candidate;
         }
 
-        private DateTime ComputeFinalOffInstant(DateTime onTime) //Calculates when the lamp should turn off based on Eco settings
+        private DateTime ComputeFinalOffInstant(DateTime TurnOnAt) //Calculates when the lamp should turn off based on Eco settings
         {
-            DateTime offByDefault = onTime + DefaultAutoOff;
+            DateTime offByDefault = TurnOnAt + DefaultAutoOff;
 
-            if (!EcoEnabled)
+            if (EcoEnabled==false)
                 return offByDefault;
 
-            if (IsInEco(onTime))
+            if (IsInEco(TurnOnAt))
             {
                 // Accesa in Eco: usa timer Eco e non estendere quando la fascia termina
-                return onTime + EcoAutoOff;
+                return TurnOnAt + EcoAutoOff;
             }
             else
             {
                 // Accesa fuori Eco: se la fascia inizia prima dell'off predefinito,
                 // termine = min(offPredef, nextEcoStart + ecoAutoOff)
-                DateTime nextEcoStart = NextOccurrence(onTime, EcoStart);
+                DateTime nextEcoStart = NextOccurrence(TurnOnAt, EcoStart);
                 DateTime ecoBound = nextEcoStart + EcoAutoOff;
-                return (ecoBound < offByDefault) ? ecoBound : offByDefault;
+                if (ecoBound < offByDefault)
+                    return ecoBound;
+                else
+                    return offByDefault;
+
             }
         }
     }
