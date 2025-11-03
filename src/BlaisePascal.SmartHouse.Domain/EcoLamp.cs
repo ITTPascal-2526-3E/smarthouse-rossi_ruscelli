@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace BlaisePascal.SmartHouse.Domain
 {
@@ -7,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private float powerConsumption; // Current power consumption in watts
         private bool IsOn; // State of the lamp
         private int Brightness; // Brightness of ther lamp
-        private string Color; // Color of the lamp light
+        private ColorType Color; // Color of the lamp light
         private string Name; // Name of the lamp
         private int MaxConsumption; // Maximum power consumption in watts
         private LampType lampType; // Type of the lamp
@@ -21,6 +22,19 @@ namespace BlaisePascal.SmartHouse.Domain
         private DateTime? ScheduledOffAt;  // Istante di spegnimento calcolato
         private bool WasInEco;             // Per rilevare ingresso in Eco e applicare cap una volta
 
+        public enum ColorType
+        {
+            WarmWhite,
+            CoolWhite,
+            Daylight,
+            Red,
+            Green,
+            Blue,
+            Yellow,
+            Purple,
+            Orange,
+            Pink
+        }
         public enum LampType
         {
             LED,
@@ -88,7 +102,7 @@ namespace BlaisePascal.SmartHouse.Domain
                     Brightness = brighntessValue; // Normal brightness setting
             }
         }
-        public string ColorProperty
+        public ColorType ColorProperty
         {
             get { return Color; }
             set { Color = value; }
@@ -114,7 +128,7 @@ namespace BlaisePascal.SmartHouse.Domain
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public EcoLamp(bool isOn, string name, string color, int brightness, LampType lampType)
+        public EcoLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
         {
             IsOn = isOn;
             Name = name;
@@ -174,7 +188,7 @@ namespace BlaisePascal.SmartHouse.Domain
         }
 
         // Change the color of the lamp
-        public void ChangeColor(string newColor)
+        public void ChangeColor(ColorType newColor)
         {
             Color = newColor;
         }
