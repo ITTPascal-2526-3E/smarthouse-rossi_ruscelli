@@ -4,15 +4,31 @@ namespace BlaisePascal.SmartHouse.Domain
 {
     public class TwoLampDevice
     {
-       // Lamp lamp = new Lamp();
-         //EcoLamp ecoLamp = new EcoLamp();
+        private Lamp Lamp;
+        private EcoLamp EcoLamp;
 
-       /* public void TwoLampDeviceConstructor(
-            bool ecoLampIsOn, string lampName1,string lampName2 string ecoLampColor, int ecoLampBrightness, int ecoLampMaxConsumption,
-            int ecoLampMaxEcoBrightness, System.Timers.Timer ecoLampTimerTurnOff, System.Timers.Timer ecoLampTimerTurnOffEcoMode)
+
+        /// <summary>
+        /// Constructor for Lamp class
+        /// </summary>
+        /// <param name="isOn"></param>
+        /// <param name="name"></param>
+        /// <param name="color"></param>
+        /// <param name="brightness"></param>
+        public TwoLampDevice(Lamp lamp, EcoLamp ecolamp)
         {
-            lamp.LampConstructor(lampIsOn, lampName, lampColor, lampBrightness, lampMaxConsumption);
-            ecoLamp.EcoLampConstructor(ecoLampIsOn, ecoLampName, ecoLampColor, ecoLampBrightness, ecoLampMaxConsumption, ecoLampMaxEcoBrightness, ecoLampTimerTurnOff, ecoLampTimerTurnOffEcoMode);
-        }*/
+            Lamp = lamp;
+            EcoLamp = ecolamp;
+        }
+
+
+
+      
+
+
+       
+
+      
+
     }
 }

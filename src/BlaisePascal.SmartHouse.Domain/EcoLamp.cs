@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private DateTime? TurnedOnAt;      // time when the lamp was turned on
         public DateTime? ScheduledOffAt { get;  set; }  // calcolated time when the lamp is going to get turned off automatically
 
-
+       public int EcoMaxBrightnessProperty { get; set; }
         public enum ColorType
         {
             WarmWhite,  
@@ -95,7 +95,7 @@ namespace BlaisePascal.SmartHouse.Domain
             get { return Brightness; }
             set
             {
-                int brighntessValue = Math.Clamp(value, 0, 100);
+                int brighntessValue = Math.Clamp(value, 0, 100);  //
                 if (EcoEnabled && IsInEco(DateTime.Now))
                     Brightness = Math.Min(brighntessValue, EcoMaxBrightness); // If in Eco mode, limit brightness
                 else
@@ -228,7 +228,7 @@ namespace BlaisePascal.SmartHouse.Domain
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        private bool IsInEco(DateTime dateTime) 
+        public bool IsInEco(DateTime dateTime) 
         {
             TimeOnly time = TimeOnly.FromDateTime(dateTime);
             if (EcoStart <= EcoEnd)            
