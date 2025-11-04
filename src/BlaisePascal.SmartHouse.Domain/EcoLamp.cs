@@ -19,7 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain
         private int EcoMaxBrightness; // max brightness in eco mode.
         private TimeSpan EcoAutoOff;  // auto turn off light when in eco mode
         private DateTime? TurnedOnAt;      // time when the lamp was turned on
-        public DateTime? ScheduledOffAt { get; private set; }  // calcolated time when the lamp is going to get turned off automatically
+        public DateTime? ScheduledOffAt { get;  set; }  // calcolated time when the lamp is going to get turned off automatically
 
 
         public enum ColorType
@@ -194,7 +194,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Color = newColor;
         }
 
-        public void ChangeTimer(TimeSpan defaultAutoOff, TimeSpan ecoAutoOff)
+        public void ChangeTimers(TimeSpan defaultAutoOff, TimeSpan ecoAutoOff)
         {
             if (defaultAutoOff < TimeSpan.Zero) Console.WriteLine("DefaultAutoOff must be >= 0.");
             if (ecoAutoOff < TimeSpan.Zero) Console.WriteLine("EcoAutoOff must be >= 0.");
@@ -202,7 +202,15 @@ namespace BlaisePascal.SmartHouse.Domain
             EcoAutoOff = ecoAutoOff;
             if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
-        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness)
+
+        /// <summary>
+        /// change the time when the eco mode is going to be on
+        /// </summary>
+        /// <param name="enebled"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="maxBrightness"></param>
+        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness) 
         {
             if(maxBrightness < 0 || maxBrightness > 100) Console.WriteLine("EcoMaxBrightness must be between 0 and 100.");
             EcoEnabled = enebled;
@@ -215,22 +223,36 @@ namespace BlaisePascal.SmartHouse.Domain
 
             if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
-
-        private bool IsInEco(DateTime dateTime) //Checks if the given time is within the Eco time range
+        /// <summary>
+        /// Checks if the given time is in the eco mode
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        private bool IsInEco(DateTime dateTime) 
         {
             TimeOnly time = TimeOnly.FromDateTime(dateTime);
             if (EcoStart <= EcoEnd)            
                 return time >= EcoStart && time < EcoEnd; 
             return time >= EcoStart || time < EcoEnd;
         }
-
-        private static DateTime NextOccurrence(DateTime from, TimeOnly time) //Finds the next occurrence of a specific time
+        /// <summary>
+        /// returns when the next eco mode will be
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        private static DateTime NextOccurrence(DateTime from, TimeOnly time) 
         {
             DateTime candidate = new DateTime(from.Year, from.Month, from.Day, time.Hour, time.Minute, time.Second, time.Millisecond, from.Kind);
             if (candidate <= from) candidate = candidate.AddDays(1);
             return candidate;
         }
-
+        /// <summary>
+        /// calculates if the lamp should be turned off based on the eco mode or the default mode,
+        /// ex: if the lamp is turned on at 6 and it should be on for 3 hours but the eco mode starts at 7 and it can be on for 1 hour the lamp turns off at 8
+        /// </summary>
+        /// <param name="TurnOnAt"></param>
+        /// <returns></returns>
         private DateTime ComputeFinalOffInstant(DateTime TurnOnAt) //Calculates when the lamp should turn off based on Eco settings
         {
             DateTime offByDefault = TurnOnAt + DefaultAutoOff;
