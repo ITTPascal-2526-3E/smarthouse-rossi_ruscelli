@@ -81,7 +81,7 @@ namespace BlaisePascal.SmartHouse.Domain
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("Brightness must be between 0 and 100.");
+                    Console.WriteLine("Brightness must be between 0 and 100.");
                 }
             }
         }
@@ -153,7 +153,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
             else
             {
-                throw new ArgumentOutOfRangeException("Brightness must be between 0 and 100.");
+                Console.WriteLine("Brightness must be between 0 and 100.");
             }
         }
 

@@ -14,19 +14,19 @@ namespace BlaisePascal.SmartHouse.Domain
         private LampType lampType; // Type of the lamp
         private TimeSpan DefaultAutoOff; // Default time to auto turn off
         private bool EcoEnabled; // Eco mode enabled or not
-        private TimeOnly EcoStart;  //Inizio fascia Eco (ora del giorno).
-        private TimeOnly EcoEnd; // NEW: Fine fascia Eco (può oltrepassare mezzanotte).
-        private int EcoMaxBrightness; // NEW: Cap luminosità in Eco (0..100).
-        private TimeSpan EcoAutoOff;  // NEW: Timer di autospegnimento quando accesa in Eco.
-        private DateTime? TurnedOnAt;      // Istante di accensione
-        public DateTime? ScheduledOffAt { get; private set; }  // Istante di spegnimento calcolato
-        private bool WasInEco;             // Per rilevare ingresso in Eco e applicare cap una volta
+        private TimeOnly EcoStart;  //Eco mode start time (hour of the day).
+        private TimeOnly EcoEnd; // End of eco mode time (può oltrepassare mezzanotte).
+        private int EcoMaxBrightness; // max brightness in eco mode.
+        private TimeSpan EcoAutoOff;  // auto turn off light when in eco mode
+        private DateTime? TurnedOnAt;      // time when the lamp was turned on
+        public DateTime? ScheduledOffAt { get; private set; }  // calcolated time when the lamp is going to get turned off automatically
+
 
         public enum ColorType
         {
-            WarmWhite,
-            CoolWhite,
-            Daylight,
+            WarmWhite,  
+            CoolWhite,  
+            Daylight,   
             Red,
             Green,
             Blue,
@@ -38,13 +38,13 @@ namespace BlaisePascal.SmartHouse.Domain
         public enum LampType
         {
             LED,
-            CFL,                    // Fluorescente compatta
-            Halogen,               // Alogena
-            Incandescent,          // Incandescente
-            FluorescentLinear,     // Neon lineare
-            HighPressureSodium,    // Al sodio alta pressione
-            Induction,             // A induzione
-            VintageLED            // LED filamento vintage
+            CFL,                    // compact fluorescent
+            Halogen,               // Alogen
+            Incandescent,          // incandescent
+            FluorescentLinear,     // linear neon
+            HighPressureSodium,    // high pressure sodium
+            Induction,             // induction
+            VintageLED            // LED with vintage filament
         }
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
@@ -137,14 +137,14 @@ namespace BlaisePascal.SmartHouse.Domain
             Brightness = brightness;
             this.lampType = lampType;
 
-            // MaxConsumption viene automaticamente impostato dall'enum
+            //MaxConsumption is automatically set by the enum
             MaxConsumption = GetMaxConsumption(lampType);
 
             if (IsOn==true)
             {
                 TurnedOnAt = DateTime.Now; // Set turn-on time to now
-                WasInEco = IsInEco(TurnedOnAt.Value); // Check if in Eco at turn-on
-                if (EcoEnabled && WasInEco)
+                
+                if (EcoEnabled)
                     Brightness = Math.Min(Brightness, EcoMaxBrightness); // Apply brightness cap if in Eco
                 ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
                 Console.WriteLine($"Lamp turned on at {TurnedOnAt.Value}, scheduled to turn off at {ScheduledOffAt.Value}.");
@@ -156,9 +156,9 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             if (IsOn==false)
             IsOn = true;
-            TurnedOnAt = DateTime.Now;                                                 // Registra l’istante di accensione [web:105]
-            WasInEco = IsInEco(TurnedOnAt.Value);                                      // Controlla se l’accensione avviene in fascia Eco [web:12]
-            if (EcoEnabled && WasInEco)                                                // Se Eco attivo e si è in Eco [web:12]
+            TurnedOnAt = DateTime.Now;                                                 // registers the moment when the lamp is turned on
+                                                 // checks if it gets turned on while in eco mode
+            if (EcoEnabled)                                                // if it is i enable eco mode
                 Brightness = Math.Min(Brightness, EcoMaxBrightness);
             ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
@@ -171,7 +171,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Lamp turned off at {DateTime.Now}.");
             TurnedOnAt = null; // Reset turn-on time
             ScheduledOffAt = null; // Reset scheduled off time
-            WasInEco = false;
+            
         }
 
         // Change the brightness of the lamp
@@ -183,7 +183,7 @@ namespace BlaisePascal.SmartHouse.Domain
             }
             else
             {
-                throw new ArgumentOutOfRangeException("Brightness must be between 0 and 100.");
+                Console.WriteLine("Brightness must be between 0 and 100.");
             }
 
         }
@@ -196,15 +196,15 @@ namespace BlaisePascal.SmartHouse.Domain
 
         public void ChangeTimer(TimeSpan defaultAutoOff, TimeSpan ecoAutoOff)
         {
-            if (defaultAutoOff < TimeSpan.Zero) throw new ArgumentOutOfRangeException("DefaultAutoOff must be >= 0.");
-            if (ecoAutoOff < TimeSpan.Zero) throw new ArgumentOutOfRangeException("EcoAutoOff must be >= 0.");
+            if (defaultAutoOff < TimeSpan.Zero) Console.WriteLine("DefaultAutoOff must be >= 0.");
+            if (ecoAutoOff < TimeSpan.Zero) Console.WriteLine("EcoAutoOff must be >= 0.");
             DefaultAutoOff = defaultAutoOff;
             EcoAutoOff = ecoAutoOff;
             if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
         public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness)
         {
-            if(maxBrightness < 0 || maxBrightness > 100) throw new ArgumentOutOfRangeException("EcoMaxBrightness must be between 0 and 100.");
+            if(maxBrightness < 0 || maxBrightness > 100) Console.WriteLine("EcoMaxBrightness must be between 0 and 100.");
             EcoEnabled = enebled;
             EcoStart = start;
             EcoEnd = end;
@@ -214,22 +214,6 @@ namespace BlaisePascal.SmartHouse.Domain
                 Brightness = Math.Min(Brightness, EcoMaxBrightness);
 
             if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
-        }
-
-        public void Tick(DateTime now) //To be called periodically to manage Eco mode and auto-off
-        {
-            if (!IsOn) return;
-
-            bool inEco = IsInEco(now);
-            if (EcoEnabled && inEco && !WasInEco)
-                Brightness = Math.Min(Brightness, EcoMaxBrightness);
-
-            WasInEco = inEco;
-
-            if (ScheduledOffAt.HasValue && now >= ScheduledOffAt.Value) //Turn off if scheduled time reached
-            {
-                TurnOff();
-            }
         }
 
         private bool IsInEco(DateTime dateTime) //Checks if the given time is within the Eco time range
@@ -256,12 +240,12 @@ namespace BlaisePascal.SmartHouse.Domain
 
             if (IsInEco(TurnOnAt))
             {
-                // Accesa in Eco: usa timer Eco e non estendere quando la fascia termina
+                // uses timer eco when turned on in eco mode
                 return TurnOnAt + EcoAutoOff;
             }
             else
             {
-                // Accesa fuori Eco: se la fascia inizia prima dell'off predefinito,
+                // checks if it ends before the normal timer or the timer if it enters in eco mode
                 // termine = min(offPredef, nextEcoStart + ecoAutoOff)
                 DateTime nextEcoStart = NextOccurrence(TurnOnAt, EcoStart);
                 DateTime ecoBound = nextEcoStart + EcoAutoOff;

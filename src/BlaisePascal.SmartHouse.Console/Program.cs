@@ -39,11 +39,11 @@ namespace BlaisePascal.SmartHouse.Domain
             ecoLamp1.ChangeTimer(defaultAutoOff, ecoAutoOff);
             bool enebleEcoMode = true;
             TimeOnly start = new TimeOnly(18, 0);
-            TimeOnly end = new TimeOnly(12, 0);
+            TimeOnly end = new TimeOnly(13, 0);
             int maxEcoBrightness = 50;
             ecoLamp1.ChangeEcoMode(enebleEcoMode, start, end, maxEcoBrightness);
             ecoLamp1.TurnOn();
-                ecoLamp1.Tick(DateTime.Now);
+                
             Console.WriteLine($"Brightness is: {ecoLamp1.BrightnessProperty}");
             Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
             Console.WriteLine($"Auto-off scheduled at: {ecoLamp1.ScheduledOffAt}");
