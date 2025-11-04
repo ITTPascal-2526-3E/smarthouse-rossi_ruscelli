@@ -37,7 +37,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
             TimeSpan defaultAutoOff = TimeSpan.FromMinutes(120);
             TimeSpan ecoAutoOff = TimeSpan.FromMinutes(60);
-            ecoLamp1.ChangeTimer(defaultAutoOff, ecoAutoOff);
+            ecoLamp1.ChangeTimers(defaultAutoOff, ecoAutoOff);
             bool enebleEcoMode = true;
             TimeOnly start = new TimeOnly(18, 0);
             TimeOnly end = new TimeOnly(13, 0);
