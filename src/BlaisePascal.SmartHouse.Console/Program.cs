@@ -7,6 +7,7 @@ namespace BlaisePascal.SmartHouse.Domain
     {
         private static void Main()
         {
+            // test of lamp class
             Console.WriteLine("=================================");
             Lamp lamp1 = new Lamp(false, "Lampada 1", Lamp.ColorType.CoolWhite, 75, Lamp.LampType.LED);
             Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
@@ -25,7 +26,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Lamp type is: {lamp1.LampTypeProperty}");
             Console.WriteLine($"Power consumption is: {lamp1.PowerConsumption} W");
             lamp1.TurnOff();
-
+            //test of ecolamp class
             Console.WriteLine("=================================");
             EcoLamp ecoLamp1 = new EcoLamp(false, "EcoLamp 1", EcoLamp.ColorType.WarmWhite, 60, EcoLamp.LampType.CFL);
             Console.WriteLine($"EcoLamp is on: {ecoLamp1.IsOnProperty}");
@@ -48,7 +49,6 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
             Console.WriteLine($"Auto-off scheduled at: {ecoLamp1.ScheduledOffAt}");
             ecoLamp1.TurnOff();
-            Console.WriteLine("=================================");
 
         }
     }
