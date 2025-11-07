@@ -22,30 +22,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         public DateTime? ScheduledOffAt { get;  set; }  // calcolated time when the lamp is going to get turned off automatically
 
        public int EcoMaxBrightnessProperty { get; set; }
-        public enum ColorType
-        {
-            WarmWhite,  
-            CoolWhite,  
-            Daylight,   
-            Red,
-            Green,
-            Blue,
-            Yellow,
-            Purple,
-            Orange,
-            Pink
-        }
-        public enum LampType
-        {
-            LED,
-            CFL,                    // compact fluorescent
-            Halogen,               // Alogen
-            Incandescent,          // incandescent
-            FluorescentLinear,     // linear neon
-            HighPressureSodium,    // high pressure sodium
-            Induction,             // induction
-            VintageLED            // LED with vintage filament
-        }
+
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
             { LampType.LED, (25, 0.2f) },

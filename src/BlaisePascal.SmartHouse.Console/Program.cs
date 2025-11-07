@@ -10,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain
         {
             // test of lamp class
             Console.WriteLine("=================================");
-            Lamp lamp1 = new Lamp(false, "Lampada 1", Lamp.ColorType.CoolWhite, 75, Lamp.LampType.LED);
+            Lamp lamp1 = new Lamp(false, "Lampada 1", ColorType.CoolWhite, 75, LampType.LED);
             Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
             Console.WriteLine($"Name is: {lamp1.NameProperty}");
             Console.WriteLine($"Color is: {lamp1.ColorProperty}");
@@ -19,7 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Power consumption is: {lamp1.PowerConsumption} W");
             lamp1.TurnOn();
             lamp1.BrightnessProperty = 90;
-            lamp1.ChangeColor(Lamp.ColorType.WarmWhite);
+            lamp1.ChangeColor(ColorType.WarmWhite);
             Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
             Console.WriteLine($"Name is: {lamp1.NameProperty}");
             Console.WriteLine($"Color is: {lamp1.ColorProperty}");
@@ -29,7 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain
             lamp1.TurnOff();
             //test of ecolamp class
             Console.WriteLine("=================================");
-            EcoLamp ecoLamp1 = new EcoLamp(false, "EcoLamp 1", EcoLamp.ColorType.WarmWhite, 60, EcoLamp.LampType.CFL);
+            EcoLamp ecoLamp1 = new EcoLamp(false, "EcoLamp 1", ColorType.WarmWhite, 60, LampType.CFL);
             Console.WriteLine($"EcoLamp is on: {ecoLamp1.IsOnProperty}");
             Console.WriteLine($"Name is: {ecoLamp1.NameProperty}");
             Console.WriteLine($"Color is: {ecoLamp1.ColorProperty}");
