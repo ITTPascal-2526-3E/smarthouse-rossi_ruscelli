@@ -9,9 +9,12 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
     internal class AirFryer
     {
         //todo: implementare metodi per cambiare temperatura o implementare metodo che aumenta la temperatura gradualmente in base al tempo
-        // aggiungere anche una funzione timer per spegnimento automatico
+        //todo: aggiungere anche una funzione timer per spegnimento automatico
         //todo: calcolare consumo energetico in base al tempo di utilizzo e alla modalitá
         //todo: volendo aggiungere anche una funzione che permetta la programmazione dell'accensione/spegnimento
+        //todo: implementare main per testare la classe
+
+
         private int Temp;
         private int MaxTemp;
         private int MaxConsumption;
