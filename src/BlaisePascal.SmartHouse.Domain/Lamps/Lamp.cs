@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class Lamp
     {
@@ -12,30 +12,8 @@ namespace BlaisePascal.SmartHouse.Domain
         private int MaxConsumption; // Maximum power consumption in watts
         private LampType lampType;
 
-        public enum ColorType
-        {
-            WarmWhite,
-            CoolWhite,
-            Daylight,
-            Red,
-            Green,
-            Blue,
-            Yellow,
-            Purple,
-            Orange,
-            Pink
-        }
-        public enum LampType
-        {
-            LED,
-            CFL,
-            Halogen,
-            Incandescent,
-            FluorescentLinear,
-            HighPressureSodium,
-            Induction,
-            VintageLED
-        }
+        
+        
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
             { LampType.LED, (25, 0.2f) },

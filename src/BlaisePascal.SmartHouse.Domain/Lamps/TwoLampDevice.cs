@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class TwoLampDevice
     {

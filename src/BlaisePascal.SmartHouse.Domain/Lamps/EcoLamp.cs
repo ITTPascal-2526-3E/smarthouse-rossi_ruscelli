@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class EcoLamp
     {

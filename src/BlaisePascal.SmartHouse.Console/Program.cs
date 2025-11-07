@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Lamps;
+using System;
 using System.Collections.Generic;
 
 namespace BlaisePascal.SmartHouse.Domain
