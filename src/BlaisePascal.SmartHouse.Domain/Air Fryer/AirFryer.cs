@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
     internal class AirFryer
     {
-        //todo: implementare metodi per cambiare temperatura o implementare metodo che aumenta la temperatura gradualmente in base al tempo
+        //todo: implementare metodo che aumenta la temperatura gradualmente in base al tempo
         //todo: aggiungere anche una funzione timer per spegnimento automatico
         //todo: calcolare consumo energetico in base al tempo di utilizzo e alla modalitá
         //todo: volendo aggiungere anche una funzione che permetta la programmazione dell'accensione/spegnimento
@@ -24,6 +24,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         private DateTime TurnedOnAt;
         private DateTime TurnedOffAt;
         private float CostPerKWh;
+        private DateTime AutoTurnOffAt;
         /// <summary>
         /// dictionary that contains the max and min consumption for each mode (min consumption is when the airfryer is maintaining the temperature, max when heating)
         /// </summary>
@@ -45,6 +46,9 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         public int MaxTempProperty { get; set; }
         public int MaxConsumptionProperty { get;set; }
         public float CostPerKWhProperty { get; set; }
+        private DateTime TurnedOnAtProperty {  get; set; }
+        private DateTime TurnedOffAtProperty {  get; set; }
+        private DateTime AutoTurnOffAtProperty {get; set; }
         public bool IsOnProperty
         {
             set { IsOn = value; }
@@ -163,6 +167,18 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             {
                 TimeSpan timeOn = TurnedOffAt-TurnedOnAt;
                 return timeOn;
+            }
+        }
+        //todo: aggiungere anche una funzione timer per spegnimento automatico
+        public void AutoTurnOff(TimeSpan time)
+        {
+            if (IsOn)
+            {
+
+            }
+            else
+            {
+                //errore: non puoi settare un time se è spento
             }
         }
 
