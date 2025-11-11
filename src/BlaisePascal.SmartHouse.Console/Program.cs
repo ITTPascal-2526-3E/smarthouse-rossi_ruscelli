@@ -1,6 +1,9 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Lamps;
+using AF = BlaisePascal.SmartHouse.Domain.AirFryer;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+
 
 namespace BlaisePascal.SmartHouse.Domain
 {
@@ -45,11 +48,47 @@ namespace BlaisePascal.SmartHouse.Domain
             int maxEcoBrightness = 50;
             ecoLamp1.ChangeEcoMode(enebleEcoMode, start, end, maxEcoBrightness);
             ecoLamp1.TurnOn();
-                
+
             Console.WriteLine($"Brightness is: {ecoLamp1.BrightnessProperty}");
             Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
             Console.WriteLine($"Auto-off scheduled at: {ecoLamp1.ScheduledOffAt}");
             ecoLamp1.TurnOff();
+
+            // test of AirFryer class
+            Console.WriteLine("=================================");
+            Console.WriteLine("AirFryer test:");
+
+            // create an AirFryer instance and initialize (turned off initially)
+            AF.AirFryer airFryer = new AF.AirFryer();
+            airFryer.AirFry(0, 200, false, 10000.0f);
+
+            // set the mode and turn the air fryer on
+            airFryer.SetMode(AF.Mode.frying);
+            airFryer.TurnOn();
+
+            Console.WriteLine("AirFryer turned on. Simulating 5 seconds of runtime...");
+            Thread.Sleep(5000); // simulate the air fryer being on for 5 seconds
+
+            // turn off the air fryer (records the turn-off time internally)
+            airFryer.TurnOff();
+
+            // ensure TurnedOffAtProperty is updated (mainly for consistency)
+            airFryer.TurnedOffAtProperty = DateTime.Now;
+
+            // display state and usage data
+            Console.WriteLine($"AirFryer is on: {airFryer.IsOnProperty}");
+            TimeSpan time = airFryer.TimeOn();
+            Console.WriteLine($"Time on: {time:hh\\:mm\\:ss}"); // to take only secondsss
+
+            // calculate consumption and cost
+            double wh = airFryer.ConsumptionWattHours(AF.Mode.frying);
+            double kwh = airFryer.ConsumptionKiloWattHours(AF.Mode.frying);
+            double cost = airFryer.CostOfConsumption(AF.Mode.frying);
+
+            Console.WriteLine($"Consumption (Wh): {wh:F2}");
+            Console.WriteLine($"Consumption (kWh): {kwh:F4}");
+            Console.WriteLine($"Estimated cost: {cost:C}");
+
 
         }
     }

@@ -1,5 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lamps;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
-   
-    internal class AirFryer
+    // Make class public so it is accessible from other projects (console)
+    public class AirFryer
     {
-        
-        //todo: implementare main per testare la classe
-
 
         private int Temp;
         private int MaxTemp;
@@ -36,11 +32,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             { Mode.dehydrate, (1500, 250) },
             { Mode.toast, (1500, 900) }
         };
-        public static int GetMaxConsumption(Mode mode) 
+        public static int GetMaxConsumption(Mode mode)
         {
             return ModeProperties[mode].maxConsumption;
         }
-        public static float GetMinConspumption(Mode mode) 
+        public static float GetMinConspumption(Mode mode)
         {
             return ModeProperties[mode].minConsumption;
         }
@@ -49,13 +45,13 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             get { return MinConsumption; }
             set { MinConsumption = value; }
         }
-        public int TempProperty{ get; set; }
+        public int TempProperty { get; set; }
         public int MaxTempProperty { get; set; }
-        public int MaxConsumptionProperty { get;set; }
+        public int MaxConsumptionProperty { get; set; }
         public float CostPerKWhProperty { get; set; }
-        private DateTime TurnedOnAtProperty {  get; set; }
-        private DateTime TurnedOffAtProperty {  get; set; }
-        private DateTime AutoTurnOffAtProperty {get; set; }
+        public DateTime TurnedOnAtProperty { get; set; }
+        public DateTime TurnedOffAtProperty { get; set; }
+        public DateTime AutoTurnOffAtProperty { get; set; }
         public bool IsOnProperty
         {
             set { IsOn = value; }
@@ -76,12 +72,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public void AirFry(int temp, int maxTemp,int maxConsumption, bool isOn, float costPerKWh)
+        public void AirFry(int temp, int maxTemp, bool isOn, float costPerKWh)
         {
-            
+
             Temp = temp;
             MaxTemp = maxTemp;
-            MaxConsumption = maxConsumption;
             bool IsOn = isOn;
             CostPerKWh = costPerKWh;
             if (IsOn)
@@ -98,11 +93,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// <returns></returns>
         public int GetCurrentConsumption()
         {
-            if (IsOn && Temp==MaxTemp)
+            if (IsOn && Temp == MaxTemp)
             {
                 return MinConsumption;
             }
-            else if (IsOn && Temp<MaxTemp)
+            else if (IsOn && Temp < MaxTemp)
             {
                 return MaxConsumption;
             }
@@ -149,6 +144,9 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             if (IsOn)
             {
                 (int maxConsumption, int minConsumption) = ModeProperties[mode];
+                // assign to instance fields so subsequent calculations use them
+                MaxConsumption = maxConsumption;
+                MinConsumption = minConsumption;
             }
             else
             {
@@ -168,12 +166,12 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         {
             if (IsOn)
             {
-                TimeSpan timeOn = DateTime.Now- TurnedOnAt;
+                TimeSpan timeOn = DateTime.Now - TurnedOnAt;
                 return timeOn;
             }
             else
             {
-                TimeSpan timeOn = TurnedOffAt-TurnedOnAt;
+                TimeSpan timeOn = TurnedOffAt - TurnedOnAt;
                 return timeOn;
             }
         }
