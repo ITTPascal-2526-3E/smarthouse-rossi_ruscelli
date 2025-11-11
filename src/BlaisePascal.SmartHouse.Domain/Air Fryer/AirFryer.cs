@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
+   
     internal class AirFryer
     {
         
@@ -197,16 +198,16 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         public double ConsumptionWattHours(Mode mode)
         {
             // get the min consumption based on the mode
-            int minCons = ModeProperties.ContainsKey(mode) ? ModeProperties[mode].minConsumption : MinConsumption;
+            int min = ModeProperties[mode].minConsumption;
 
             TimeSpan timeOn = TimeOn();
             double hours = timeOn.TotalHours;
-            double wattHours = hours * minCons;
+            double wattHours = hours * min;
             return wattHours;
         }
 
         /// <summary>
-        /// Calcola il consumo totale in kilowatt-ora (kWh) usando sempre il minConsumption.
+        /// calculates the consumption in kilo watt hours
         /// </summary>
         public double ConsumptionKiloWattHours(Mode mode)
         {
