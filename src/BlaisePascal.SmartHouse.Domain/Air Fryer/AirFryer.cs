@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Lamps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,23 +9,20 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
     internal class AirFryer
     {
-        //todo: implementare metodo che aumenta la temperatura gradualmente in base al tempo
-        //todo: aggiungere anche una funzione timer per spegnimento automatico
-        //todo: calcolare consumo energetico in base al tempo di utilizzo e alla modalitá
-        //todo: volendo aggiungere anche una funzione che permetta la programmazione dell'accensione/spegnimento
+        
         //todo: implementare main per testare la classe
 
 
         private int Temp;
         private int MaxTemp;
         private int MaxConsumption;
-        private int minConsumption;
+        private int MinConsumption;
         private int CurrentConsumption;
         private bool IsOn;
         private DateTime TurnedOnAt;
         private DateTime TurnedOffAt;
-        private float CostPerKWh;
         private DateTime AutoTurnOffAt;
+        private float CostPerKWh;
         /// <summary>
         /// dictionary that contains the max and min consumption for each mode (min consumption is when the airfryer is maintaining the temperature, max when heating)
         /// </summary>
@@ -37,10 +35,18 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             { Mode.dehydrate, (1500, 250) },
             { Mode.toast, (1500, 900) }
         };
+        public static int GetMaxConsumption(Mode mode) 
+        {
+            return ModeProperties[mode].maxConsumption;
+        }
+        public static float GetMinConspumption(Mode mode) 
+        {
+            return ModeProperties[mode].minConsumption;
+        }
         public int MinConsumptionProperty
         {
-            get { return minConsumption; }
-            set { minConsumption = value; }
+            get { return MinConsumption; }
+            set { MinConsumption = value; }
         }
         public int TempProperty{ get; set; }
         public int MaxTempProperty { get; set; }
@@ -71,11 +77,12 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// <param name="isOn"></param>
         public void AirFry(int temp, int maxTemp,int maxConsumption, bool isOn, float costPerKWh)
         {
-            CostPerKWh = costPerKWh;
+            
             Temp = temp;
             MaxTemp = maxTemp;
             MaxConsumption = maxConsumption;
             bool IsOn = isOn;
+            CostPerKWh = costPerKWh;
             if (IsOn)
             {
                 TurnedOnAt = DateTime.Now;
@@ -92,7 +99,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         {
             if (IsOn && Temp==MaxTemp)
             {
-                return minConsumption;
+                return MinConsumption;
             }
             else if (IsOn && Temp<MaxTemp)
             {
@@ -181,6 +188,37 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
                 //errore: non puoi settare un time se è spento
             }
         }
+
+        /// <summary>
+        /// Calcola il consumo totale in watt-ora usando sempre il valore di minConsumption per la modalità fornita.
+        /// Converte il TimeSpan restituito da TimeOn() in ore tramite TotalHours e moltiplica per i watt (minConsumption).
+        /// Restituisce un valore double che rappresenta i watt-ora totali.
+        /// </summary>
+        public double ConsumptionWattHours(Mode mode)
+        {
+            // get the min consumption based on the mode
+            int minCons = ModeProperties.ContainsKey(mode) ? ModeProperties[mode].minConsumption : MinConsumption;
+
+            TimeSpan timeOn = TimeOn();
+            double hours = timeOn.TotalHours;
+            double wattHours = hours * minCons;
+            return wattHours;
+        }
+
+        /// <summary>
+        /// Calcola il consumo totale in kilowatt-ora (kWh) usando sempre il minConsumption.
+        /// </summary>
+        public double ConsumptionKiloWattHours(Mode mode)
+        {
+            return ConsumptionWattHours(mode) / 1000.0;
+        }
+
+        public double CostOfConsumption(Mode mode)
+        {
+            double kWh = ConsumptionKiloWattHours(mode);
+            return kWh * CostPerKWh;
+        }
+
 
     }
 }

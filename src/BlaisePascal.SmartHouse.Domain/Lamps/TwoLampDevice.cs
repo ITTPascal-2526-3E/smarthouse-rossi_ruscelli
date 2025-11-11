@@ -6,7 +6,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
     {
         private Lamp Lamp;
         private EcoLamp EcoLamp;
-
+       
 
         /// <summary>
         /// Constructor for Lamp class
