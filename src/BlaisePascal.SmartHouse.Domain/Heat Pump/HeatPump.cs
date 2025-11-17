@@ -76,7 +76,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
                 int minConsumption = GetMinConsumption(Mode);
                 if (IsOn)
                 {
-                    double corruntConsumption = minConsumption + (maxConsumption - minConsumption) * CurrentTemperature;
+                    double corruntConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature;
                     return corruntConsumption;
                 }
                 else
