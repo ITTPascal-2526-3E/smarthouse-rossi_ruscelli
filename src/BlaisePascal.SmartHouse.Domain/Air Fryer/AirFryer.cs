@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
     // Make class public so it is accessible from other projects (console)
     public class AirFryer
     {
-
+        private Guid Id;
         private int Temp;
         private int MaxTemp;
         private int MaxConsumption;
@@ -74,7 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// <param name="isOn"></param>
         public void AirFry(int temp, int maxTemp, bool isOn, float costPerKWh)
         {
-
+            Id = Guid.NewGuid();
             Temp = temp;
             MaxTemp = maxTemp;
             bool IsOn = isOn;

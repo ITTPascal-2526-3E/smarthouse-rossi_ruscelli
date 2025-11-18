@@ -4,9 +4,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class TwoLampDevice
     {
+        private Guid Id; // Unique identifier for the two lamp device
         private Lamp Lamp;
         private EcoLamp EcoLamp;
-       
+        
+
 
         /// <summary>
         /// Constructor for Lamp class
@@ -17,6 +19,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="brightness"></param>
         public TwoLampDevice(Lamp lamp, EcoLamp ecolamp)
         {
+            Id = Guid.NewGuid();
             Lamp = lamp;
             EcoLamp = ecolamp;
         }

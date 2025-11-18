@@ -5,6 +5,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class EcoLamp
     {
+        private Guid Id; // Unique identifier for the lamp
         private float powerConsumption; // Current power consumption in watts
         private bool IsOn; // State of the lamp
         private int Brightness; // Brightness of ther lamp
@@ -108,6 +109,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="brightness"></param>
         public EcoLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
         {
+            Id = Guid.NewGuid();
             IsOn = isOn;
             Name = name;
             Color = color;

@@ -5,6 +5,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
     internal class HeatPump
     {
+        private Guid Id; // Unique identifier for the heat pump
         private bool IsOn; // State of the heat pump
         private double Temperature; // Current temperature of the heat pump
         private EnumHeatPumpMode.HeatPumpMode Mode; // Mode of the heat pump
@@ -97,6 +98,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// </summary>
         public HeatPump(bool isOn, double Temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh)
         {
+            Id = Guid.NewGuid();
             IsOn = isOn;
             Temperature = Temperature;
             Mode = mode;
