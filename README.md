@@ -4,4 +4,4 @@ Installation is done by downloading the project and installing the required depe
 The project structure is simple. It includes files that manage the devices, the internal services, the user interface, and the configuration. There are also tests to check that everything is working correctly.
 Anyone can contribute by adding new features or improving the code. The project is released with a free license that allows modification and improvement.
 
-If you want it even simpler, shorter, or more technical, just tell me!
+Do you want an even simpler, shorter, or more technical, just tell me!
