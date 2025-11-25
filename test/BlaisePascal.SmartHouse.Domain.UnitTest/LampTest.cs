@@ -23,18 +23,18 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTests
         {
             var lamp = new Lamp(false, "L", ColorType.CoolWhite, 50, LampType.LED);
 
-            // lamp is off -> consumption is zero
+            // lamp is off consumption is zero
             Assert.False(lamp.IsOnProperty);
             Assert.Equal(0f, lamp.PowerConsumption);
 
-            // turn on -> consumption calculated
+            // turn on consumption calculated
             lamp.TurnOn();
             Assert.True(lamp.IsOnProperty);
 
             float expected = Lamp.GetMaxConsumption(LampType.LED) * (50f / 100f) * Lamp.GetAlpha(LampType.LED);
             Assert.Equal(expected, lamp.PowerConsumption, 3);
 
-            // turn off -> consumption zero again
+            // turn off consumption zero again
             lamp.TurnOff();
             Assert.False(lamp.IsOnProperty);
             Assert.Equal(0f, lamp.PowerConsumption);
@@ -107,7 +107,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTests
         }
 
         [Fact]
-        public void TurnOn_TurnOff_IdempotentBehavior()
+        public void TurnOn_TurnOff_Behavior()
         {
             var lamp = new Lamp(true, "I", ColorType.Red, 60, LampType.LED);
 

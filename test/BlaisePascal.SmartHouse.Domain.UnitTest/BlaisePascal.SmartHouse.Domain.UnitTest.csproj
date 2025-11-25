@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="Xunit" />
+    <ProjectReference Include="..\..\src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
 </Project>
