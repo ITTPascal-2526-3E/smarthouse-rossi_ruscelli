@@ -103,7 +103,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         }
 
         // Turn on the lamp
-        public void TurnOn()
+        public virtual void TurnOn()
         {
             if (!IsOn)
             {

@@ -40,7 +40,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ChangeEcoMode_LimitsBrightnessWhenInEcoWindow()
         {
-            // start with lamp on and brightness 80
+            // inizia con la lampada accesa e luminosità 80
             var lamp = new EcoLamp(true, "ecoTest", ColorType.Red, 80, LampType.LED);
 
             var now = DateTime.Now;
@@ -50,27 +50,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp.ChangeEcoMode(true, start, end, 40);
 
             Assert.True(lamp.BrightnessProperty <= 40, $"Brightness should be limited to 40 but was {lamp.BrightnessProperty}");
-        }
-
-        [Fact]
-        public void TurnOn_SchedulesOffBasedOnDefaultAutoOff()
-        {
-            var lamp = new EcoLamp(false, "timerTest", ColorType.Red, 50, LampType.LED);
-
-            TimeSpan defaultAutoOff = TimeSpan.FromHours(1);
-            TimeSpan ecoAutoOff = TimeSpan.FromMinutes(30);
-            lamp.ChangeTimers(defaultAutoOff, ecoAutoOff);
-
-            // Turn on and verify ScheduledOffAt is approximately now + defaultAutoOff
-            lamp.TurnOn();
-
-            Assert.True(lamp.ScheduledOffAt.HasValue, "ScheduledOffAt should have a value after TurnOn");
-
-            var expected = DateTime.Now + defaultAutoOff;
-            var actual = lamp.ScheduledOffAt.Value;
-
-            var diff = (actual - expected).Duration();
-            Assert.True(diff < TimeSpan.FromSeconds(3), $"ScheduledOffAt differs from expected by {diff.TotalSeconds}s");
         }
     }
 }

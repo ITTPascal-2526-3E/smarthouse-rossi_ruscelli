@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         private bool IsOn; // State of the heat pump
         private double Temperature; // Current temperature of the heat pump
         private EnumHeatPumpMode.HeatPumpMode Mode; // Mode of the heat pump
-        private int CurrentConsumption; // Current power consumption in watts
+        // removed unused CurrentConsumption field
         private float CostPerKWh; // Cost per kWh in currency unit
 
         /// <summary>
@@ -77,8 +77,8 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
                 int minConsumption = GetMinConsumption(Mode);
                 if (IsOn)
                 {
-                    double corruntConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature;
-                    return corruntConsumption;
+                    double currentConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature;
+                    return currentConsumption;
                 }
                 else
                 {
@@ -96,11 +96,11 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, double Temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh)
+        public HeatPump(bool isOn, double temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
-            Temperature = Temperature;
+            Temperature = temperature;
             Mode = mode;
             CostPerKWh = costPerKWh;
         }
