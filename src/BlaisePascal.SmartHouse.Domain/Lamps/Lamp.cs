@@ -4,13 +4,13 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class Lamp
     {
-        private float powerConsumption; // Current power consumption in watts
-        private bool IsOn; // State of the lamp
-        private int Brightness; // Brightness of ther lamp
-        private ColorType Color; // Color of the lamp light
-        private string Name; // Name of the lamp
-        private int MaxConsumption; // Maximum power consumption in watts
-        private LampType lampType;
+        protected float powerConsumption; // Current power consumption in watts
+        protected bool IsOn; // State of the lamp
+        protected int Brightness; // Brightness of ther lamp
+        protected ColorType Color; // Color of the lamp light
+        protected string Name; // Name of the lamp
+        protected int MaxConsumption; // Maximum power consumption in watts
+        protected LampType lampType;
 
         
         

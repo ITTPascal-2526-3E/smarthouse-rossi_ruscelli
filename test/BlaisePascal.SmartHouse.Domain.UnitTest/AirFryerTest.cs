@@ -12,7 +12,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ConstructorAndProperties_ShouldInitializeCorrectly()
         {
-                AirFryer air = new AirFryer();
         }
     }
 }

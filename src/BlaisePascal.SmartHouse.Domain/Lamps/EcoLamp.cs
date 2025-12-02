@@ -3,15 +3,9 @@ using System.Drawing;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public class EcoLamp
+    public class EcoLamp:Lamp
     {
         private Guid Id; // Unique identifier for the lamp
-        private float powerConsumption; // Current power consumption in watts
-        private bool IsOn; // State of the lamp
-        private int Brightness; // Brightness of ther lamp
-        private ColorType Color; // Color of the lamp light
-        private string Name; // Name of the lamp
-        private int MaxConsumption; // Maximum power consumption in watts
         private LampType lampType; // Type of the lamp
         private TimeSpan DefaultAutoOff; // Default time to auto turn off
         private bool EcoEnabled; // Eco mode enabled or not
@@ -107,7 +101,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public EcoLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
+        public EcoLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
@@ -131,7 +125,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         }
 
         // Turn on the lamp
-        public void TurnOn()
+        public void TurnOnEco()
         {
             if (IsOn==false)
             IsOn = true;
@@ -142,36 +136,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
         }
 
-        // Turn off the lamp
-        public void TurnOff()
-        {
-            if (IsOn==true)
-            IsOn = false;
-            Console.WriteLine($"Lamp turned off at {DateTime.Now}.");
-            TurnedOnAt = null; // Reset turn-on time
-            ScheduledOffAt = null; // Reset scheduled off time
-            
-        }
 
-        // Change the brightness of the lamp
-        public void ChangeBrightness(int newBrightness)
-        {
-            if (newBrightness >= 0 && newBrightness <= 100)
-            {
-                Brightness = newBrightness;
-            }
-            else
-            {
-                Console.WriteLine("Brightness must be between 0 and 100.");
-            }
-
-        }
-
-        // Change the color of the lamp
-        public void ChangeColor(ColorType newColor)
-        {
-            Color = newColor;
-        }
 
         public void ChangeTimers(TimeSpan defaultAutoOff, TimeSpan ecoAutoOff)
         {
