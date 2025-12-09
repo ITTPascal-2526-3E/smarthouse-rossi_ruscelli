@@ -3,7 +3,7 @@ using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    internal class EnumHeatPumpMode
+    public class EnumHeatPumpMode
     {
         public enum HeatPumpMode
         {
