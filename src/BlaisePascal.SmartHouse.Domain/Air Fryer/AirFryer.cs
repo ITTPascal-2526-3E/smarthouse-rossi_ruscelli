@@ -84,7 +84,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
                 TurnedOnAt = DateTime.Now;
             }
         }
-
+       
 
 
         /// <summary>
