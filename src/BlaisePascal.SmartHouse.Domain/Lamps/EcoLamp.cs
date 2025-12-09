@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
@@ -117,13 +118,17 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             {
                 TurnedOnAt = DateTime.Now; // Set turn-on time to now
                 
+                
                 if (EcoEnabled)
                     Brightness = Math.Min(Brightness, EcoMaxBrightness); // Apply brightness cap if in Eco
                 ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt.Value);
-                Console.WriteLine($"Lamp turned on at {TurnedOnAt.Value}, scheduled to turn off at {ScheduledOffAt.Value}.");
+                consoleWriteline(TurnedOnAt.Value, ScheduledOffAt.Value); // returns what happened so you can print it
             }
         }
-
+        private DateTime[] consoleWriteline(DateTime turnedOnAt, DateTime scheduledOffAt)
+        {
+            return new DateTime[] { turnedOnAt, scheduledOffAt };
+        }
         // Turn on the lamp
         public void TurnOnEco()
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
-    // Make class public so it is accessible from other projects (console)
+   
     public class AirFryer
     {
         private Guid Id;
