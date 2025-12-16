@@ -4,6 +4,16 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class Lamp
     {
+        public int BrightnessLevel { get; private set; } // Brightness level from 0 to 100
+
+        public void SetBrightnessLevel(int level)
+        {
+            if (level < 0 || level > 100)
+                throw new ArgumentOutOfRangeException(nameof(level), "Brightness level must be between 0 and 100.");
+            
+            BrightnessLevel = level;
+        }
+
         protected float powerConsumption; // Current power consumption in watts
         protected bool IsOn; // State of the lamp
         protected int Brightness; // Brightness of ther lamp
@@ -12,8 +22,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         protected int MaxConsumption; // Maximum power consumption in watts
         protected LampType lampType;
 
-        
-        
+
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
             { LampType.LED, (25, 0.2f) },

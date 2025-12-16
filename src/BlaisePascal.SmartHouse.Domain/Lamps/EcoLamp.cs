@@ -15,9 +15,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         private int EcoMaxBrightness; // max brightness in eco mode.
         private TimeSpan EcoAutoOff;  // auto turn off light when in eco mode
         private DateTime? TurnedOnAt;      // time when the lamp was turned on
-        public DateTime? ScheduledOffAt { get;  set; }  // calcolated time when the lamp is going to get turned off automatically
+        public DateTime? ScheduledOffAt { get; set; }  // calcolated time when the lamp is going to get turned off automatically
 
-       public int EcoMaxBrightnessProperty { get; set; }
+       public int EcoMaxBrightnessProperty { get; private set; }
 
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
@@ -93,8 +93,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
                 if (IsOn==false) return 0;
                 return MaxConsumption * (Brightness / 100.0f) * alpha;
             }
+           
         }
-        
+
+
         /// <summary>
         /// Constructor for EcoLamp class
         /// </summary>

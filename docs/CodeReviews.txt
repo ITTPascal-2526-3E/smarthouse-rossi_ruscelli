@@ -1,0 +1,11 @@
+Code review #2 16/12/2025:
+-UML: 1)da fixare nel diagramma di ecolamp che non usa ecolamp ma è una lamp 2) 
+-Documentazione da rivedere (problema) la documentazione deve essere pubblica, nei test dobbiamo scrivere cosa abbiamo testato
+-Lamp: aggiungere guid
+TOGLIERE TUTTI I CONSOLE:WRITELINE dal Domain Layer
+tutte le proprietà pubbliche con private set e poi eventualmente metodi per i get
+aggiungere copertura dei test
+
+prima correggere il domain poi i test
+
+aggiungere le classi della nuova modellazione smarthouse

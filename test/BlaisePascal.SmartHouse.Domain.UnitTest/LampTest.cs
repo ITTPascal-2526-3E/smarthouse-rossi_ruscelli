@@ -2,7 +2,7 @@
 using BlaisePascal.SmartHouse.Domain.Lamps;
 using Xunit;
 
-namespace BlaisePascal.SmartHouse.Domain.UnitTests
+namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class LampTest
     {
