@@ -1,12 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Door
 {
-    internal class Door
+    public class Door
     {
+        public bool IsLocked { get; private set; }
+        public bool IsOpen { get; private set; }
+        public string Name { get; private set; }
+
+
+        public Door(bool isLocked, bool isOpen, string name)
+        {
+            IsLocked = isLocked;
+            IsOpen = isOpen;
+            Name = name;
+        }
+
+        public void Lock()
+        {
+            IsLocked = true;
+        }
+
+        public void Unlock()
+        {
+            IsLocked = false;
+        }
+
+        public void Open()
+        {
+            if (!IsLocked)
+            {
+                IsOpen = true;
+            }
+        }
+
+        public void Close()
+        {
+            IsOpen = false;
+        }
     }
 }
