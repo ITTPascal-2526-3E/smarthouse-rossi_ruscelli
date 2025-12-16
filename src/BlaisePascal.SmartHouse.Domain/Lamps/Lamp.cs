@@ -4,15 +4,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public class Lamp
     {
-        public int BrightnessLevel { get; private set; } // Brightness level from 0 to 100
-
-        public void SetBrightnessLevel(int level)
-        {
-            if (level < 0 || level > 100)
-                throw new ArgumentOutOfRangeException(nameof(level), "Brightness level must be between 0 and 100.");
-            
-            BrightnessLevel = level;
-        }
+        
 
         protected float powerConsumption; // Current power consumption in watts
         protected bool IsOn; // State of the lamp
@@ -21,6 +13,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         protected string Name; // Name of the lamp
         protected int MaxConsumption; // Maximum power consumption in watts
         protected LampType lampType;
+        protected DateTime TurnedOnAt; // Time when the lamp was turned on
+        protected DateTime TurnedOffAt; // Time when the lamp was turned off
+        protected Guid Id; // Unique identifier for the lamp
 
 
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
@@ -47,49 +42,27 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <summary>
         /// Propertys for Lamp class
         /// </summary>
-        public LampType LampTypeProperty
-        {
-            get { return lampType; }
-            set { lampType = value; }
-        }
-        public bool IsOnProperty
-        {
-            get { return IsOn; }
-            set { IsOn = value; }
-        }
-        public int BrightnessProperty
-        {
-            get { return Brightness; }
-            set
-            {
-                if (value >= 0 && value <= 100)
-                {
-                    Brightness = value;
-                }
-                else
-                {
-                    Console.WriteLine("Brightness must be between 0 and 100.");
-                }
-            }
-        }
-        public ColorType ColorProperty
-        {
-            get { return Color; }
-            set { Color = value; }
-        }
-        public string NameProperty
-        {
-            get { return Name; }
-            set { Name = value; }
-        }
-        public float PowerConsumption /// Current power consumption in watts(calculated based on brightness and lamp type)
+       
+        public LampType LampTypeProperty { get; private set; }
+
+        public bool IsOnProperty { get; private set; }
+
+        public int BrightnessProperty { get; private set; }
+
+        public ColorType ColorProperty { get; private set; }
+
+        public int BrightnessLevel { get; private set; } // Brightness level from 0 to 100
+        public string NameProperty { get; set; }
+
+        public float PowerConsumption
         {
             get
             {
                 float alpha = lampTypeProperties[lampType].alpha;
-                if (IsOn==false) return 0;
+                if (IsOn == false) return 0;
                 return MaxConsumption * (Brightness / 100.0f) * alpha;
             }
+
         }
 
         /// <summary>
@@ -101,23 +74,28 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="brightness"></param>
         public Lamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
         {
+
+            Id = Guid.NewGuid();
             IsOn = isOn;
             Name = name;
             Color = color;
             Brightness = brightness;
             this.lampType = lampType;
-
-            // MaxConsumption viene automaticamente impostato dall'enum
-            MaxConsumption = GetMaxConsumption(lampType);
+            if (isOn == true)
+            { TurnedOnAt = DateTime.Now; }
+            else
+            { TurnedOffAt = DateTime.Now; }
+              
+              MaxConsumption = GetMaxConsumption(lampType);
         }
 
         // Turn on the lamp
-        public virtual void TurnOn()
+        public void TurnOn()
         {
             if (!IsOn)
             {
                 IsOn = true;
-                Console.WriteLine($"Lamp turned on at {DateTime.Now}.");
+                TurnedOnAt=DateTime.Now;
             }
         }
 
@@ -127,7 +105,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             if (IsOn)
             {
                 IsOn = false;
-                Console.WriteLine($"Lamp turned off at {DateTime.Now}.");
+                TurnedOnAt = DateTime.Now;
             }
         }
 
@@ -138,10 +116,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             {
                 Brightness = newBrightness;
             }
-            else
-            {
-                Console.WriteLine("Brightness must be between 0 and 100.");
-            }
+            
         }
 
         // Change the color of the lamp

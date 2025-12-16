@@ -9,3 +9,4 @@ aggiungere copertura dei test
 prima correggere il domain poi i test
 
 aggiungere le classi della nuova modellazione smarthouse
+

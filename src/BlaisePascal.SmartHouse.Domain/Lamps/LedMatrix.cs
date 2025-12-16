@@ -82,7 +82,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    matrix[i, j].BrightnessProperty = intensity;
+                    matrix[i, j].ChangeBrightness(intensity);
                 }
             }
         }

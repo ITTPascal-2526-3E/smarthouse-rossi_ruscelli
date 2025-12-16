@@ -39,17 +39,17 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         {
             if (!whichLamp)
             {
-                Lamp.BrightnessProperty = EcoLamp.BrightnessProperty;
+                Lamp.ChangeBrightness(EcoLamp.BrightnessProperty);
                 return;
             }
             if (EcoLamp.IsInEco(DateTime.Now))
             {
                 if (Lamp.BrightnessProperty > EcoLamp.EcoMaxBrightnessProperty)
-                { Console.WriteLine("Eco lamp cannot be set to the lamp brightness because it is in eco mode"); return; }
+                {  return; }
 
             }
 
-            EcoLamp.BrightnessProperty = Lamp.BrightnessProperty;
+            EcoLamp.ChangeBrightness(Lamp.BrightnessProperty);
         }
         public void TurnOnBoth()
         {
