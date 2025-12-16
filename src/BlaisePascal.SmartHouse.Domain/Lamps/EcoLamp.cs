@@ -4,9 +4,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public class EcoLamp:Lamp
+    public class EcoLamp : Lamp
     {
-        
+
         private LampType lampType; // Type of the lamp
         private TimeSpan DefaultAutoOff; // Default time to auto turn off
         private bool EcoEnabled; // Eco mode enabled or not
@@ -16,7 +16,13 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         private TimeSpan EcoAutoOff;  // auto turn off light when in eco mode
         public DateTime? ScheduledOffAt { get; set; }  // calcolated time when the lamp is going to get turned off automatically
 
-       public int EcoMaxBrightnessProperty { get; private set; }
+        public int EcoMaxBrightnessProperty { get; private set; }
+        private bool hasValue(DateTime? dateTime)
+        {
+            if (dateTime.HasValue)
+                return true;
+            return false;
+        }
 
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
@@ -29,7 +35,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             { LampType.Induction, (200, 0.30f) },
             { LampType.VintageLED, (10, 0.25f) }
         };
-   
+
         /// <summary>
         /// Constructor for EcoLamp class
         /// </summary>
@@ -49,25 +55,25 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             //MaxConsumption is automatically set by the enum
             MaxConsumption = GetMaxConsumption(lampType);
 
-            if (IsOn==true)
+            if (IsOn == true)
             {
                 TurnedOnAt = DateTime.Now; // Set turn-on time to now
-                
-                
+
+
                 if (EcoEnabled)
                     Brightness = Math.Min(Brightness, EcoMaxBrightness); // Apply brightness cap if in Eco
                 ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
-                
+
             }
         }
-        
+
         // Turn on the lamp
         public void TurnOnEco()
         {
-            if (IsOn==false)
-            IsOn = true;
+            if (IsOn == false)
+                IsOn = true;
             TurnedOnAt = DateTime.Now;                                                 // registers the moment when the lamp is turned on
-                                                 // checks if it gets turned on while in eco mode
+                                                                                       // checks if it gets turned on while in eco mode
             if (EcoEnabled)                                                // if it is i enable eco mode
                 Brightness = Math.Min(Brightness, EcoMaxBrightness);
             ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
@@ -77,10 +83,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
         public void ChangeTimers(TimeSpan defaultAutoOff, TimeSpan ecoAutoOff)
         {
-           
+
             DefaultAutoOff = defaultAutoOff;
             EcoAutoOff = ecoAutoOff;
-            if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
+            if (IsOn && hasValue(TurnedOnAt)) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
         }
 
         /// <summary>
@@ -90,9 +96,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="maxBrightness"></param>
-        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness) 
+        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness)
         {
-           
+
             EcoEnabled = enebled;
             EcoStart = start;
             EcoEnd = end;
@@ -101,18 +107,18 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             if (IsOn && EcoEnabled && IsInEco(DateTime.Now))
                 Brightness = Math.Min(Brightness, EcoMaxBrightness);
 
-            if (IsOn && TurnedOnAt.HasValue) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
+            if (IsOn && hasValue(TurnedOnAt)) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
         }
         /// <summary>
         /// Checks if the given time is in the eco mode
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public bool IsInEco(DateTime dateTime) 
+        public bool IsInEco(DateTime dateTime)
         {
             TimeOnly time = TimeOnly.FromDateTime(dateTime);
-            if (EcoStart <= EcoEnd)            
-                return time >= EcoStart && time < EcoEnd; 
+            if (EcoStart <= EcoEnd)
+                return time >= EcoStart && time < EcoEnd;
             return time >= EcoStart || time < EcoEnd;
         }
         /// <summary>
@@ -121,7 +127,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="from"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        private static DateTime NextOccurrence(DateTime from, TimeOnly time) 
+        private static DateTime NextOccurrence(DateTime from, TimeOnly time)
         {
             DateTime candidate = new DateTime(from.Year, from.Month, from.Day, time.Hour, time.Minute, time.Second, time.Millisecond, from.Kind);
             if (candidate <= from) candidate = candidate.AddDays(1);
@@ -137,7 +143,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         {
             DateTime? offByDefault = TurnOnAt + DefaultAutoOff;
 
-            if (EcoEnabled==false)
+            if (EcoEnabled == false)
                 return offByDefault;
 
             if (IsInEco(TurnOnAt))
