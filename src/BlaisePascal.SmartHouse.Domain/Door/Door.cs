@@ -18,6 +18,8 @@ namespace BlaisePascal.SmartHouse.Domain.Door
 
         public void Lock()
         {
+            if(IsOpen)
+                return;
             IsLocked = true;
         }
 
