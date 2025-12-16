@@ -7,7 +7,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
     public class EcoLamp : Lamp
     {
 
-        private LampType lampType; // Type of the lamp
         private TimeSpan DefaultAutoOff; // Default time to auto turn off
         private bool EcoEnabled; // Eco mode enabled or not
         private TimeOnly EcoStart;  //Eco mode start time (hour of the day).
@@ -23,18 +22,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
                 return true;
             return false;
         }
-
-        private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
-        {
-            { LampType.LED, (25, 0.2f) },
-            { LampType.CFL, (40, 0.4f) },
-            { LampType.Halogen, (150, 0.8f) },
-            { LampType.Incandescent, (300, 1.0f) },
-            { LampType.FluorescentLinear, (80, 0.35f) },
-            { LampType.HighPressureSodium, (400, 0.25f) },
-            { LampType.Induction, (200, 0.30f) },
-            { LampType.VintageLED, (10, 0.25f) }
-        };
 
         /// <summary>
         /// Constructor for EcoLamp class

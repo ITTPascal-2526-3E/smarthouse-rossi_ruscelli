@@ -1,0 +1,45 @@
+﻿using System;
+
+
+namespace BlaisePascal.SmartHouse.Domain.CCTV
+{
+    public class CCTV
+    {
+        public bool IsRecording { get; private set; }
+        public string Location { get; private set; }
+
+        public string[] LicensePlateEnebled { get; private set; }
+
+        public bool LicensePlateRecognitionEnabled { get; private set; }
+
+        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled)
+        {
+            IsRecording = isRecording;
+            Location = location;
+            LicensePlateRecognitionEnabled = licensePlateRecognitionEnabled;
+            LicensePlateEnebled = licensePlateEnebled;
+        }
+        public void StartRecording()
+        {
+            IsRecording = true;
+        }
+
+        public void StopRecording()
+        {
+            IsRecording = false;
+        }
+
+        public void EnableLicensePlateRecognition(string licensePlate)
+        {
+            LicensePlateRecognitionEnabled = false;
+            for (int i = 0; i < LicensePlateEnebled.Length; i++)
+            {
+                if (LicensePlateEnebled[i] == licensePlate)
+                {
+                    LicensePlateRecognitionEnabled = true;
+                    break;
+                }
+            }
+        }
+    }
+}
