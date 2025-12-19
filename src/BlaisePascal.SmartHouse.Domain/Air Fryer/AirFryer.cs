@@ -32,6 +32,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             { Mode.dehydrate, (1500, 250) },
             { Mode.toast, (1500, 900) }
         };
+        /// <summary>
+        /// methods to get max and min consumption based on mode
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <returns></returns>
         public static int GetMaxConsumption(Mode mode)
         {
             return ModeProperties[mode].maxConsumption;
@@ -40,28 +45,21 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         {
             return ModeProperties[mode].minConsumption;
         }
-        public int MinConsumptionProperty
-        {
-            get { return MinConsumption; }
-            set { MinConsumption = value; }
-        }
-        public int TempProperty { get; set; }
-        public int MaxTempProperty { get; set; }
-        public int MaxConsumptionProperty { get; set; }
-        public float CostPerKWhProperty { get; set; }
-        public DateTime TurnedOnAtProperty { get; set; }
-        public DateTime TurnedOffAtProperty { get; set; }
-        public DateTime AutoTurnOffAtProperty { get; set; }
-        public bool IsOnProperty
-        {
-            set { IsOn = value; }
-            get { return IsOn; }
 
-        }
-        public int CurrentConsumptionProperty
-        {
-            set { CurrentConsumption = value; }
-        }
+        /// <summary>
+        /// properties
+        /// </summary>
+        public int MinConsumptionProperty { get; private set; } // ok
+        public int TempProperty { get; private set; }    //ok
+        public int MaxTempProperty { get; private set; } // ok
+        public int MaxConsumptionProperty { get; private set; }    // ok
+        public float CostPerKWhProperty { get; private set; }    // ok
+        public DateTime TurnedOnAtProperty { get; private set; }  //ok
+        public DateTime TurnedOffAtProperty { get; private set; }  //ok
+        public DateTime AutoTurnOffAtProperty { get; private set; }  //ok
+        public bool IsOnProperty { get; private set; }   //ok
+        public int CurrentConsumptionProperty { get; private set; }   //ok
+       
 
 
 
@@ -84,8 +82,23 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
                 TurnedOnAt = DateTime.Now;
             }
         }
-       
 
+        public void SetMaxTemp(int temp)
+        {
+            if (IsOn)
+            {
+                MaxTemp = temp;
+            }
+            else
+            {
+                // cannot set temp if airfryer is off
+            }
+        }
+
+        public void SetCostPerKWh(float cost)
+        {
+            CostPerKWh = cost;
+        }
 
         /// <summary>
         /// returns the current consumption based on the state of the airfryer (if it is heating or maintaining temperature) if off returns 0
@@ -175,16 +188,16 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
                 return timeOn;
             }
         }
-        //todo: aggiungere anche una funzione timer per spegnimento automatico
+      
         public void AutoTurnOff(TimeSpan time)
         {
             if (IsOn)
             {
-
+                TurnedOffAt = DateTime.Now + time;
             }
             else
             {
-                //errore: non puoi settare un time se è spento
+                //errore: non puoi settare un timer se è spento
             }
         }
 
