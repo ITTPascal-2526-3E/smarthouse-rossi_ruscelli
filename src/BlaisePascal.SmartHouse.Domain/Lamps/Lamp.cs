@@ -29,30 +29,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             { LampType.Induction, (200, 0.30f) },
             { LampType.VintageLED, (10, 0.25f) }
         };
-        public static int GetMaxConsumption(LampType lampType)
-        {
-            return lampTypeProperties[lampType].maxConsumption;
-        }
-
-        public static float GetAlpha(LampType lampType)
-        {
-            return lampTypeProperties[lampType].alpha;
-        }
-
-        /// <summary>
-        /// Propertys for Lamp class
-        /// </summary>
        
-        public LampType LampTypeProperty { get; private set; }
-
-        public bool IsOnProperty { get; private set; }
-
-        public int BrightnessProperty { get; private set; }
-
-        public ColorType ColorProperty { get; private set; }
-
-        public int BrightnessLevel { get; private set; } // Brightness level from 0 to 100
-        public string NameProperty { get; set; }
 
         public float PowerConsumption
         {
@@ -88,7 +65,30 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
               
               MaxConsumption = GetMaxConsumption(lampType);
         }
+        public static int GetMaxConsumption(LampType lampType)
+        {
+            return lampTypeProperties[lampType].maxConsumption;
+        }
 
+        public static float GetAlpha(LampType lampType)
+        {
+            return lampTypeProperties[lampType].alpha;
+        }
+
+        /// <summary>
+        /// Propertys for Lamp class
+        /// </summary>
+
+        public LampType LampTypeProperty { get; private set; }
+
+        public bool IsOnProperty { get; private set; }
+
+        public int BrightnessProperty { get; private set; }
+
+        public ColorType ColorProperty { get; private set; }
+
+        public int BrightnessLevel { get; private set; } // Brightness level from 0 to 100
+        public string NameProperty { get; set; }
         // Turn on the lamp
         public void TurnOn()
         {

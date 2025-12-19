@@ -25,17 +25,6 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.True(Math.Abs(expected - actual) < 0.0001f, $"expected {expected} actual {actual}");
         }
 
-        [Fact]
-        public void BrightnessProperty_IsClampedTo0And100()
-        {
-            var lamp = new EcoLamp(true, "test", ColorType.Red, 50, LampType.LED);
-
-            lamp.BrightnessProperty = 150;
-            Assert.Equal(100, lamp.BrightnessProperty);
-
-            lamp.BrightnessProperty = -10;
-            Assert.Equal(0, lamp.BrightnessProperty);
-        }
 
         [Fact]
         public void ChangeEcoMode_LimitsBrightnessWhenInEcoWindow()

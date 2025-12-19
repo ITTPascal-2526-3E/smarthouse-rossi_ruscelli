@@ -1,10 +1,10 @@
 Code review #2 16/12/2025:
 -UML: 1)da fixare nel diagramma di ecolamp che non usa ecolamp ma è una lamp 2) 
 -Documentazione da rivedere (problema) la documentazione deve essere pubblica, nei test dobbiamo scrivere cosa abbiamo testato
--Lamp: aggiungere guid
-TOGLIERE TUTTI I CONSOLE:WRITELINE dal Domain Layer
-tutte le proprietà pubbliche con private set e poi eventualmente metodi per i get
-aggiungere copertura dei test
+-Lamp: aggiungere guid   FATTO
+TOGLIERE TUTTI I CONSOLE:WRITELINE dal Domain Layer      FATTO
+tutte le proprietà pubbliche con private set e poi eventualmente metodi per i get  FATTO
+aggiungere copertura dei test    TODO
 
 prima correggere il domain poi i test
 

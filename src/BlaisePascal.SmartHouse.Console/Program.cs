@@ -72,9 +72,6 @@ namespace BlaisePascal.SmartHouse.Domain
             // turn off the air fryer (records the turn-off time internally)
             airFryer.TurnOff();
 
-            // ensure TurnedOffAtProperty is updated (mainly for consistency)
-            airFryer.TurnedOffAtProperty = DateTime.Now;
-
             // display state and usage data
             Console.WriteLine($"AirFryer is on: {airFryer.IsOnProperty}");
             TimeSpan time = airFryer.TimeOn();

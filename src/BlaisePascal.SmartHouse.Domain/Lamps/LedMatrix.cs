@@ -11,9 +11,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         private Guid Id; // Unique identifier for the LED matrix
         private int Width; // Width (number of columns) of the LED matrix
         private int Height; // Height (number of rows) of the LED matrix
+        private int Name;   //name of the LED matrix
         private Lamp[,] matrix; 
 
-        public LedMatrix(int width, int height, ColorType color)
+        public LedMatrix(int width, int height, ColorType color, bool isOn, string name, int brightness, LampType lampType)
         {
             Id = Guid.NewGuid();
             Width = width;
@@ -24,34 +25,15 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             {
                 for (int c = 0; c < Width; c++)
                 {
-                    matrix[r, c] = new Lamp(false, string.Empty, color, 0, LampType.LED);
+                    matrix[r, c] = new Lamp(isOn, name, color, brightness, lampType);
                 }
             }
         }
+        public int nameProperty { get; set; }
+        public int WidthProperty { get; private set; }  //todo
+        public int HeightProperty { get; private set; }  //todo
+        public Lamp[,] MatrixProperty { get; private set; } 
 
-        public int WidthProperty
-        {
-            get { return Width; }
-            set { Width = value; }
-        }
-         
-        public int HeightProperty
-        {
-            get { return Height; }
-            set { Height = value; }
-        }
-
-        public void InitializeMatrix(bool isOn, string name, ColorType color, int brightness, LampType lampType)
-        {
-            matrix = new Lamp[Height, Width];
-            for (int i = 0; i < Height; i++)
-            {
-                for (int j = 0; j < Width; j++)
-                {
-                    matrix[i, j] = new Lamp(isOn, name, color, brightness, lampType);
-                }
-            }
-        }
         public void TurnOnAllLamps()
         {
           
@@ -77,7 +59,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
         public void SetIntensityAll(int intensity)
         {
-          
+            if(intensity < 0 || intensity > 100)
+            {
+                return;
+            }
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)

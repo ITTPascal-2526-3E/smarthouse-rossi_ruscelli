@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using BlaisePascal.SmartHouse.Domain.Lamps;
 using Xunit;
 
@@ -9,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ConstructorAndProperties_ShouldInitializeCorrectly()
         {
-            var lamp = new Lamp(true, "TestLamp", ColorType.Red, 80, LampType.CFL);
+            Lamp lamp = new Lamp(true, "TestLamp", ColorType.Red, 80, LampType.CFL);
 
             Assert.True(lamp.IsOnProperty);
             Assert.Equal("TestLamp", lamp.NameProperty);
@@ -45,16 +46,18 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         {
             var lamp = new Lamp(true, "B", ColorType.Daylight, 20, LampType.Incandescent);
 
+            // change to a valid brightness and verify power consumption reflects it
             lamp.ChangeBrightness(70);
-            Assert.Equal(70, lamp.BrightnessProperty);
+            float expected70 = Lamp.GetMaxConsumption(LampType.Incandescent) * (70f / 100f) * Lamp.GetAlpha(LampType.Incandescent);
+            Assert.Equal(expected70, lamp.PowerConsumption, 3);
 
-            // invalid change should be ignored
+            // invalid change should be ignored (power consumption unchanged)
             lamp.ChangeBrightness(200);
-            Assert.Equal(70, lamp.BrightnessProperty);
+            Assert.Equal(expected70, lamp.PowerConsumption, 3);
 
-            // direct property setter also ignores invalid values
-            lamp.BrightnessProperty = -10;
-            Assert.Equal(70, lamp.BrightnessProperty);
+            // negative invalid change ignored
+            lamp.ChangeBrightness(-10);
+            Assert.Equal(expected70, lamp.PowerConsumption, 3);
         }
 
         [Fact]
@@ -83,8 +86,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             var lamp = new Lamp(false, "Orig", ColorType.WarmWhite, 10, LampType.VintageLED);
 
             lamp.NameProperty = "NewName";
-            lamp.ColorProperty = ColorType.CoolWhite;
-            lamp.LampTypeProperty = LampType.CFL;
+            lamp.ChangeColor(ColorType.CoolWhite);
+            lamp.ChangeLampType(LampType.CFL);
 
             Assert.Equal("NewName", lamp.NameProperty);
             Assert.Equal(ColorType.CoolWhite, lamp.ColorProperty);
@@ -109,9 +112,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void TurnOn_TurnOff_Behavior()
         {
-            var lamp = new Lamp(true, "I", ColorType.Red, 60, LampType.LED);
+            // Start from off to validate toggle behavior deterministically
+            var lamp = new Lamp(false, "I", ColorType.Red, 60, LampType.LED);
 
-            // turning on when already on should keep it on
+            // turning on sets it on
             lamp.TurnOn();
             Assert.True(lamp.IsOnProperty);
 
