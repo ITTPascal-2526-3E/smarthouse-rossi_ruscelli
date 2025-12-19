@@ -112,7 +112,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         // Change the brightness of the lamp
         public void ChangeBrightness(int newBrightness)
         {
-            if (newBrightness >= 0 && newBrightness <= 100)
+            if (newBrightness >= 0 && newBrightness <= 100 && IsOn)
             {
                 Brightness = newBrightness;
             }
@@ -123,6 +123,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         public void ChangeColor(ColorType newColor)
         {
             Color = newColor;
+        }
+
+        public void ChangeLampType(LampType newLampType)
+        {
+            lampType=newLampType;
         }
 
 

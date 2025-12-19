@@ -46,11 +46,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Property heat pump.
         /// </summary>
-        public bool IsOnProperty
-        {
-            get { return IsOn; }
-            set { IsOn = value; }
-        }
+        public bool IsOnProperty { get; private set; }
         public double TemperatureProperty
         {
             get { return Temperature; }
@@ -107,12 +103,17 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 
         public void TurnOn()
         {
+            if(!IsOn) 
             IsOn = true;
         }
 
         public void TurnOff()
         {
-            IsOn = false;
+            if (IsOn)
+            {
+                IsOn = false;
+            }
+            
         }
 
         public void ChangeMode(EnumHeatPumpMode.HeatPumpMode newMode)
