@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public class EcoLamp : Lamp
+    public sealed class EcoLamp : BaseLamp
     {
 
         private TimeSpan DefaultAutoOff; // Default time to auto turn off
