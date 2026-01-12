@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
    
-    public class AirFryer
+    public sealed class AirFryer
     {
         private Guid Id;
         private int Temp;

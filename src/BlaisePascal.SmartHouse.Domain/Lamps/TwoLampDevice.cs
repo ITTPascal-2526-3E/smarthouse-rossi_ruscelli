@@ -2,7 +2,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public class TwoLampDevice
+    public sealed class TwoLampDevice
     {
         private Guid Id; // Unique identifier for the two lamp device
         private Lamp Lamp;

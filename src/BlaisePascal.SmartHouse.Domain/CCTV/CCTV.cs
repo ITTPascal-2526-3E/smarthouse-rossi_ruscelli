@@ -3,7 +3,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public class CCTV
+    public sealed class CCTV
     {
         public bool IsRecording { get; private set; }
         public string Location { get; private set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public class LedMatrix
+    public sealed class LedMatrix
     {
         private Guid Id; // Unique identifier for the LED matrix
         private int Width; // Width (number of columns) of the LED matrix

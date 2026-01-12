@@ -2,7 +2,7 @@
 
 namespace BlaisePascal.SmartHouse.Domain.Door
 {
-    public class Door
+    public sealed class Door
     {
         public bool IsLocked { get; private set; }
         public bool IsOpen { get; private set; }

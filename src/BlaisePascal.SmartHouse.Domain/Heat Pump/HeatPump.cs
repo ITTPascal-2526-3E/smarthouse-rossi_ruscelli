@@ -3,7 +3,7 @@ using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    public class HeatPump
+    public sealed class HeatPump
     {
         private Guid Id; // Unique identifier for the heat pump
         private bool IsOn; // State of the heat pump
