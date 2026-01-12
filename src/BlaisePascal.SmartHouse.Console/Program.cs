@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Lamp type is: {lamp1.LampTypeProperty}");
             Console.WriteLine($"Power consumption is: {lamp1.PowerConsumption} W");
             lamp1.TurnOn();
-            lamp1.BrightnessProperty = 90;
+            
             lamp1.ChangeColor(ColorType.WarmWhite);
             Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
             Console.WriteLine($"Name is: {lamp1.NameProperty}");

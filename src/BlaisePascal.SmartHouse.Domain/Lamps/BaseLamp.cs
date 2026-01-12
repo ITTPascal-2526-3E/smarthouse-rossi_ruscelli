@@ -131,6 +131,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         public void ChangeLampType(LampType newLampType)
         {
             lampType = newLampType;
+            MaxConsumption = GetMaxConsumption(newLampType); // aggiungi questa linea
         }
+
     }
 }
