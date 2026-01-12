@@ -4,7 +4,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public sealed class Lamp : BaseLamp
     {
-        public Lamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)  // da mettere a posto
+        public Lamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
         {
 
             Id = Guid.NewGuid();

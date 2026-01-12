@@ -19,6 +19,22 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         protected DateTime TurnedOffAt; // Time when the lamp was turned off
         protected Guid Id; // Unique identifier for the lamp
 
+        public BaseLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
+        {
+
+            Id = Guid.NewGuid();
+            IsOn = isOn;
+            Name = name;
+            Color = color;
+            Brightness = brightness;
+            this.lampType = lampType;
+            if (isOn == true)
+            { TurnedOnAt = DateTime.Now; }
+            else
+            { TurnedOffAt = DateTime.Now; }
+
+            MaxConsumption = GetMaxConsumption(lampType);
+        }
 
         private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
         {
@@ -51,22 +67,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public BaseLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
-        {
-
-            Id = Guid.NewGuid();
-            IsOn = isOn;
-            Name = name;
-            Color = color;
-            Brightness = brightness;
-            this.lampType = lampType;
-            if (isOn == true)
-            { TurnedOnAt = DateTime.Now; }
-            else
-            { TurnedOffAt = DateTime.Now; }
-
-            MaxConsumption = GetMaxConsumption(lampType);
-        }
+        
 
         public static int GetMaxConsumption(LampType lampType)
         {
