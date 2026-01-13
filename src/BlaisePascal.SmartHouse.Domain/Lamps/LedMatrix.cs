@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class LedMatrix : AbstractDevice
+    public sealed class LedMatrix : AbstractDevice, IMultipleDevices, IMultipleDevicesDimmable, ILedMatrix
     {
         
         private int Width; // Width (number of columns) of the LED matrix
@@ -29,12 +30,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
                 }
             }
         }
-        public int nameProperty { get; set; }
         public int WidthProperty { get; private set; }  //todo
         public int HeightProperty { get; private set; }  //todo
         public Lamp[,] MatrixProperty { get; private set; } 
 
-        public void TurnOnAllLamps()
+        public void TurnOnAll()
         {
           
             for (int i = 0; i < Height; i++)
@@ -45,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
                 }
             }
         }
-        public void TurnOffAllLamps()
+        public void TurnOffAll()
         {
            
             for (int i = 0; i < Height; i++)
@@ -57,9 +57,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             }
         }
 
-        public void SetIntensityAll(int intensity)
+        public void SetSameBrightness(int brightness)
         {
-            if(intensity < 0 || intensity > 100)
+            if(brightness < 0 || brightness > 100)
             {
                 return;
             }
@@ -67,7 +67,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    matrix[i, j].ChangeBrightness(intensity);
+                    matrix[i, j].ChangeBrightness(brightness);
                 }
             }
         }

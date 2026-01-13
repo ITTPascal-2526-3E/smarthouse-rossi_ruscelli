@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
    
-    public sealed class AirFryer : AbstractDevice
+    public sealed class AirFryer : AbstractDevice, Iswitch, 
     {
        
         private int Temp;
@@ -105,7 +106,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// returns the current consumption based on the state of the airfryer (if it is heating or maintaining temperature) if off returns 0
         /// </summary>
         /// <returns></returns>
-        public int GetCurrentConsumption()
+        public int GetConsumption()
         {
             if (IsOn && Temp == MaxTemp)
             {

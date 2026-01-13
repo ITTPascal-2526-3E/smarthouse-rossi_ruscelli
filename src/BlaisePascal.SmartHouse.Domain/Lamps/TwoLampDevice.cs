@@ -1,9 +1,9 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
-
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class TwoLampDevice : AbstractDevice
+    public sealed class TwoLampDevice : AbstractDevice, IMultipleDevices, I2DevicesDimmable
     {
         
         private Lamp Lamp;
@@ -51,12 +51,12 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
             EcoLamp.ChangeBrightness(Lamp.BrightnessProperty);
         }
-        public void TurnOnBoth()
+        public void TurnOffAll()
         {
             Lamp.TurnOn();
             EcoLamp.TurnOn();
         }
-        public void TurnOffBoth()
+        public void TurnOnAll()
         {
             Lamp.TurnOff();
             EcoLamp.TurnOff();

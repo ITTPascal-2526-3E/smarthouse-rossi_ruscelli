@@ -13,6 +13,10 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
         void TurnOn();
         void TurnOff();
     }
+    public interface  IGetConsumption
+    {
+        int GetConsumption();
+    }
     public interface IDimmable
     {
         void ChangeBrightness(int brightness);
@@ -33,6 +37,25 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
         void TurnOnEco();
         DateTime NextOccurrence(DateTime from, TimeOnly time);
         DateTime? ComputeFinalOffInstant(DateTime TurnOnAt);
+    }
+    public interface  I2DevicesDimmable
+    {
+        void SetSameBrightness(bool Which);
+    }
+    public interface ILedMatrix
+    {
+        Lamp[] GetLampsInColumn(int column);
+        Lamp[] GetLampsInRow(int row);
+        Lamp GetLamp(int row, int column);
+    }
+    public interface IMultipleDevices
+    {
+        void TurnOnAll();
+        void TurnOffAll();
+    }
+    public interface  IMultipleDevicesDimmable
+    {
+        void SetSameBrightness(int brightness);
     }
     public interface ILockable
     {

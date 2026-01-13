@@ -21,7 +21,6 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             protected LampType lampType;  // type of the lamp
             protected DateTime TurnedOnAt; // Time when the lamp was turned on
             protected DateTime TurnedOffAt; // Time when the lamp was turned off
-           
 
             public AbstractLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(name)
         {
@@ -37,7 +36,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 else
                 { TurnedOffAt = DateTime.Now; }
 
-                MaxConsumption = GetMaxConsumption(lampType);
+                MaxConsumption = GetConsumption();
             }
 
             private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
@@ -73,7 +72,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             /// <param name="brightness"></param>
 
 
-            public static int GetMaxConsumption(LampType lampType)
+            public static int GetConsumption(LampType lampType)
             {
                 return lampTypeProperties[lampType].maxConsumption;
             }
