@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class LedMatrix
+    public sealed class LedMatrix : AbstractDevice
     {
-        private Guid Id; // Unique identifier for the LED matrix
+        
         private int Width; // Width (number of columns) of the LED matrix
         private int Height; // Height (number of rows) of the LED matrix
-        private int Name;   //name of the LED matrix
         private Lamp[,] matrix; 
 
-        public LedMatrix(int width, int height, ColorType color, bool isOn, string name, int brightness, LampType lampType)
+        public LedMatrix(int width, int height, ColorType color, bool isOn, string name, int brightness, LampType lampType) : base(name)
         {
-            Id = Guid.NewGuid();
+           
             Width = width;
             Height = height;
             // initialize matrix with default Lamps (turned off, 0 brightness) so methods can be used safely

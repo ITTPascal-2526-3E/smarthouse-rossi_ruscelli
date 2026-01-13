@@ -1,13 +1,13 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class TwoLampDevice
+    public sealed class TwoLampDevice : AbstractDevice
     {
-        private Guid Id; // Unique identifier for the two lamp device
+        
         private Lamp Lamp;
         private EcoLamp EcoLamp;
-        
         // Expose the internal lamp instances through properties so tests and callers
         // can access the underlying lamp objects provided to the constructor.
         public Lamp lampProperty { get; set; }
@@ -20,9 +20,9 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public TwoLampDevice(Lamp lamp, EcoLamp ecolamp)
+        public TwoLampDevice(Lamp lamp, EcoLamp ecolamp, string name) : base(name)
         {
-            Id = Guid.NewGuid();
+           
             Lamp = lamp;
             EcoLamp = ecolamp;
 
