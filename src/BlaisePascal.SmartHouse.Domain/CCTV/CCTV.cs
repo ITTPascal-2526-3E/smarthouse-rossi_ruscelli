@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using System;
 
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public sealed class CCTV
+    public sealed class CCTV : AbstractDevice
     {
         public bool IsRecording { get; private set; }
         public string Location { get; private set; }
@@ -12,7 +13,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
 
         public bool LicensePlateRecognitionEnabled { get; private set; }
 
-        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled)
+        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled, string name) : base(name)
         {
             IsRecording = isRecording;
             Location = location;

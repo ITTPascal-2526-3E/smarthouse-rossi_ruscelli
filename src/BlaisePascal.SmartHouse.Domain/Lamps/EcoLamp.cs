@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
+using System;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
-using BlaisePascal.SmartHouse.Domain.Abstractions;
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class EcoLamp : AbstractLamp
+    public sealed class EcoLamp : AbstractLamp, IEcoModality
     {
 
         private TimeSpan DefaultAutoOff; // Default time to auto turn off

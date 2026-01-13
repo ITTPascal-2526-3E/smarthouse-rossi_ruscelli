@@ -1,19 +1,18 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Door
 {
-    public sealed class Door
+    public sealed class Door : AbstractDevice
     {
         public bool IsLocked { get; private set; }
         public bool IsOpen { get; private set; }
-        public string Name { get; set; }
 
-
-        public Door(bool isLocked, bool isOpen, string name)
+        public Door(bool isLocked, bool isOpen, string name) : base(name)
         {
             IsLocked = isLocked;
             IsOpen = isOpen;
-            Name = name;
+            
         }
 
         public void Lock()

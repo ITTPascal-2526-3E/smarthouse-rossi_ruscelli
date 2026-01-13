@@ -1,11 +1,11 @@
-﻿using BlaisePascal.SmartHouse.Domain.AirFryer;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    public sealed class HeatPump
+    public sealed class HeatPump : AbstractDevice
     {
-        private Guid Id; // Unique identifier for the heat pump
+        
         private bool IsOn; // State of the heat pump
         private double Temperature; // Current temperature of the heat pump
         private EnumHeatPumpMode.HeatPumpMode Mode; // Mode of the heat pump
@@ -92,7 +92,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, double temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh)
+        public HeatPump(bool isOn, double temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh, string name) : base(name)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;

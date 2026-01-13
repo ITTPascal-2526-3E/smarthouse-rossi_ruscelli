@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
    
-    public sealed class AirFryer
+    public sealed class AirFryer : AbstractDevice
     {
-        private Guid Id;
+       
         private int Temp;
         private int MaxTemp;
         private int MaxConsumption;
@@ -70,9 +71,9 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public void AirFry(int temp, int maxTemp, bool isOn, float costPerKWh)
+        public AirFryer(int temp, int maxTemp, bool isOn, float costPerKWh,string name) : base(name)
         {
-            Id = Guid.NewGuid();
+            
             Temp = temp;
             MaxTemp = maxTemp;
             bool IsOn = isOn;

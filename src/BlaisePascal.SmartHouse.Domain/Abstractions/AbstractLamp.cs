@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lamps;
+﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
+using BlaisePascal.SmartHouse.Domain.Lamps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,25 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.Abstractions
 {
     
-        public abstract class AbstractLamp
-        {
+        public abstract class AbstractLamp : AbstractDevice, Iswitch, IDimmable, IColorChangable, IChangeLampType
+    {
             protected float powerConsumption; // Current power consumption in watts
             protected bool IsOn; // State of the lamp
             protected int Brightness; // Brightness of ther lamp
             protected ColorType Color; // Color of the lamp light
             protected string Name; // Name of the lamp
             protected int MaxConsumption; // Maximum power consumption in watts
-            protected LampType lampType;
+            protected LampType lampType;  // type of the lamp
             protected DateTime TurnedOnAt; // Time when the lamp was turned on
             protected DateTime TurnedOffAt; // Time when the lamp was turned off
-            protected Guid Id; // Unique identifier for the lamp
+           
 
-            public AbstractLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType)
-            {
+            public AbstractLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(name)
+        {
 
                 Id = Guid.NewGuid();
                 IsOn = isOn;
-                Name = name;
+                
                 Color = color;
                 Brightness = brightness;
                 this.lampType = lampType;
