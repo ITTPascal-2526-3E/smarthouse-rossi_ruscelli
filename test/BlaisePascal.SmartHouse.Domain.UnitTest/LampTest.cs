@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using BlaisePascal.SmartHouse.Domain.Lamps;
 using Xunit;
+using BlaisePascal.SmartHouse.Domain.Abstractions;
 
 namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
@@ -30,9 +31,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp.ChangeLampType(LampType.Halogen);
 
             // calcolo atteso con brightness = 100
-            float expected = BaseLamp.GetMaxConsumption(LampType.Halogen)
+            float expected = AbstractLamp.GetMaxConsumption(LampType.Halogen)
                              * (100 / 100f)
-                             * BaseLamp.GetAlpha(LampType.Halogen);
+                             * AbstractLamp.GetAlpha(LampType.Halogen);
 
             Assert.Equal(expected, lamp.PowerConsumption, 3);
         }
@@ -102,9 +103,9 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
                 lamp.ChangeBrightness(80);
 
                 float expected =
-                    BaseLamp.GetMaxConsumption(LampType.LED)
+                    AbstractLamp.GetMaxConsumption(LampType.LED)
                     * 0.8f
-                    * BaseLamp.GetAlpha(LampType.LED);
+                    * AbstractLamp.GetAlpha(LampType.LED);
 
                 Assert.Equal(expected, lamp.PowerConsumption, 3);
             }
@@ -153,11 +154,11 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ChangeBrightness_WhenOn_UpdatesBrightness()
         {
-            var lamp = new Lamp(true, "Lamp1", ColorType.CoolWhite, 50, LampType.LED);
+            var lamp = new Lamp(true,"Lamp1",ColorType.CoolWhite,50,LampType.LED);
 
             lamp.ChangeBrightness(80);
 
-            Assert.Equal(80, lamp.BrightnessLevel);
+            Assert.Equal(80, lamp.BrightnessProperty);
         }
         [Fact]
         public void ChangeBrightness_WhenOn_ChangesConsumption()
@@ -167,7 +168,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp.ChangeBrightness(80);
 
             float expected =
-                BaseLamp.GetMaxConsumption(LampType.LED)* 0.8f * BaseLamp.GetAlpha(LampType.LED);
+                AbstractLamp.GetMaxConsumption(LampType.LED)* 0.8f * AbstractLamp.GetAlpha(LampType.LED);
 
             Assert.Equal(expected, lamp.PowerConsumption, 3);
         }

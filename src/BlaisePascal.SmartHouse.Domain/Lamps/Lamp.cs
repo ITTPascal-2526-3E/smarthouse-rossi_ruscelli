@@ -1,8 +1,9 @@
 ﻿using System;
+using BlaisePascal.SmartHouse.Domain.Abstractions;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
-    public sealed class Lamp : BaseLamp
+    public sealed class Lamp : AbstractLamp
     {
         public Lamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
         {
