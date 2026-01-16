@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.AirFryer
 {
    
-    public sealed class AirFryer : AbstractDevice, Iswitch, 
+    public sealed class AirFryer : AbstractDevice, Iswitch, ITemperatureAdjustable, IChangeableCost, ITimerSettable, IGetConsumption, IModeSelectable, IGetCost, IGetEnergyConsumption
     {
        
         private int Temp;
@@ -85,7 +85,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             }
         }
 
-        public void SetMaxTemp(int temp)
+        public void SetTemp(int temp)
         {
             if (IsOn)
             {
@@ -97,7 +97,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             }
         }
 
-        public void SetCostPerKWh(float cost)
+        public void ChangeCost(float cost)
         {
             CostPerKWh = cost;
         }
@@ -154,7 +154,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
         /// sets the mode of the airfryer, changing the max and min consumption :)
         /// </summary>
         /// <param name="mode"></param>
-        public void SetMode(Mode mode)
+        public void SelectMode(Mode mode)
         {
             if (IsOn)
             {
@@ -191,7 +191,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryer
             }
         }
       
-        public void AutoTurnOff(TimeSpan time)
+        public void SetTimer(TimeSpan time)   // già implementata con interfaccia 
         {
             if (IsOn)
             {

@@ -1,4 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lamps;
+﻿using BlaisePascal.SmartHouse.Domain.AirFryer;
+using BlaisePascal.SmartHouse.Domain.Lamps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,14 +63,33 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
         void Lock();
         void Unlock();
     }
-    public interface ISchedulable
+    public interface ITimerSettable
     {
-        void ScheduleTurnOn(DateTime dateTime);
-        void ScheduleTurnOff(DateTime dateTime);
+        void SetTimer(TimeSpan time);
     }
     public interface ITemperatureAdjustable
     {
-        void SetTemperature(double temperature);
+        void SetTemp(int temp);
     }
-    
+    public interface IChangeableCost
+    {
+        void ChangeCost(float cost);
+    }
+    public interface ITimeElapsedOn
+    {
+        TimeSpan TimeOn();
+    }
+    public interface IModeSelectable
+    {
+        void SelectMode(Mode mode);
+    }
+    public interface IGetEnergyConsumption
+    {
+        double ConsumptionWattHours(Mode mode);
+        double ConsumptionKiloWattHours(Mode mode);
+    }
+    public interface IGetCost
+    {
+        double CostOfConsumption(Mode mode);
+    }
 }
