@@ -63,6 +63,11 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
         void Lock();
         void Unlock();
     }
+    public interface  IOpenable
+    {
+        void Open();
+        void Close();
+    }
     public interface ITimerSettable
     {
         void SetTimer(TimeSpan time);
