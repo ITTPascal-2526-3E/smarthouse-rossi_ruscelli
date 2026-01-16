@@ -1,4 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.AirFryer;
+using BlaisePascal.SmartHouse.Domain.Heat_Pump;
 using BlaisePascal.SmartHouse.Domain.Lamps;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
     public interface  IGetConsumption
     {
         int GetConsumption();
+    }
+    public interface IGetDoubleConsumption
+    {
+        int GetMaxConsumption();
+        int GetMinConsumption();
     }
     public interface IDimmable
     {
@@ -76,6 +82,12 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
     {
         void SetTemp(int temp);
     }
+    public interface IGetDoubleTemperature
+    {
+        int GetMinConsumption();
+        int GetminTemperature();
+       
+    }
     public interface IChangeableCost
     {
         void ChangeCost(float cost);
@@ -96,5 +108,9 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
     public interface IGetCost
     {
         double CostOfConsumption(Mode mode);
+    }
+    public interface  IModeChangeHeatPump
+    {
+        void ChangeMode(HeatPumpMode newMode);
     }
 }

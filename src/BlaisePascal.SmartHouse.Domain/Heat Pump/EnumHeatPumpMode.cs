@@ -3,16 +3,13 @@ using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    public class EnumHeatPumpMode
+    public enum HeatPumpMode
     {
-        public enum HeatPumpMode
-        {
-            Heating,
-            Cooling,
-            HotWater,
-            Auto,
-            Eco,
-            Comfort
-        }
+        Heating,
+        Cooling,
+        HotWater,
+        Auto,
+        Eco,
+        Comfort
     }
 }

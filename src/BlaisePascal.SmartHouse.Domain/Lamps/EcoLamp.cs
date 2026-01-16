@@ -41,7 +41,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             this.lampType = lampType;
 
             //MaxConsumption is automatically set by the enum
-            MaxConsumption = GetMaxConsumption(lampType);
+            MaxConsumption = GetConsumption(lampType);
 
             if (IsOn == true)
             {
@@ -115,7 +115,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="from"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        private static DateTime NextOccurrence(DateTime from, TimeOnly time)
+        public DateTime NextOccurrence(DateTime from, TimeOnly time)
         {
             DateTime candidate = new DateTime(from.Year, from.Month, from.Day, time.Hour, time.Minute, time.Second, time.Millisecond, from.Kind);
             if (candidate <= from) candidate = candidate.AddDays(1);
@@ -127,7 +127,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// </summary>
         /// <param name="TurnOnAt"></param>
         /// <returns></returns>
-        private DateTime? ComputeFinalOffInstant(DateTime TurnOnAt) //Calculates when the lamp should turn off based on Eco settings
+        public DateTime? ComputeFinalOffInstant(DateTime TurnOnAt) //Calculates when the lamp should turn off based on Eco settings
         {
             DateTime? offByDefault = TurnOnAt + DefaultAutoOff;
 

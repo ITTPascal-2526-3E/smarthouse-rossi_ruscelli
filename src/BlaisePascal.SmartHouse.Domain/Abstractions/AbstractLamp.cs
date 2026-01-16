@@ -36,7 +36,8 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 else
                 { TurnedOffAt = DateTime.Now; }
 
-                MaxConsumption = GetConsumption();
+                // set MaxConsumption based on the lampType using the dictionary
+                MaxConsumption = GetMaxConsumption(lampType);
             }
 
             private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
@@ -73,6 +74,12 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
 
 
             public static int GetConsumption(LampType lampType)
+            {
+                return lampTypeProperties[lampType].maxConsumption;
+            }
+
+            // Added to match usage in tests and other classes
+            public static int GetMaxConsumption(LampType lampType)
             {
                 return lampTypeProperties[lampType].maxConsumption;
             }

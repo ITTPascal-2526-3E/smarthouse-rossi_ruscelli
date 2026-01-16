@@ -1,14 +1,14 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    public sealed class HeatPump : AbstractDevice
+    public sealed class HeatPump : AbstractDevice, IGetDoubleConsumption, IGetDoubleTemperature, Iswitch, ITemperatureAdjustable, IModeChangeHeatPump
     {
-        
         private bool IsOn; // State of the heat pump
         private double Temperature; // Current temperature of the heat pump
-        private EnumHeatPumpMode.HeatPumpMode Mode; // Mode of the heat pump
+        public HeatPumpMode Mode { get; private set; }
         // removed unused CurrentConsumption field
         private float CostPerKWh; // Cost per kWh in currency unit
 
@@ -16,31 +16,31 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// Dizionario che contiene per ogni modalità i consumi massimo e minimo.
         /// (min = mantenimento temperatura, max = riscaldamento o raffrescamento attivo)
         /// </summary>
-        private static readonly Dictionary<EnumHeatPumpMode.HeatPumpMode, (int maxConsumption, int minConsumption, double minTemperature, double maxTemperature)> ModeProperties = new()
+        private static readonly Dictionary<HeatPumpMode, (int maxConsumption, int minConsumption, int minTemperature, int maxTemperature)> ModeProperties = new()
         {
-            { EnumHeatPumpMode.HeatPumpMode.Heating,  (2500, 1200, 16.0, 30.0) },
-            { EnumHeatPumpMode.HeatPumpMode.Cooling,  (2200, 1000, 18.0, 32.0) },
-            { EnumHeatPumpMode.HeatPumpMode.HotWater, (2000,  800, 35.0, 60.0) },
-            { EnumHeatPumpMode.HeatPumpMode.Eco,      (1500,  700, 18.0, 28.0) },
-            { EnumHeatPumpMode.HeatPumpMode.Comfort,  (2600, 1500, 20.0, 26.0) },
-            { EnumHeatPumpMode.HeatPumpMode.Auto,     (2300, 1000, 18.0, 30.0) }
+            { HeatPumpMode.Heating,  (2500, 1200, 16, 30) },
+            { HeatPumpMode.Cooling,  (2200, 1000, 16 , 3) },
+            { HeatPumpMode.HotWater, (2000,  800, 16 , 30) },
+            { HeatPumpMode.Eco,      (1500,  700, 16 , 30) },
+            { HeatPumpMode.Comfort,  (2600, 1500, 16 , 30) },
+            { HeatPumpMode.Auto,     (2300, 1000, 16 , 30) }
         };
-        public static int GetMaxConsumption(EnumHeatPumpMode.HeatPumpMode mode)
+        public int GetMaxConsumption()
         {
-            return ModeProperties[mode].maxConsumption;
+            return ModeProperties[Mode].maxConsumption;
         }
 
-        public static int GetMinConsumption(EnumHeatPumpMode.HeatPumpMode mode)
+        public int GetMinConsumption()
         {
-            return ModeProperties[mode].minConsumption;
+            return ModeProperties[Mode].minConsumption;
         }
-        public static double GetminTemperature(EnumHeatPumpMode.HeatPumpMode mode)
+        public int GetminTemperature()
         {
-            return ModeProperties[mode].minTemperature;
+            return ModeProperties[Mode].minTemperature;
         }
-        public static double GetmaxTemperature(EnumHeatPumpMode.HeatPumpMode mode)
+        public int GetmaxTemperature()
         {
-            return ModeProperties[mode].maxTemperature;
+            return ModeProperties[Mode].maxTemperature;
         }
 
         /// <summary>
@@ -52,15 +52,15 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
             get { return Temperature; }
             set
             {
-                double minTemp = GetminTemperature(Mode);
-                double maxTemp = GetmaxTemperature(Mode);
+                int minTemp = GetminTemperature();
+                int maxTemp = GetmaxTemperature();
                 if (value >= minTemp && value <= maxTemp)
                 {
                     Temperature = value;
                 }
             }
         }
-        public EnumHeatPumpMode.HeatPumpMode ModeProperty
+        public HeatPumpMode ModeProperty
         {
             get { return Mode; }
             set { Mode = value; }
@@ -69,8 +69,8 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         {
             get
             {
-                int maxConsumption = GetMaxConsumption(Mode);
-                int minConsumption = GetMinConsumption(Mode);
+                int maxConsumption = GetMaxConsumption();
+                int minConsumption = GetMinConsumption();
                 if (IsOn)
                 {
                     double currentConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature;
@@ -92,7 +92,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, double temperature, EnumHeatPumpMode.HeatPumpMode mode, float costPerKWh, string name) : base(name)
+        public HeatPump(bool isOn, double temperature, HeatPumpMode mode, float costPerKWh, string name) : base(name)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
@@ -116,14 +116,14 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
             
         }
 
-        public void ChangeMode(EnumHeatPumpMode.HeatPumpMode newMode)
+        public void ChangeMode(HeatPumpMode newMode)
         {
             Mode = newMode;
         }
-        public void SetTemperature(double newTemperature)
+        public void SetTemp(int newTemperature)
         {
-            double minTemp = GetminTemperature(Mode);
-            double maxTemp = GetmaxTemperature(Mode);
+            int minTemp = GetminTemperature();
+            int maxTemp = GetmaxTemperature();
             if (newTemperature >= minTemp && newTemperature <= maxTemp)
             {
                 Temperature = newTemperature;
