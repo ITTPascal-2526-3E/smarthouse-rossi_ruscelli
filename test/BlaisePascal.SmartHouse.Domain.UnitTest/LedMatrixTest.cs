@@ -33,7 +33,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void TurnOnAllLamps_ShouldUpdateTheirState()
         {
             var ledMatrix = new LedMatrix(2, 2, ColorType.CoolWhite, false, "test", 100, LampType.LED);
-            ledMatrix.TurnOnAllLamps();
+            ledMatrix.TurnOnAll();
             Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
             for (int i = 0; i < 2; i++)
             {
@@ -47,7 +47,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void TurnOffAllLamps_ShouldUpdateTheirState()
         {
             var ledMatrix = new LedMatrix(2, 2, ColorType.CoolWhite, true , "test", 100, LampType.LED);
-            ledMatrix.TurnOnAllLamps();
+            ledMatrix.TurnOnAll();
             Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
             for (int i = 0; i < 2; i++)
             {
@@ -61,7 +61,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void SetIntensityAll_ShouldUpdateTheirBrightness()
         {
             var ledMatrix = new LedMatrix(2, 2, ColorType.CoolWhite, true, "test", 100, LampType.LED);
-            ledMatrix.SetIntensityAll(10);
+            ledMatrix.SetSameBrightness(10);
             Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
             for (int i = 0; i < 2; i++)
             {
@@ -75,7 +75,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         public void SetIntensityAll_InvalidValue_ShouldNotUpdateTheirBrightness()
         {
             var ledMatrix = new LedMatrix(2, 2, ColorType.CoolWhite, true, "test", 100, LampType.LED);
-            ledMatrix.SetIntensityAll(-10);
+            ledMatrix.SetSameBrightness(-10);
             Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
             for (int i = 0; i < 2; i++)
             {

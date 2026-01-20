@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
-using BlaisePascal.SmartHouse.Domain.Interfaces;
+using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public sealed class TwoLampDevice : AbstractDevice, IMultipleDevices, I2DevicesDimmable

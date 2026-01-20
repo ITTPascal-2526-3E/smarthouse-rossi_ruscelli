@@ -11,10 +11,10 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void ConstructorTest()
         {
-            var lamp = new Lamp(true, "Lamp1", ColorType.CoolWhite, 100, LampType.LED);
+            var lamp = new Lamp(true,"test",ColorType.Orange,100,LampType.LED);
             Assert.True(lamp.IsOnProperty);
-            Assert.Equal("Lamp1", lamp.NameProperty);
-            Assert.Equal(ColorType.CoolWhite, lamp.ColorProperty);
+            Assert.Equal("test", lamp.NameProperty);
+            Assert.Equal(ColorType.Orange, lamp.ColorProperty);
             Assert.Equal(100, lamp.BrightnessProperty);
             Assert.Equal(LampType.LED, lamp.LampTypeProperty);
         }

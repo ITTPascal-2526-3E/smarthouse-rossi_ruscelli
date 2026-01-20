@@ -1,5 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Interfaces;
 using BlaisePascal.SmartHouse.Domain.Lamps;
+using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

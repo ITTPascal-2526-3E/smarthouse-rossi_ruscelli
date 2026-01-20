@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             EcoLamp lamp2 = new EcoLamp(true, "temporanea2", ColorType.Blue, 10, LampType.Induction);
            
             // Act
-            var twoLampsDevice = new TwoLampDevice(lamp1, lamp2);
+            var twoLampsDevice = new TwoLampDevice(lamp1, lamp2, "test");
             // Assert
             Assert.Equal(lamp1, twoLampsDevice.lampProperty);
             Assert.Equal(lamp2, twoLampsDevice.ecolampProperty);
@@ -34,8 +34,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             EcoLamp lamp2 = new EcoLamp(true, "temporanea2", ColorType.Blue, 10, LampType.Induction);
             // Act
-            TwoLampDevice twoLampsDevice = new TwoLampDevice(lamp1, lamp2);
-            twoLampsDevice.TurnOffBoth();
+            TwoLampDevice twoLampsDevice = new TwoLampDevice(lamp1, lamp2, "test");
+            twoLampsDevice.TurnOffAll();
             // Assert
             Assert.False(lamp1.IsOnProperty);
             Assert.False(lamp2.IsOnProperty);
@@ -49,8 +49,8 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             EcoLamp lamp2 = new EcoLamp(true, "temporanea2", ColorType.Blue, 10, LampType.Induction);
             // Act
-            TwoLampDevice twoLampsDevice = new TwoLampDevice(lamp1, lamp2);
-            twoLampsDevice.TurnOnBoth();
+            TwoLampDevice twoLampsDevice = new TwoLampDevice(lamp1, lamp2, "test");
+            twoLampsDevice.TurnOnAll();
             // Assert
             Assert.True(lamp1.IsOnProperty);
             Assert.True(lamp2.IsOnProperty);
@@ -64,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             EcoLamp lamp2 = new EcoLamp(true, "temporanea2", ColorType.Blue, 20, LampType.Induction);
 
-            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2);
+            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2, "test");
             // Act
             test.SetSameBrightness(false);
             // Assert
@@ -81,7 +81,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             EcoLamp lamp2 = new EcoLamp(true, "temporanea2", ColorType.Blue, 10, LampType.Induction);
 
-            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2);
+            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2, "test");
             // Act
             test.SetSameBrightness(true);
             // Assert
@@ -105,7 +105,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             lamp2.ChangeEcoMode(true, start, end, 10);
             
 
-            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2);
+            TwoLampDevice test = new TwoLampDevice(lamp1, lamp2, "test");
             // Act
             
             // Assert

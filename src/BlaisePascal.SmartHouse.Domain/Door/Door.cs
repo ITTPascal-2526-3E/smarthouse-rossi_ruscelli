@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
-using BlaisePascal.SmartHouse.Domain.Interfaces;
+using BlaisePascal.SmartHouse.Domain.Door.DoorInterfaces;
 
 namespace BlaisePascal.SmartHouse.Domain.Door
 {

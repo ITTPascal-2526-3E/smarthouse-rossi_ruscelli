@@ -1,5 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
-using BlaisePascal.SmartHouse.Domain.Interfaces;
+using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
 using System;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;

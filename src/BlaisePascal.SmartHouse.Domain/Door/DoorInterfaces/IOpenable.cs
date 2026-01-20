@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Interfaces
+namespace BlaisePascal.SmartHouse.Domain.Door.DoorInterfaces
 {
-    public interface ILockable
+    public interface IOpenable
     {
-        void Lock();
-        void Unlock();
+        void Open();
+        void Close();
     }
 }

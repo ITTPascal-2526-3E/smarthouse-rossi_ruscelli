@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Interfaces
+namespace BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces
 {
 
     public interface IColorChange

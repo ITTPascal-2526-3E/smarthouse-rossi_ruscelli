@@ -1,6 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
+using BlaisePascal.SmartHouse.Domain.CCTV.CCTVInterfaces;
 
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
