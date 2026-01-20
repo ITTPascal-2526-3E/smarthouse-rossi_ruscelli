@@ -1,11 +1,13 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public sealed class CCTV : AbstractDevice
+    public sealed class CCTV : AbstractDevice, Iswitch, IRecording, ILicensePlateRecognition
     {
+        public bool IsOn { get; private set; }
         public bool IsRecording { get; private set; }
         public string Location { get; private set; }
 
@@ -19,6 +21,14 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
             Location = location;
             LicensePlateRecognitionEnabled = licensePlateRecognitionEnabled;
             LicensePlateEnebled = licensePlateEnebled;
+        }
+        public void TurnOn()
+        {
+            IsOn = true;
+        }
+        public void TurnOff()
+        {
+            IsOn = false;
         }
         public void StartRecording()
         {

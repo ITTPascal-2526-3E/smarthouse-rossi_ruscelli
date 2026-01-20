@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BlaisePascal.SmartHouse.Domain.Abstractions
 {
     
-        public abstract class AbstractLamp : AbstractDevice, Iswitch, IDimmable, IColorChangable, IChangeLampType
+        public abstract class AbstractLamp : AbstractDevice, Iswitch, IDimmable, IColorChange, IChangeLampType
     {
             protected float powerConsumption; // Current power consumption in watts
             protected bool IsOn; // State of the lamp
