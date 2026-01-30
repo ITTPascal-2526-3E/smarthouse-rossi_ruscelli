@@ -6,7 +6,7 @@ using BlaisePascal.SmartHouse.Domain.CCTV.CCTVInterfaces;
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
-    public sealed class CCTV : AbstractDevice, Iswitch, IRecording, ILicensePlateRecognition
+    public sealed class CCTV : AbstractDevice, ICamera, ILicensePlateRecognition
     {
         public bool IsOn { get; private set; }
         public bool IsRecording { get; private set; }

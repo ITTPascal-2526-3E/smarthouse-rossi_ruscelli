@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Interfaces
 {
-    public interface IGetEnergyConsumption
+    public interface IGetCost
     {
-        double ConsumptionWattHours(Mode mode);
-        double ConsumptionKiloWattHours(Mode mode);
+        double CostOfConsumption();
     }
 }

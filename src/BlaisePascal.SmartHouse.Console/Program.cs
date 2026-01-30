@@ -59,11 +59,11 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine("AirFryer test:");
 
             // create an AirFryer instance and initialize (turned off initially)
-            AirFryer airFryer = new AirFryer();
-            airFryer.AirFry(0, 200, false, 10000.0f);
+            AirFryer airFryer = new AirFryer(0, 200, false, 10000.0f, "prova", Mode.baking);
+           
 
             // set the mode and turn the air fryer on
-            airFryer.SetMode(Mode.frying);
+            airFryer.SelectMode(Mode.dehydrate);
             airFryer.TurnOn();
 
             Console.WriteLine("AirFryer turned on. Simulating 5 seconds of runtime...");
@@ -78,9 +78,9 @@ namespace BlaisePascal.SmartHouse.Domain
             Console.WriteLine($"Time on: {time:hh\\:mm\\:ss}"); // to take only secondsss
 
             // calculate consumption and cost
-            double wh = airFryer.ConsumptionWattHours(Mode.frying);
-            double kwh = airFryer.ConsumptionKiloWattHours(Mode.frying);
-            double cost = airFryer.CostOfConsumption(Mode.frying);
+            double wh = airFryer.ConsumptionWattHours();
+            double kwh = airFryer.ConsumptionKiloWattHours();
+            double cost = airFryer.CostOfConsumption();
 
             Console.WriteLine($"Consumption (Wh): {wh:F2}");
             Console.WriteLine($"Consumption (kWh): {kwh:F4}");

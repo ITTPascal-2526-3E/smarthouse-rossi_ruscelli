@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Interfaces
+namespace BlaisePascal.SmartHouse.Domain.AirFryer.AirFryerInterfaces
 {
-    public interface IGetCost
+    public interface IModeSelectable
     {
-        double CostOfConsumption(Mode mode);
+        void SelectMode(Mode mode);
     }
 }

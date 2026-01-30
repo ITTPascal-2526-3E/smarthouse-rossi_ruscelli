@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Interfaces
 {
-    public interface IModeSelectable
+    public interface IGetEnergyConsumption
     {
-        void SelectMode(Mode mode);
+        double ConsumptionWattHours();
+        double ConsumptionKiloWattHours();
     }
 }
