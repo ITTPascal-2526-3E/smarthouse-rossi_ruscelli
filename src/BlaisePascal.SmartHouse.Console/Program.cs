@@ -1,5 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Lamps;
-using BlaisePascal.SmartHouse.Domain.AirFryer;
+using BlaisePascal.SmartHouse.Domain.AirFryerDevice;
 using System;
 using System.Collections.Generic;
 using System.Threading;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.AirFryer
+namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
 {
     public enum Mode
     {

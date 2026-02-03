@@ -1,15 +1,15 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
-using BlaisePascal.SmartHouse.Domain.AirFryer.AirFryerInterfaces;
+using BlaisePascal.SmartHouse.Domain.AirFryerDevice.AirFryerInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.AirFryer
+namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
 {
    
-    public sealed class AirFryer : AbstractDevice, IAirFryer
+    public sealed class AirFryer : AbstractDevice, IAirFryer, IModeSelectable
     {
        
         private int Temp;
