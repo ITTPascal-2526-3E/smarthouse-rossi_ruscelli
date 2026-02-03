@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Domain.Interfaces
 {
-    public interface IModeChangeHeatPump
+    public interface IHeatPump : IGetDoubleConsumption, IGetDoubleTemperature, Iswitch, ITemperatureAdjustable
     {
         void ChangeMode(HeatPumpMode newMode);
     }
