@@ -39,6 +39,13 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
 
                 // set MaxConsumption based on the lampType using the dictionary
                 MaxConsumption = GetMaxConsumption(lampType);
+
+                // synchronize public properties with internal fields so tests and callers see consistent state
+                LampTypeProperty = lampType;
+                IsOnProperty = isOn;
+                BrightnessProperty = brightness;
+                ColorProperty = color;
+                NameProperty = name;
             }
 
             private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
@@ -107,6 +114,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 if (!IsOn)
                 {
                     IsOn = true;
+                    IsOnProperty = true;
                     TurnedOnAt = DateTime.Now;
                 }
             }
@@ -117,7 +125,8 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 if (IsOn)
                 {
                     IsOn = false;
-                    TurnedOnAt = DateTime.Now;
+                    IsOnProperty = false;
+                    TurnedOffAt = DateTime.Now;
                 }
             }
 
@@ -127,6 +136,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 if (newBrightness >= 0 && newBrightness <= 100 && IsOn)
                 {
                     Brightness = newBrightness;
+                    BrightnessProperty = newBrightness;
                 }
 
             }
@@ -135,11 +145,13 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             public virtual void ChangeColor(ColorType newColor)
             {
                 Color = newColor;
+                ColorProperty = newColor;
             }
 
             public virtual void ChangeLampType(LampType newLampType)
             {
                 lampType = newLampType;
+                LampTypeProperty = newLampType;
                 MaxConsumption = GetMaxConsumption(newLampType); // aggiungi questa linea
             }
         }
