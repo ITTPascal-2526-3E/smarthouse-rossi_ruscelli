@@ -3,6 +3,7 @@ using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
 using System;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public sealed class EcoLamp : AbstractLamp, IEcoModality
@@ -12,11 +13,11 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         private bool EcoEnabled; // Eco mode enabled or not
         private TimeOnly EcoStart;  //Eco mode start time (hour of the day).
         private TimeOnly EcoEnd; // End of eco mode time (può oltrepassare mezzanotte).
-        private int EcoMaxBrightness; // max brightness in eco mode.
+        private Brightness EcoMaxBrightness; // max brightness in eco mode.
         private TimeSpan EcoAutoOff;  // auto turn off light when in eco mode
         public DateTime? ScheduledOffAt { get; set; }  // calcolated time when the lamp is going to get turned off automatically
 
-        public int EcoMaxBrightnessProperty { get; private set; }
+        public Brightness EcoMaxBrightnessProperty { get; private set; }
         private bool hasValue(DateTime? dateTime)
         {
             if (dateTime.HasValue)
@@ -31,7 +32,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public EcoLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
+        public EcoLamp(bool isOn, NameDevice name, ColorType color, Brightness brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
@@ -49,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
 
                 if (EcoEnabled)
-                    Brightness = Math.Min(Brightness, EcoMaxBrightness); // Apply brightness cap if in Eco
+                    Brightness = Math.Min(Brightness.Value, EcoMaxBrightness.Value); // Apply brightness cap if in Eco
                 ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
 
             }
@@ -84,7 +85,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="maxBrightness"></param>
-        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness)
+        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, Brightness maxBrightness)
         {
 
             EcoEnabled = enebled;
@@ -93,7 +94,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             EcoMaxBrightness = maxBrightness;
 
             if (IsOn && EcoEnabled && IsInEco(DateTime.Now))
-                Brightness = Math.Min(Brightness, EcoMaxBrightness);
+
+                Brightness = Math.Min(Brightness.Value, EcoMaxBrightness.Value);
 
             if (IsOn && hasValue(TurnedOnAt)) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
         }

@@ -1,6 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
 using BlaisePascal.SmartHouse.Domain.Door.DoorInterfaces;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.Door
 {
@@ -9,7 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.Door
         public bool IsLocked { get; private set; }
         public bool IsOpen { get; private set; }
 
-        public Door(bool isLocked, bool isOpen, string name) : base(name)
+        public Door(bool isLocked, bool isOpen, NameDevice name) : base(name)
         {
             IsLocked = isLocked;
             IsOpen = isOpen;

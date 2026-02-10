@@ -2,6 +2,7 @@
 using System;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using BlaisePascal.SmartHouse.Domain.CCTV.CCTVInterfaces;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 
 namespace BlaisePascal.SmartHouse.Domain.CCTV
@@ -16,7 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
 
         public bool LicensePlateRecognitionEnabled { get; private set; }
 
-        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled, string name) : base(name)
+        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled, NameDevice name) : base(name)
         {
             IsRecording = isRecording;
             Location = location;

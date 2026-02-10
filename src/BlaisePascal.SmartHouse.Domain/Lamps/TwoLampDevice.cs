@@ -1,6 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
 using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
     public sealed class TwoLampDevice : AbstractDevice, IMultipleDevices, I2DevicesDimmable
@@ -20,7 +21,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="name"></param>
         /// <param name="color"></param>
         /// <param name="brightness"></param>
-        public TwoLampDevice(Lamp lamp, EcoLamp ecolamp, string name) : base(name)
+        public TwoLampDevice(Lamp lamp, EcoLamp ecolamp, NameDevice name) : base(name)
         {
            
             Lamp = lamp;

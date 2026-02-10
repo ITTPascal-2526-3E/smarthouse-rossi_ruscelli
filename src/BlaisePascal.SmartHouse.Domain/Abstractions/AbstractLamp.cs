@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 
 namespace BlaisePascal.SmartHouse.Domain.Abstractions
@@ -15,15 +16,15 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
     {
             protected float powerConsumption; // Current power consumption in watts
             protected bool IsOn; // State of the lamp
-            protected int Brightness; // Brightness of ther lamp
+            protected Brightness Brightness; // Brightness of ther lamp
             protected ColorType Color; // Color of the lamp light
-            protected string Name; // Name of the lamp
+            protected NameDevice Name; // Name of the lamp
             protected int MaxConsumption; // Maximum power consumption in watts
             protected LampType lampType;  // type of the lamp
             protected DateTime TurnedOnAt; // Time when the lamp was turned on
             protected DateTime TurnedOffAt; // Time when the lamp was turned off
 
-            public AbstractLamp(bool isOn, string name, ColorType color, int brightness, LampType lampType) : base(name)
+            public AbstractLamp(bool isOn, NameDevice name, ColorType color, Brightness brightness, LampType lampType) : base(name)
         {
 
                 Id = Guid.NewGuid();
@@ -65,9 +66,10 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             {
                 get
                 {
-                    float alpha = lampTypeProperties[lampType].alpha;
+                    int ValueBrightness = Brightness.Value;
+                float alpha = lampTypeProperties[lampType].alpha;
                     if (IsOn == false) return 0;
-                    return MaxConsumption * (Brightness / 100.0f) * alpha;
+                    return MaxConsumption * (ValueBrightness / 100.0f) * alpha;
                 }
 
             }
@@ -131,14 +133,10 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             }
 
             // Change the brightness of the lamp
-            public virtual void ChangeBrightness(int newBrightness)
+            public virtual void ChangeBrightness(Brightness newBrightness)
             {
-                if (newBrightness >= 0 && newBrightness <= 100 && IsOn)
-                {
-                    Brightness = newBrightness;
-                    BrightnessProperty = newBrightness;
-                }
-
+            
+                    Brightness= newBrightness;
             }
 
             // Change the color of the lamp

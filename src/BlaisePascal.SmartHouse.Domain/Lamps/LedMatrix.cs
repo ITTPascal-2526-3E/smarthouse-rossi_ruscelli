@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.Lamps
 {
@@ -15,7 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         private int Height; // Height (number of rows) of the LED matrix
         private Lamp[,] matrix; 
 
-        public LedMatrix(int width, int height, ColorType color, bool isOn, string name, int brightness, LampType lampType) : base(name)
+        public LedMatrix(int width, int height, ColorType color, bool isOn, NameDevice name, Brightness brightness, LampType lampType) : base(name)
         {
            
             Width = width;

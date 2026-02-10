@@ -1,6 +1,7 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using BlaisePascal.SmartHouse.Domain.Interfaces;
 using System;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
@@ -92,7 +93,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, double temperature, HeatPumpMode mode, float costPerKWh, string name) : base(name)
+        public HeatPump(bool isOn, double temperature, HeatPumpMode mode, float costPerKWh, NameDevice name) : base(name)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;

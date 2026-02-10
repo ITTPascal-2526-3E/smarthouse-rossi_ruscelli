@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
 {
@@ -63,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public AirFryer(int temp, int maxTemp, bool isOn, float costPerKWh,string name, Mode Mode) : base(name)
+        public AirFryer(int temp, int maxTemp, bool isOn, float costPerKWh,NameDevice name, Mode Mode) : base(name)
         {
             
             Temp = temp;
