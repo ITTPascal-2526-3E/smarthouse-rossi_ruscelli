@@ -50,7 +50,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
 
                 if (EcoEnabled)
-                    Brightness = Math.Min(Brightness.Value, EcoMaxBrightness.Value); // Apply brightness cap if in Eco
+                    Brightness = new Brightness(Math.Min(Brightness.Value, EcoMaxBrightness.Value)); // Apply brightness cap if in Eco
                 ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
 
             }
@@ -64,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             TurnedOnAt = DateTime.Now;                                                 // registers the moment when the lamp is turned on
                                                                                        // checks if it gets turned on while in eco mode
             if (EcoEnabled)                                                // if it is i enable eco mode
-                Brightness = Math.Min(Brightness, EcoMaxBrightness);
+                Brightness = new Brightness(Math.Min(Brightness.Value, EcoMaxBrightness.Value));
             ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
         }
 
@@ -85,17 +85,15 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="maxBrightness"></param>
-        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, Brightness maxBrightness)
+        public void ChangeEcoMode(bool enebled, TimeOnly start, TimeOnly end, int maxBrightness)
         {
-
             EcoEnabled = enebled;
             EcoStart = start;
             EcoEnd = end;
-            EcoMaxBrightness = maxBrightness;
+            EcoMaxBrightness = new Brightness(maxBrightness);
 
             if (IsOn && EcoEnabled && IsInEco(DateTime.Now))
-
-                Brightness = Math.Min(Brightness.Value, EcoMaxBrightness.Value);
+                Brightness = new Brightness(Math.Min(Brightness.Value, EcoMaxBrightness.Value));
 
             if (IsOn && hasValue(TurnedOnAt)) ScheduledOffAt = ComputeFinalOffInstant(TurnedOnAt);
         }

@@ -1,92 +1,99 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lamps;
-using BlaisePascal.SmartHouse.Domain.AirFryerDevice;
-using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System;
+using BlaisePascal.SmartHouse.Domain.Lamps;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
-
-namespace BlaisePascal.SmartHouse.Domain
+namespace BlaisePascal.SmartHouse.App
 {
     internal static class Program
     {
         private static void Main()
         {
-            // test of lamp class
-            Console.WriteLine("=================================");
-            Lamp lamp1 = new Lamp(false, "Lampada 1", ColorType.CoolWhite, 75, LampType.LED);
-            Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
-            Console.WriteLine($"Name is: {lamp1.NameProperty}");
-            Console.WriteLine($"Color is: {lamp1.ColorProperty}");
-            Console.WriteLine($"Brightness is: {lamp1.BrightnessProperty}");
-            Console.WriteLine($"Lamp type is: {lamp1.LampTypeProperty}");
-            Console.WriteLine($"Power consumption is: {lamp1.PowerConsumption} W");
-            lamp1.TurnOn();
-            
-            lamp1.ChangeColor(ColorType.WarmWhite);
-            Console.WriteLine($"Lamp is on: {lamp1.IsOnProperty}");
-            Console.WriteLine($"Name is: {lamp1.NameProperty}");
-            Console.WriteLine($"Color is: {lamp1.ColorProperty}");
-            Console.WriteLine($"Brightness is: {lamp1.BrightnessProperty}");
-            Console.WriteLine($"Lamp type is: {lamp1.LampTypeProperty}");
-            Console.WriteLine($"Power consumption is: {lamp1.PowerConsumption} W");
-            lamp1.TurnOff();
-            //test of ecolamp class
-            Console.WriteLine("=================================");
-            EcoLamp ecoLamp1 = new EcoLamp(false, "EcoLamp 1", ColorType.WarmWhite, 60, LampType.CFL);
-            Console.WriteLine($"EcoLamp is on: {ecoLamp1.IsOnProperty}");
-            Console.WriteLine($"Name is: {ecoLamp1.NameProperty}");
-            Console.WriteLine($"Color is: {ecoLamp1.ColorProperty}");
-            Console.WriteLine($"Brightness is: {ecoLamp1.BrightnessProperty}");
-            Console.WriteLine($"Lamp type is: {ecoLamp1.LampTypeProperty}");
-            Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
-            TimeSpan defaultAutoOff = TimeSpan.FromMinutes(120);
-            TimeSpan ecoAutoOff = TimeSpan.FromMinutes(60);
-            ecoLamp1.ChangeTimers(defaultAutoOff, ecoAutoOff);
-            bool enebleEcoMode = true;
-            TimeOnly start = new TimeOnly(18, 0);
-            TimeOnly end = new TimeOnly(13, 0);
-            int maxEcoBrightness = 50;
-            ecoLamp1.ChangeEcoMode(enebleEcoMode, start, end, maxEcoBrightness);
-            ecoLamp1.TurnOnEco();
+            var lamp = new Lamp(false, new NameDevice("Living Lamp"), ColorType.Daylight, new Brightness(75), LampType.LED);
 
-            Console.WriteLine($"Brightness is: {ecoLamp1.BrightnessProperty}");
-            Console.WriteLine($"Power consumption is: {ecoLamp1.PowerConsumption} W");
-            Console.WriteLine($"Auto-off scheduled at: {ecoLamp1.ScheduledOffAt}");
-            ecoLamp1.TurnOff();
+            // No repository used; operate on the lamp in-memory without persistence.
 
-            // test of AirFryer class
-            Console.WriteLine("=================================");
-            Console.WriteLine("AirFryer test:");
+            while (true)
+            {
+                Console.Clear();
+                PrintLampStatus(lamp);
 
-            // create an AirFryer instance and initialize (turned off initially)
-            AirFryer airFryer = new AirFryer(0, 200, false, 10000.0f, "prova", Mode.baking);
-           
+                Console.WriteLine("Commands:");
+                Console.WriteLine("1) Turn On");
+                Console.WriteLine("2) Turn Off");
+                Console.WriteLine("3) Change Brightness");
+                Console.WriteLine("4) Change Color");
+                Console.WriteLine("5) Change Lamp Type");
+                Console.WriteLine("X) Exit");
+                Console.Write("Choose: ");
 
-            // set the mode and turn the air fryer on
-            airFryer.SelectMode(Mode.dehydrate);
-            airFryer.TurnOn();
+                var input = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(input)) continue;
+                if (input.Equals("X", StringComparison.OrdinalIgnoreCase)) break;
 
-            Console.WriteLine("AirFryer turned on. Simulating 5 seconds of runtime...");
-            Thread.Sleep(5000); // simulate the air fryer being on for 5 seconds
+                switch (input.Trim())
+                {
+                    case "1":
+                        lamp.TurnOn();
+                        Console.WriteLine("Lamp turned on.");
+                        break;
+                    case "2":
+                        lamp.TurnOff();
+                        Console.WriteLine("Lamp turned off.");
+                        break;
+                    case "3":
+                        Console.Write("Enter brightness (0-100): ");
+                        if (int.TryParse(Console.ReadLine(), out var b))
+                        {
+                            lamp.ChangeBrightness(new Brightness(b));
+                            Console.WriteLine($"Brightness set to {lamp.BrightnessProperty}.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid brightness.");
+                        }
+                        break;
+                    case "4":
+                        Console.WriteLine("Available colors: " + string.Join(", ", Enum.GetNames(typeof(ColorType))));
+                        Console.Write("Enter color: ");
+                        var col = Console.ReadLine();
+                        if (Enum.TryParse<ColorType>(col, true, out var ct))
+                        {
+                            lamp.ChangeColor(ct);
+                            Console.WriteLine($"Color set to {lamp.ColorProperty}.");
+                        }
+                        else Console.WriteLine("Invalid color.");
+                        break;
+                    case "5":
+                        Console.WriteLine("Available lamp types: " + string.Join(", ", Enum.GetNames(typeof(LampType))));
+                        Console.Write("Enter lamp type: ");
+                        var lt = Console.ReadLine();
+                        if (Enum.TryParse<LampType>(lt, true, out var ltype))
+                        {
+                            lamp.ChangeLampType(ltype);
+                            Console.WriteLine($"Lamp type set to {lamp.LampTypeProperty}.");
+                        }
+                        else Console.WriteLine("Invalid lamp type.");
+                        break;
+                    default:
+                        Console.WriteLine("Unknown command.");
+                        break;
+                }
 
-            // turn off the air fryer (records the turn-off time internally)
-            airFryer.TurnOff();
+                Console.WriteLine("\nPress Enter to continue...");
+                Console.ReadLine();
+            }
+        }
 
-            // display state and usage data
-            Console.WriteLine($"AirFryer is on: {airFryer.IsOnProperty}");
-            TimeSpan time = airFryer.TimeOn();
-            Console.WriteLine($"Time on: {time:hh\\:mm\\:ss}"); // to take only secondsss
-
-            // calculate consumption and cost
-            double wh = airFryer.ConsumptionWattHours();
-            double kwh = airFryer.ConsumptionKiloWattHours();
-            double cost = airFryer.CostOfConsumption();
-
-            Console.WriteLine($"Consumption (Wh): {wh:F2}");
-            Console.WriteLine($"Consumption (kWh): {kwh:F4}");
-            Console.WriteLine($"Estimated cost: {cost:C}");
-
-
+        private static void PrintLampStatus(Lamp lamp)
+        {
+            Console.WriteLine("=== Lamp status ===");
+            Console.WriteLine($"Name: {lamp.NameProperty}");
+            Console.WriteLine($"Is On: {lamp.IsOnProperty}");
+            Console.WriteLine($"Brightness: {lamp.BrightnessProperty}");
+            Console.WriteLine($"Color: {lamp.ColorProperty}");
+            Console.WriteLine($"Lamp Type: {lamp.LampTypeProperty}");
+            Console.WriteLine($"Power Consumption: {lamp.PowerConsumption} W");
+            Console.WriteLine("====================\n");
         }
     }
 }

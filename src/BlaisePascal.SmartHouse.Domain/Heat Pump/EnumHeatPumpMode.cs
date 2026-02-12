@@ -1,5 +1,4 @@
-﻿using BlaisePascal.SmartHouse.Domain.AirFryer;
-using System;
+﻿using System;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {

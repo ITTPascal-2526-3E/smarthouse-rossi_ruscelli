@@ -44,9 +44,9 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 // synchronize public properties with internal fields so tests and callers see consistent state
                 LampTypeProperty = lampType;
                 IsOnProperty = isOn;
-                BrightnessProperty = brightness;
+                BrightnessProperty = brightness.Value;
                 ColorProperty = color;
-                NameProperty = name;
+                NameProperty = name.Value;
             }
 
             private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
@@ -152,5 +152,12 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 LampTypeProperty = newLampType;
                 MaxConsumption = GetMaxConsumption(newLampType); // aggiungi questa linea
             }
+
+            // Implementazione esplicita del metodo richiesto dall'interfaccia IDimmable
+public void ChangeBrightness(int brightness)
+{
+    ChangeBrightness(new Brightness(brightness));
+}
+
         }
 }
