@@ -150,14 +150,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             {
                 lampType = newLampType;
                 LampTypeProperty = newLampType;
-                MaxConsumption = GetMaxConsumption(newLampType); // aggiungi questa linea
+                MaxConsumption = GetMaxConsumption(newLampType);
             }
-
-            // Implementazione esplicita del metodo richiesto dall'interfaccia IDimmable
-public void ChangeBrightness(int brightness)
-{
-    ChangeBrightness(new Brightness(brightness));
-}
-
         }
 }

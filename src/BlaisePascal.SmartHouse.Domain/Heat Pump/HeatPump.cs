@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
     public sealed class HeatPump : AbstractDevice,IHeatPump, ITemperatureAdjustable
     {
         private bool IsOn; // State of the heat pump
-        private double Temperature; // Current temperature of the heat pump
+        private TemperatureDevice Temperature; // Current temperature of the heat pump
         public HeatPumpMode Mode { get; private set; }
         // removed unused CurrentConsumption field
         private float CostPerKWh; // Cost per kWh in currency unit
@@ -17,14 +17,14 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// Dizionario che contiene per ogni modalità i consumi massimo e minimo.
         /// (min = mantenimento temperatura, max = riscaldamento o raffrescamento attivo)
         /// </summary>
-        private static readonly Dictionary<HeatPumpMode, (int maxConsumption, int minConsumption, int minTemperature, int maxTemperature)> ModeProperties = new()
+        private static readonly Dictionary<HeatPumpMode, (int maxConsumption, int minConsumption, TemperatureDevice minTemperature, TemperatureDevice maxTemperature)> ModeProperties = new()
         {
-            { HeatPumpMode.Heating,  (2500, 1200, 16, 30) },
-            { HeatPumpMode.Cooling,  (2200, 1000, 16 , 3) },
-            { HeatPumpMode.HotWater, (2000,  800, 16 , 30) },
-            { HeatPumpMode.Eco,      (1500,  700, 16 , 30) },
-            { HeatPumpMode.Comfort,  (2600, 1500, 16 , 30) },
-            { HeatPumpMode.Auto,     (2300, 1000, 16 , 30) }
+            { HeatPumpMode.Heating,  (2500, 1200, new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Cooling,  (2200, 1000, new TemperatureDevice(16), new TemperatureDevice(3)) },
+            { HeatPumpMode.HotWater, (2000,  800, new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Eco,      (1500,  700, new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Comfort,  (2600, 1500,new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Auto,     (2300, 1000, new TemperatureDevice(16), new TemperatureDevice(30)) }
         };
         public int GetMaxConsumption()
         {
@@ -35,11 +35,11 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         {
             return ModeProperties[Mode].minConsumption;
         }
-        public int GetminTemperature()
+        public TemperatureDevice GetminTemperature()
         {
             return ModeProperties[Mode].minTemperature;
         }
-        public int GetmaxTemperature()
+        public TemperatureDevice GetmaxTemperature()
         {
             return ModeProperties[Mode].maxTemperature;
         }
@@ -48,14 +48,14 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// Property heat pump.
         /// </summary>
         public bool IsOnProperty { get; private set; }
-        public double TemperatureProperty
+        public TemperatureDevice TemperatureProperty
         {
             get { return Temperature; }
             set
             {
-                int minTemp = GetminTemperature();
-                int maxTemp = GetmaxTemperature();
-                if (value >= minTemp && value <= maxTemp)
+                TemperatureDevice minTemp = GetminTemperature();
+                TemperatureDevice maxTemp = GetmaxTemperature();
+                if (value.Value >= minTemp.Value && value.Value <= maxTemp.Value)
                 {
                     Temperature = value;
                 }
@@ -74,7 +74,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
                 int minConsumption = GetMinConsumption();
                 if (IsOn)
                 {
-                    double currentConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature;
+                    double currentConsumption = minConsumption + (maxConsumption - minConsumption) * Temperature.Value;
                     return currentConsumption;
                 }
                 else
@@ -93,7 +93,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, double temperature, HeatPumpMode mode, float costPerKWh, NameDevice name) : base(name)
+        public HeatPump(bool isOn, TemperatureDevice temperature, HeatPumpMode mode, float costPerKWh, NameDevice name) : base(name)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
@@ -121,11 +121,11 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         {
             Mode = newMode;
         }
-        public void SetTemp(int newTemperature)
+        public void SetTemp(TemperatureDevice newTemperature)
         {
-            int minTemp = GetminTemperature();
-            int maxTemp = GetmaxTemperature();
-            if (newTemperature >= minTemp && newTemperature <= maxTemp)
+            TemperatureDevice minTemp = GetminTemperature();
+            TemperatureDevice maxTemp = GetmaxTemperature();
+            if (newTemperature.Value >= minTemp.Value && newTemperature.Value <= maxTemp.Value)
             {
                 Temperature = newTemperature;
             }

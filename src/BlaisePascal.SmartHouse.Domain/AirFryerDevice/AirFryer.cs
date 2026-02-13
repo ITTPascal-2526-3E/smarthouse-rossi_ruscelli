@@ -42,8 +42,8 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// properties
         /// </summary>
         public int MinConsumptionProperty { get; private set; } // ok
-        public int TempProperty { get; private set; }    //ok
-        public int MaxTempProperty { get; private set; } // ok
+        public TemperatureDevice TempProperty { get; private set; }    //ok
+        public TemperatureDevice MaxTempProperty { get; private set; } // ok
         public int MaxConsumptionProperty { get; private set; }    // ok
         public float CostPerKWhProperty { get; private set; }    // ok
         public DateTime TurnedOnAtProperty { get; private set; }  //ok
@@ -64,12 +64,12 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public AirFryer(int temp, int maxTemp, bool isOn, float costPerKWh,NameDevice name, Mode Mode) : base(name)
+        public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, float costPerKWh,NameDevice name, Mode Mode) : base(name)
         {
             
-            Temp = temp;
+            Temp = temp.Value;
             mode = Mode;
-            MaxTemp = maxTemp;
+            Temp = maxTemp.Value;
             bool IsOn = isOn;
             CostPerKWh = costPerKWh;
             if (IsOn)
@@ -92,11 +92,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
             return ModeProperties[mode].minConsumption;
         }
 
-        public void SetTemp(int temp)
+        public void SetTemp(TemperatureDevice temp)
         {
             if (IsOn)
             {
-                MaxTemp = temp;
+                MaxTemp= temp.Value;
             }
             else
             {
@@ -239,7 +239,5 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
             double kWh = ConsumptionKiloWattHours();
             return kWh * CostPerKWh;
         }
-
-
     }
 }
