@@ -22,7 +22,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         private DateTime TurnedOnAt;
         private DateTime TurnedOffAt;
         private DateTime AutoTurnOffAt;
-        private float CostPerKWh;
+        private CostPerKWh CostPerKWh;
         private Mode mode;
         /// <summary>
         /// dictionary that contains the max and min consumption for each mode (min consumption is when the airfryer is maintaining the temperature, max when heating)
@@ -45,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         public TemperatureDevice TempProperty { get; private set; }    //ok
         public TemperatureDevice MaxTempProperty { get; private set; } // ok
         public ConsumptionDevice MaxConsumptionProperty { get; private set; }    // ok
-        public float CostPerKWhProperty { get; private set; }    // ok
+        public CostPerKWh CostPerKWhProperty { get; private set; }    // ok
         public DateTime TurnedOnAtProperty { get; private set; }  //ok
         public DateTime TurnedOffAtProperty { get; private set; }  //ok
         public DateTime AutoTurnOffAtProperty { get; private set; }  //ok
@@ -64,7 +64,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, float costPerKWh,NameDevice name, Mode Mode) : base(name)
+        public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh,NameDevice name, Mode Mode) : base(name)
         {
             
             Temp = temp;
@@ -104,7 +104,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
             }
         }
 
-        public void ChangeCost(float cost)
+        public void ChangeCost(CostPerKWh cost)
         {
             CostPerKWh = cost;
         }
@@ -238,7 +238,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         public double CostOfConsumption()
         {
             double kWh = ConsumptionKiloWattHours();
-            return kWh * CostPerKWh;
+            return kWh * CostPerKWh.Value;
         }
     }
 }

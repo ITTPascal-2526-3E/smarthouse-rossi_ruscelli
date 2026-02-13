@@ -45,7 +45,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             }
             if (EcoLamp.IsInEco(DateTime.Now))
             {
-                if (Lamp.BrightnessProperty > EcoLamp.EcoMaxBrightnessProperty.Value)
+                if (Lamp.BrightnessProperty.Value > EcoLamp.EcoMaxBrightnessProperty.Value)
                 {  return; }
             }
 

@@ -11,7 +11,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         private TemperatureDevice Temperature; // Current temperature of the heat pump
         public HeatPumpMode Mode { get; private set; }
         // removed unused CurrentConsumption field
-        private float CostPerKWh; // Cost per kWh in currency unit
+        private CostPerKWh CostPerKWh; // Cost per kWh in currency unit
 
         /// <summary>
         /// Dizionario che contiene per ogni modalità i consumi massimo e minimo.
@@ -84,7 +84,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
                 }
             }
         }
-        public float CostPerKWhProperty
+        public CostPerKWh CostPerKWhProperty
         {
             get { return CostPerKWh; }
             set { CostPerKWh = value; }
@@ -93,7 +93,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// <summary>
         /// Constructor for HeatPump class
         /// </summary>
-        public HeatPump(bool isOn, TemperatureDevice temperature, HeatPumpMode mode, float costPerKWh, NameDevice name) : base(name)
+        public HeatPump(bool isOn, TemperatureDevice temperature, HeatPumpMode mode, CostPerKWh costPerKWh, NameDevice name) : base(name)
         {
             Id = Guid.NewGuid();
             IsOn = isOn;

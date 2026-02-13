@@ -12,20 +12,20 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
     public sealed class LedMatrix : AbstractDevice, IMultipleDevices, IMultipleDevicesDimmable, ILedMatrix
     {
         
-        private int Width; // Width (number of columns) of the LED matrix
-        private int Height; // Height (number of rows) of the LED matrix
+        private Width Width; // Width (number of columns) of the LED matrix
+        private Height Height; // Height (number of rows) of the LED matrix
         private Lamp[,] matrix; 
 
-        public LedMatrix(int width, int height, ColorType color, bool isOn, NameDevice name, Brightness brightness, LampType lampType) : base(name)
+        public LedMatrix(Width width, Height height, ColorType color, bool isOn, NameDevice name, Brightness brightness, LampType lampType) : base(name)
         {
            
             Width = width;
             Height = height;
             // initialize matrix with default Lamps (turned off, 0 brightness) so methods can be used safely
-            matrix = new Lamp[Height, Width];
-            for (int r = 0; r < Height; r++)
+            matrix = new Lamp[((int)(Height.Value)), ((int)(Width.Value))];
+            for (int r = 0; r < Height.Value; r++)
             {
-                for (int c = 0; c < Width; c++)
+                for (int c = 0; c < Width.Value; c++)
                 {
                     matrix[r, c] = new Lamp(isOn, name, color, brightness, lampType);
                 }
@@ -37,10 +37,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
         public void TurnOnAll()
         {
-          
-            for (int i = 0; i < Height; i++)
+
+            for (int i = 0; i < Height.Value; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < Width.Value; j++)
                 {
                     matrix[i, j].TurnOn();
                 }
@@ -48,25 +48,25 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         }
         public void TurnOffAll()
         {
-           
-            for (int i = 0; i < Height; i++)
+
+            for (int i = 0; i < Height.Value; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < Width.Value; j++)
                 {
                     matrix[i, j].TurnOff();
                 }
             }
         }
 
-        public void SetSameBrightness(int brightness)
+        public void SetSameBrightness(Brightness brightness)
         {
-            if(brightness < 0 || brightness > 100)
+            if(brightness.Value < 0 || brightness.Value > 100)
             {
                 return;
             }
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < Height.Value; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < Width.Value; j++)
                 {
                     matrix[i, j].ChangeBrightness(brightness);
                 }
@@ -79,8 +79,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         }
         public Lamp[] GetLampsInRow(int row)
         {
-            Lamp[] lampsInRow = new Lamp[Width];
-            for (int j = 0; j < Width; j++)
+            Lamp[] lampsInRow = new Lamp[((int)Width.Value)];
+            for (int j = 0; j < Width.Value; j++)
             {
                 lampsInRow[j] = matrix[row, j];
             }
@@ -88,8 +88,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         }
         public Lamp[] GetLampsInColumn(int column)
         {
-            Lamp[] lampsInColumn = new Lamp[Height];
-            for (int i = 0; i < Height; i++)
+            Lamp[] lampsInColumn = new Lamp[((int)Height.Value)];
+            for (int i = 0; i < Height.Value; i++)
             {
                 lampsInColumn[i] = matrix[i, column];
             }

@@ -11,13 +11,13 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
     {
         public bool IsOn { get; private set; }
         public bool IsRecording { get; private set; }
-        public string Location { get; private set; }
+        public Location Location { get; private set; }
 
-        public string[] LicensePlateEnebled { get; private set; }
+        public LicensePlate[] LicensePlateEnebled { get; private set; }
 
         public bool LicensePlateRecognitionEnabled { get; private set; }
 
-        public CCTV(bool isRecording, string location, bool licensePlateRecognitionEnabled, string[] licensePlateEnebled, NameDevice name) : base(name)
+        public CCTV(bool isRecording, Location location, bool licensePlateRecognitionEnabled, LicensePlate[] licensePlateEnebled, NameDevice name) : base(name)
         {
             IsRecording = isRecording;
             Location = location;
@@ -42,12 +42,12 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
             IsRecording = false;
         }
 
-        public void EnableLicensePlateRecognition(string licensePlate)
+        public void EnableLicensePlateRecognition(LicensePlate licensePlate)
         {
             LicensePlateRecognitionEnabled = false;
             for (int i = 0; i < LicensePlateEnebled.Length; i++)
             {
-                if (LicensePlateEnebled[i] == licensePlate)
+                if (LicensePlateEnebled[i].Number == licensePlate.Number)
                 {
                     LicensePlateRecognitionEnabled = true;
                     break;

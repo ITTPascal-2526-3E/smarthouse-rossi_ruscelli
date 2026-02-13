@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces
 {
     public interface IMultipleDevicesDimmable
     {
-        void SetSameBrightness(int brightness);
+        void SetSameBrightness(Brightness brightness);
     }
 }

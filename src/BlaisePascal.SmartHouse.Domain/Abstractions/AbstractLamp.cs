@@ -14,12 +14,12 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
     
         public abstract class AbstractLamp : AbstractDevice, Iswitch, IDimmable, IColorChange, IChangeLampType
     {
-            protected float powerConsumption; // Current power consumption in watts
+            protected ConsumptionDevice powerConsumption; // Current power consumption in watts
             protected bool IsOn; // State of the lamp
             protected Brightness Brightness; // Brightness of ther lamp
             protected ColorType Color; // Color of the lamp light
             protected NameDevice Name; // Name of the lamp
-            protected int MaxConsumption; // Maximum power consumption in watts
+            protected ConsumptionDevice MaxConsumption; // Maximum power consumption in watts
             protected LampType lampType;  // type of the lamp
             protected DateTime TurnedOnAt; // Time when the lamp was turned on
             protected DateTime TurnedOffAt; // Time when the lamp was turned off
@@ -44,7 +44,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 // synchronize public properties with internal fields so tests and callers see consistent state
                 LampTypeProperty = lampType;
                 IsOnProperty = isOn;
-                BrightnessProperty = brightness.Value;
+                BrightnessProperty = brightness;
                 ColorProperty = color;
                 NameProperty = name.Value;
             }
@@ -69,7 +69,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                     int ValueBrightness = Brightness.Value;
                 float alpha = lampTypeProperties[lampType].alpha;
                     if (IsOn == false) return 0;
-                    return MaxConsumption * (ValueBrightness / 100.0f) * alpha;
+                    return MaxConsumption.Consumption * (ValueBrightness / 100.0f) * alpha;
                 }
 
             }
@@ -83,15 +83,15 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             /// <param name="brightness"></param>
 
 
-            public static int GetConsumption(LampType lampType)
+            public static ConsumptionDevice GetConsumption(LampType lampType)
             {
-                return lampTypeProperties[lampType].maxConsumption.Consumption;
+                return lampTypeProperties[lampType].maxConsumption;
             }
 
             // Added to match usage in tests and other classes
-            public static int GetMaxConsumption(LampType lampType)
+            public static ConsumptionDevice GetMaxConsumption(LampType lampType)
             {
-                return lampTypeProperties[lampType].maxConsumption.Consumption;
+                return lampTypeProperties[lampType].maxConsumption;
             }
 
             public static float GetAlpha(LampType lampType)
@@ -106,7 +106,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
 
             public bool IsOnProperty { get; private set; }
 
-            public int BrightnessProperty { get; private set; }
+            public Brightness BrightnessProperty { get; private set; }
 
             public ColorType ColorProperty { get; private set; }
             public string NameProperty { get; set; }
