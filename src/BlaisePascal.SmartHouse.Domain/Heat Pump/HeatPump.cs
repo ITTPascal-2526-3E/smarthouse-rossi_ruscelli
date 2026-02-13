@@ -17,23 +17,23 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         /// Dizionario che contiene per ogni modalità i consumi massimo e minimo.
         /// (min = mantenimento temperatura, max = riscaldamento o raffrescamento attivo)
         /// </summary>
-        private static readonly Dictionary<HeatPumpMode, (int maxConsumption, int minConsumption, TemperatureDevice minTemperature, TemperatureDevice maxTemperature)> ModeProperties = new()
+        private static readonly Dictionary<HeatPumpMode, (ConsumptionDevice maxConsumption, ConsumptionDevice minConsumption, TemperatureDevice minTemperature, TemperatureDevice maxTemperature)> ModeProperties = new()
         {
-            { HeatPumpMode.Heating,  (2500, 1200, new TemperatureDevice(16), new TemperatureDevice(30)) },
-            { HeatPumpMode.Cooling,  (2200, 1000, new TemperatureDevice(16), new TemperatureDevice(3)) },
-            { HeatPumpMode.HotWater, (2000,  800, new TemperatureDevice(16), new TemperatureDevice(30)) },
-            { HeatPumpMode.Eco,      (1500,  700, new TemperatureDevice(16), new TemperatureDevice(30)) },
-            { HeatPumpMode.Comfort,  (2600, 1500,new TemperatureDevice(16), new TemperatureDevice(30)) },
-            { HeatPumpMode.Auto,     (2300, 1000, new TemperatureDevice(16), new TemperatureDevice(30)) }
+            { HeatPumpMode.Heating,  (new ConsumptionDevice(2500), new ConsumptionDevice(1200), new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Cooling,  (new ConsumptionDevice(2200), new ConsumptionDevice(1000), new TemperatureDevice(16), new TemperatureDevice(3)) },
+            { HeatPumpMode.HotWater, (new ConsumptionDevice(2000) , new ConsumptionDevice(800), new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Eco,      (new ConsumptionDevice(1500) , new ConsumptionDevice(700), new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Comfort,  (new ConsumptionDevice(2600) , new ConsumptionDevice(1500),new TemperatureDevice(16), new TemperatureDevice(30)) },
+            { HeatPumpMode.Auto,     (new ConsumptionDevice(2300) , new ConsumptionDevice(1000), new TemperatureDevice(16), new TemperatureDevice(30)) }
         };
         public int GetMaxConsumption()
         {
-            return ModeProperties[Mode].maxConsumption;
+            return ModeProperties[Mode].maxConsumption.Consumption;
         }
 
         public int GetMinConsumption()
         {
-            return ModeProperties[Mode].minConsumption;
+            return ModeProperties[Mode].minConsumption.Consumption;
         }
         public TemperatureDevice GetminTemperature()
         {

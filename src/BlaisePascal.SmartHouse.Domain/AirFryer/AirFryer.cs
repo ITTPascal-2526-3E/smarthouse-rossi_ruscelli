@@ -13,11 +13,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
     public sealed class AirFryer : AbstractDevice, IAirFryer, IModeSelectable
     {
        
-        private int Temp;
-        private int MaxTemp;
-        private int MaxConsumption;
-        private int MinConsumption;
-        private int CurrentConsumption;
+        private TemperatureDevice Temp;
+        private TemperatureDevice MaxTemp;
+        private ConsumptionDevice MaxConsumption;
+        private ConsumptionDevice MinConsumption;
+        private ConsumptionDevice CurrentConsumption;
         private bool IsOn;
         private DateTime TurnedOnAt;
         private DateTime TurnedOffAt;
@@ -27,30 +27,30 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <summary>
         /// dictionary that contains the max and min consumption for each mode (min consumption is when the airfryer is maintaining the temperature, max when heating)
         /// </summary>
-        private static readonly Dictionary<Mode, (int maxConsumption, int minConsumption)> ModeProperties = new()
+        private static readonly Dictionary<Mode, (ConsumptionDevice maxConsumption, ConsumptionDevice minConsumption)> ModeProperties = new()
         {
-            { Mode.frying, (1500, 800) },
-            { Mode.baking, (1500, 700) },
-            { Mode.grill, (1500, 900) },
-            { Mode.reheat, (1500, 600) },
-            { Mode.dehydrate, (1500, 250) },
-            { Mode.toast, (1500, 900) }
+            { Mode.frying, (new ConsumptionDevice(1500), new ConsumptionDevice(800)) },
+            { Mode.baking, (new ConsumptionDevice(1500), new ConsumptionDevice(700)) },
+            { Mode.grill, (new ConsumptionDevice(1500), new ConsumptionDevice(900)) },
+            { Mode.reheat, (new ConsumptionDevice(1500), new ConsumptionDevice(600)) },
+            { Mode.dehydrate, (new ConsumptionDevice(1500), new ConsumptionDevice(250)) },
+            { Mode.toast, (new ConsumptionDevice(1500), new ConsumptionDevice(900)) }
         };
 
 
         /// <summary>
         /// properties
         /// </summary>
-        public int MinConsumptionProperty { get; private set; } // ok
+        public ConsumptionDevice MinConsumptionProperty { get; private set; } // ok
         public TemperatureDevice TempProperty { get; private set; }    //ok
         public TemperatureDevice MaxTempProperty { get; private set; } // ok
-        public int MaxConsumptionProperty { get; private set; }    // ok
+        public ConsumptionDevice MaxConsumptionProperty { get; private set; }    // ok
         public float CostPerKWhProperty { get; private set; }    // ok
         public DateTime TurnedOnAtProperty { get; private set; }  //ok
         public DateTime TurnedOffAtProperty { get; private set; }  //ok
         public DateTime AutoTurnOffAtProperty { get; private set; }  //ok
         public bool IsOnProperty { get; private set; }   //ok
-        public int CurrentConsumptionProperty { get; private set; }   //ok
+        public ConsumptionDevice CurrentConsumptionProperty { get; private set; }   //ok
         public Mode ModeProperty { get; private set; }   //ok
 
 
@@ -67,9 +67,9 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, float costPerKWh,NameDevice name, Mode Mode) : base(name)
         {
             
-            Temp = temp.Value;
+            Temp = temp;
             mode = Mode;
-            Temp = maxTemp.Value;
+            Temp = maxTemp;
             bool IsOn = isOn;
             CostPerKWh = costPerKWh;
             if (IsOn)
@@ -85,18 +85,18 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <returns></returns>
         public int GetMaxConsumption()
         {
-            return ModeProperties[mode].maxConsumption;
+            return ModeProperties[mode].maxConsumption.Consumption;
         }
         public float GetMinConspumption()
         {
-            return ModeProperties[mode].minConsumption;
+            return ModeProperties[mode].minConsumption.Consumption;
         }
 
         public void SetTemp(TemperatureDevice temp)
         {
             if (IsOn)
             {
-                MaxTemp= temp.Value;
+                MaxTemp= temp;
             }
             else
             {
@@ -117,11 +117,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         {
             if (IsOn && Temp == MaxTemp)
             {
-                return MinConsumption;
+                return MinConsumption.Consumption;
             }
-            else if (IsOn && Temp < MaxTemp)
+            else if (IsOn && Temp.Value < MaxTemp.Value)
             {
-                return MaxConsumption;
+                return MaxConsumption.Consumption;
             }
             return 0;
         }
@@ -149,7 +149,8 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
             {
                 IsOn = false;
                 TurnedOffAt = DateTime.Now;
-                Temp = 0;
+                TemperatureDevice NewTemp = new TemperatureDevice(0);
+                SetTemp(NewTemp);
             }
 
         }
@@ -165,7 +166,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         {
             if (IsOn)
             {
-                (int maxConsumption, int minConsumption) = ModeProperties[mode];
+                (ConsumptionDevice maxConsumption, ConsumptionDevice minConsumption) = ModeProperties[mode];
                 // assign to instance fields so subsequent calculations use them
                 MaxConsumption = maxConsumption;
                 MinConsumption = minConsumption;
@@ -218,7 +219,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         public double ConsumptionWattHours()
         {
             // get the min consumption based on the mode
-            int min = ModeProperties[mode].minConsumption;
+            int min = ModeProperties[mode].minConsumption.Consumption;
 
             TimeSpan timeOn = TimeOn();
             double hours = timeOn.TotalHours;

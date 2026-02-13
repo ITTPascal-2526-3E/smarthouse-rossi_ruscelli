@@ -8,7 +8,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions.VO
 {
     public sealed class TemperatureDevice
     {
-        public int Value { get; }
+        public int Value { get; private set; } // Temperature in degrees Celsius
         public TemperatureDevice(int value) { 
             if (value < -50 || value > 250)
             {

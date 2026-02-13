@@ -49,16 +49,16 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                 NameProperty = name.Value;
             }
 
-            private static readonly Dictionary<LampType, (int maxConsumption, float alpha)> lampTypeProperties = new()
+            private static readonly Dictionary<LampType, (ConsumptionDevice maxConsumption, float alpha)> lampTypeProperties = new()
         {
-            { LampType.LED, (25, 0.2f) },
-            { LampType.CFL, (40, 0.4f) },
-            { LampType.Halogen, (150, 0.8f) },
-            { LampType.Incandescent, (300, 1.0f) },
-            { LampType.FluorescentLinear, (80, 0.35f) },
-            { LampType.HighPressureSodium, (400, 0.25f) },
-            { LampType.Induction, (200, 0.30f) },
-            { LampType.VintageLED, (10, 0.25f) }
+            { LampType.LED, (new ConsumptionDevice(25), 0.2f) },
+            { LampType.CFL, (new ConsumptionDevice(40), 0.4f) },
+            { LampType.Halogen, (new ConsumptionDevice(150), 0.8f) },
+            { LampType.Incandescent, (new ConsumptionDevice(300), 1.0f) },
+            { LampType.FluorescentLinear, (new ConsumptionDevice(80), 0.35f) },
+            { LampType.HighPressureSodium, (new ConsumptionDevice(400), 0.25f) },
+            { LampType.Induction, (new ConsumptionDevice(200), 0.30f) },
+            { LampType.VintageLED, (new ConsumptionDevice(10), 0.25f) }
         };
 
 
@@ -85,13 +85,13 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
 
             public static int GetConsumption(LampType lampType)
             {
-                return lampTypeProperties[lampType].maxConsumption;
+                return lampTypeProperties[lampType].maxConsumption.Consumption;
             }
 
             // Added to match usage in tests and other classes
             public static int GetMaxConsumption(LampType lampType)
             {
-                return lampTypeProperties[lampType].maxConsumption;
+                return lampTypeProperties[lampType].maxConsumption.Consumption;
             }
 
             public static float GetAlpha(LampType lampType)

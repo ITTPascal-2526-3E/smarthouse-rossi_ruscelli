@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Devices\CCTV\" />
+    <Folder Include="Devices\Door\" />
+    <Folder Include="Devices\HeatPump\" />
+    <Folder Include="Devices\Lamps\" />
+    <Folder Include="Devices\AirFryer\" />
+  </ItemGroup>
+
+</Project>
