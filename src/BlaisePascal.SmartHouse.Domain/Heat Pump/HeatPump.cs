@@ -5,7 +5,7 @@ using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
 {
-    public sealed class HeatPump : AbstractDevice,IHeatPump, ITemperatureAdjustable
+    public sealed class HeatPump : AbstractDevice, IHeatPump, ITemperatureAdjustable
     {
         private bool IsOn; // State of the heat pump
         private TemperatureDevice Temperature; // Current temperature of the heat pump
