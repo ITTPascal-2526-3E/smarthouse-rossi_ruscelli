@@ -10,8 +10,10 @@
     <Folder Include="Devices\CCTV\" />
     <Folder Include="Devices\Door\" />
     <Folder Include="Devices\HeatPump\" />
-    <Folder Include="Devices\Lamps\" />
     <Folder Include="Devices\AirFryer\" />
+    <Folder Include="Devices\Lightning\Lamps\Dto\" />
+    <Folder Include="Devices\Lightning\Lamps\Mappers\" />
+    <Folder Include="Devices\Lightning\Lamps\Validations\" />
   </ItemGroup>
 
 </Project>
