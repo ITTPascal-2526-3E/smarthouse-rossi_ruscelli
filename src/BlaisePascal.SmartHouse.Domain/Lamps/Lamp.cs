@@ -16,5 +16,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
             MaxConsumption = GetMaxConsumption(lampType);
         }
+
+
     }
 }

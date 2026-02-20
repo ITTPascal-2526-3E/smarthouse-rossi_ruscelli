@@ -17,6 +17,7 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         Yellow,
         Purple,
         Orange,
-        Pink
+        Pink,
+        White
     }
 }

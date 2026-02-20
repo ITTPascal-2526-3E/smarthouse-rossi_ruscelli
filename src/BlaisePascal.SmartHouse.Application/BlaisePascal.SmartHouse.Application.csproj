@@ -16,4 +16,8 @@
     <Folder Include="Devices\Lightning\Lamps\Validations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlaisePascal.SmartHouse.Domain\BlaisePascal.SmartHouse.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

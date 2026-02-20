@@ -14,6 +14,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Domain.UnitTest", "test\BlaisePascal.SmartHouse.Domain.UnitTest\BlaisePascal.SmartHouse.Domain.UnitTest.csproj", "{932EFECC-6F5D-45A2-AFC0-66B5080B18AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlaisePascal.SmartHouse.Application", "src\BlaisePascal.SmartHouse.Application\BlaisePascal.SmartHouse.Application.csproj", "{6005ED41-9348-4029-8E2F-AB6960989859}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8F177643-AA2F-4A0C-B925-ED31E2BF00C5} = {8F177643-AA2F-4A0C-B925-ED31E2BF00C5}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
