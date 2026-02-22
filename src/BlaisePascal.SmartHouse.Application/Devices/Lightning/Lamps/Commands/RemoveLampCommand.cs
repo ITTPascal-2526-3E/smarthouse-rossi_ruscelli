@@ -15,7 +15,6 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         {
             this.lampRepository = lampRepository;
         }
-
         
     }
 }

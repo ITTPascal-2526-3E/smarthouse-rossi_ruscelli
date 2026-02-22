@@ -17,6 +17,14 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
             MaxConsumption = GetMaxConsumption(lampType);
         }
 
+        public void SwitchOff()
+        {
+            throw new NotImplementedException();
+        }
 
+        public void SwitchOn()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

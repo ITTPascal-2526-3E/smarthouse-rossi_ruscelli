@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
 {
-    public class AddampCommand
+    public class AddLampCommand
     {
         private readonly ILampRepository lampRepository;
 
@@ -18,7 +18,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
         /// </summary>
         /// <param name="lampRepository">Accetta tutte le classi che implementi questa interfaccia</param>
 
-        public AddampCommand(ILampRepository lampRepository)
+        public AddLampCommand(ILampRepository lampRepository)
         {
             this.lampRepository = lampRepository;
         }

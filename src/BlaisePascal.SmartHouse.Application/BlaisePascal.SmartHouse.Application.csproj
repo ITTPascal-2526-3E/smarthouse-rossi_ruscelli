@@ -7,10 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Devices\CCTV\" />
-    <Folder Include="Devices\Door\" />
-    <Folder Include="Devices\HeatPump\" />
-    <Folder Include="Devices\AirFryer\" />
+    <Folder Include="Devices\AirFryer\Commands\" />
+    <Folder Include="Devices\AirFryer\Dto\" />
+    <Folder Include="Devices\AirFryer\Mappers\" />
+    <Folder Include="Devices\AirFryer\Validations\" />
+    <Folder Include="Devices\AirFryer\Queries\" />
+    <Folder Include="Devices\CCTV\Dto\" />
+    <Folder Include="Devices\CCTV\Mappers\" />
+    <Folder Include="Devices\CCTV\Validations\" />
+    <Folder Include="Devices\Door\Dto\" />
+    <Folder Include="Devices\Door\Mappers\" />
+    <Folder Include="Devices\Door\Validations\" />
+    <Folder Include="Devices\HeatPump\Dto\" />
+    <Folder Include="Devices\HeatPump\Mappers\" />
+    <Folder Include="Devices\HeatPump\Validations\" />
     <Folder Include="Devices\Lightning\Lamps\Dto\" />
     <Folder Include="Devices\Lightning\Lamps\Mappers\" />
     <Folder Include="Devices\Lightning\Lamps\Validations\" />

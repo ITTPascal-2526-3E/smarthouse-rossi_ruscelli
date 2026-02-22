@@ -9,6 +9,9 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
 {
     public sealed class CCTV : AbstractDevice, ICamera, ILicensePlateRecognition
     {
+        private string name;
+        private string location;
+
         public bool IsOn { get; private set; }
         public bool IsRecording { get; private set; }
         public Location Location { get; private set; }
@@ -24,6 +27,13 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
             LicensePlateRecognitionEnabled = licensePlateRecognitionEnabled;
             LicensePlateEnebled = licensePlateEnebled;
         }
+
+        public CCTV(string name, string location)
+        {
+            this.name = name;
+            this.location = location;
+        }
+
         public void TurnOn()
         {
             IsOn = true;
