@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BlaisePascal.SmartHouse.Application.Devices.Door.Commands
 {
     public class RemoveDoorCommand

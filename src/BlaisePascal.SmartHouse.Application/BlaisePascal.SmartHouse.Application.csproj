@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Devices\AirFryer\Commands\" />
     <Folder Include="Devices\AirFryer\Dto\" />
     <Folder Include="Devices\AirFryer\Mappers\" />
     <Folder Include="Devices\AirFryer\Validations\" />
-    <Folder Include="Devices\AirFryer\Queries\" />
     <Folder Include="Devices\CCTV\Dto\" />
     <Folder Include="Devices\CCTV\Mappers\" />
     <Folder Include="Devices\CCTV\Validations\" />

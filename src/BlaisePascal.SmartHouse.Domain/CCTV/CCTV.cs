@@ -28,9 +28,8 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
             LicensePlateEnebled = licensePlateEnebled;
         }
 
-        public CCTV(string name, string location)
+        public CCTV(NameDevice name, string location) : base(name)
         {
-            this.name = name;
             this.location = location;
         }
 
