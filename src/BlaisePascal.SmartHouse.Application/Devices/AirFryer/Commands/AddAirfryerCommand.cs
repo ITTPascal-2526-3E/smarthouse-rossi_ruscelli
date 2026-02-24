@@ -13,18 +13,11 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     internal class AddAirfryerCommand // Correggi il nome della classe da "AdAirfryerCommand" a "AddAirfryerCommand"
     {
-        private readonly IAirFrayerRepository AirfryerRepository;
+        private readonly IAirFryerRepository airFryerRepository;
 
-        public AddAirfryerCommand(IAirFrayerRepository AirFryerRepository)
+        public AddAirfryerCommand(IAirFryerRepository airFryerRepository)
         {
-            this.AirfryerRepository = AirFryerRepository;
-        }
-        // TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh,NameDevice name, Mode Mode
-
-        public void Execute(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh, NameDevice name, Mode mode)
-        {
-            var airfryer = new BlaisePascal.SmartHouse.Domain.AirFryerDevice.AirFryer(temp, maxTemp, isOn, costPerKWh, name, mode);
-            AirfryerRepository.Add(airfryer);
+            this.airFryerRepository = airFryerRepository;
         }
     }
 }

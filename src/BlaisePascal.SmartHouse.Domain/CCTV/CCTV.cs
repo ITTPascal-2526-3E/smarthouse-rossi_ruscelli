@@ -63,5 +63,10 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV
                 }
             }
         }
+
+        public void Update(bool isOn, string resolution, int frameRate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

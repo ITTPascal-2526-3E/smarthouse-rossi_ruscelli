@@ -9,10 +9,10 @@ using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
 {
-   
+
     public sealed class AirFryer : AbstractDevice, IAirFryer, IModeSelectable
     {
-       
+
         private TemperatureDevice Temp;
         private TemperatureDevice MaxTemp;
         private ConsumptionDevice MaxConsumption;
@@ -64,26 +64,14 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="maxTemp"></param>
         /// <param name="maxConsumption"></param>
         /// <param name="isOn"></param>
-        public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh,NameDevice name, Mode Mode) : base(name)
+        public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh, NameDevice name, Mode Mode) : base(name)
         {
-            
-            Temp = temp;
-            mode = Mode;
-            Temp = maxTemp;
-            bool IsOn = isOn;
-            CostPerKWh = costPerKWh;
-            if (IsOn)
-            {
-                TurnedOnAt = DateTime.Now;
-            }
-        }
-
-        /// <summary>
-        /// methods to get max and min consumption based on mode
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public int GetMaxConsumption()
+                /// <summary>
+                /// methods to get max and min consumption based on mode
+                /// </summary>
+                /// <param name="mode"></param>
+                /// <returns></returns>
+                public int GetMaxConsumption()
         {
             return ModeProperties[mode].maxConsumption.Consumption;
         }
@@ -96,13 +84,13 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         {
             if (IsOn)
             {
-                MaxTemp= temp;
-            }
-            else
+                MaxTemp = temp;
+            } else
             {
                 // cannot set temp if airfryer is off
             }
         }
+
 
         public void ChangeCost(CostPerKWh cost)
         {
@@ -198,7 +186,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
                 return timeOn;
             }
         }
-      
+
         public void SetTimer(TimeSpan time)   // già implementata con interfaccia 
         {
             if (IsOn)
@@ -239,6 +227,4 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         {
             double kWh = ConsumptionKiloWattHours();
             return kWh * CostPerKWh.Value;
-        }
-    }
-}
+        } }

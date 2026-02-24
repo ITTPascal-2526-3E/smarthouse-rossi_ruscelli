@@ -13,10 +13,21 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     internal class RemoveAirfryerCommand
     {
-        private readonly IAirFrayerRepository   AirFryerRepository;
-        public RemoveAirfryerCommand(IAirFrayerRepository airfryerRepository)
+        private readonly IAirFryerRepository airFryerRepository;
+
+        public RemoveAirfryerCommand(IAirFryerRepository airFryerRepository)
         {
-            this.AirFryerRepository = airfryerRepository;
+            this.airFryerRepository = airFryerRepository;
+        }
+
+        public void Execute(Guid id)
+        {
+            var airFryer = airFryerRepository.GetById(id);
+            if (airFryer == null)
+            {
+                throw new Exception("Air Fryer not found");
+            }
+            airFryerRepository.Delete(airFryer);
         }
     }
 }

@@ -14,4 +14,22 @@ namespace BlaisePascal.SmartHouse.Application.Devices.CCTV.Commands
             this.cctvRepository = cctvRepository;
         }
     }
+
+    public class RemoveCCTVCommand
+    {
+        private readonly Domain.CCTV.Repositories.ICCTVRepository cctvRepository;
+        public RemoveCCTVCommand(Domain.CCTV.Repositories.ICCTVRepository cctvRepository)
+        {
+            this.cctvRepository = cctvRepository;
+        }
+        public void Execute(Guid id)
+        {
+            var cctv = cctvRepository.GetById(id);
+            if (cctv == null)
+            {
+                throw new Exception("CCTV not found");
+            }
+            cctvRepository.Delete(cctv);
+        }
+    }
 }

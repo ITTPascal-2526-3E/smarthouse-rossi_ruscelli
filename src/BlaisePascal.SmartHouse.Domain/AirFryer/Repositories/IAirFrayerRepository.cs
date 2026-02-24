@@ -1,18 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlaisePascal.SmartHouse.Domain.AirFryerDevice;
+﻿using BlaisePascal.SmartHouse.Domain.AirFryerDevice;
 
 namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice.Repositories
 {
-     public interface IAirFrayerRepository
+    public interface IAirFryerRepository
     {
-        void Add(AirFryer airFryer);   
-        void Update(AirFryer airFryer);
+        object GetById(Guid id);
+        void Add(AirFryer airFryer);
+        void TurnOn(AirFryer airFryer);
+        void TurnOff(AirFryer airFryer);
+        void SetTemp(AirFryer airFryer, int temperature);
+        int GetMaxConsumption(AirFryer airFryer);
+        float GetMinConsumption(AirFryer airFryer);
+        void ChangCost(AirFryer airFryer, float cost);
+        int GetConsumption(AirFryer airFryer);
+        void SelectMode(AirFryer airFryer, Mode mode);
+        TimeSpan TimeOn(AirFryer airFryer);
+        void SetTimer(AirFryer airFryer, TimeSpan timer);
+        double ConnsumptionWattHours(AirFryer airFryer);
+        double ConsumptionKiloWattHours(AirFryer airFryer);
         void Remove(AirFryer airFryer);
-        AirFryer GetById(Guid id);
         List<AirFryer> GetAll();
+        void Delete(object airFryer);
     }
 }

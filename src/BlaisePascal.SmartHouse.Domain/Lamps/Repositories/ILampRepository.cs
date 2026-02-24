@@ -11,6 +11,8 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps.Repositories
         void Add(Lamp lamp);
         void Update(Lamp lamp);
         void Remove(Lamp lamp);
+        void SwitchOn(Lamp lamp);
+        void SwitchOff(Lamp lamp);
         Lamp GetById(Guid id);
         List<Lamp> GetAll();
     }

@@ -41,5 +41,10 @@ namespace BlaisePascal.SmartHouse.Domain.Door
         {
             IsOpen = false;
         }
+
+        public void Update(bool isLocked, bool isOpen)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

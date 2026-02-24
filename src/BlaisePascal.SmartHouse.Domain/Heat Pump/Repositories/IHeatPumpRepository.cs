@@ -11,6 +11,10 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump.Repositories
         void Add(HeatPump heatPump);
         void Update(HeatPump heatPump);
         void Remove(HeatPump heatPump);
+        void TurnOn(HeatPump heatPump);
+        void TurnOff(HeatPump heatPump);
+        void SetTemperature(HeatPump heatPump, double temperature);
+        void SetMode(HeatPump heatPump, HeatPumpMode mode);
         HeatPump GetById(Guid id);
         List<HeatPump> GetAll();
     }

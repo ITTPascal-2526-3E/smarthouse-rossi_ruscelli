@@ -130,5 +130,10 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
                 Temperature = newTemperature;
             }
         }
+
+        public void Update(bool isOn, TemperatureDevice defaultTemperature, HeatPumpMode mode, CostPerKWh costPerKWh)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -26,5 +26,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
         {
             throw new NotImplementedException();
         }
+
+        public void Update(string name, int brightness)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
