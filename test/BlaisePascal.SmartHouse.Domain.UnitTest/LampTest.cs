@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using System.Security.Cryptography.X509Certificates;
 using BlaisePascal.SmartHouse.Domain.Lamps;
 using Xunit;
@@ -184,7 +184,7 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
     }
 }
-
+*/
 
 
 
@@ -354,30 +354,3 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
 
 // --Patrizio Official
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

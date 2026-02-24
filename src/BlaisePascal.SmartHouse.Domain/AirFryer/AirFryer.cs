@@ -52,6 +52,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         public bool IsOnProperty { get; private set; }   //ok
         public ConsumptionDevice CurrentConsumptionProperty { get; private set; }   //ok
         public Mode ModeProperty { get; private set; }   //ok
+        public int Consumption { get; set; }
 
 
 
@@ -66,16 +67,17 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="isOn"></param>
         public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh, NameDevice name, Mode Mode) : base(name)
         {
-                /// <summary>
-                /// methods to get max and min consumption based on mode
-                /// </summary>
-                /// <param name="mode"></param>
-                /// <returns></returns>
-                public int GetMaxConsumption()
+            /// <summary>
+            /// methods to get max and min consumption based on mode
+            /// </summary>
+            /// <param name="mode"></param>
+            /// <returns></returns>
+        }
+        public float GetMaxConsumption()
         {
             return ModeProperties[mode].maxConsumption.Consumption;
         }
-        public float GetMinConspumption()
+        public float GetMinConsumption()
         {
             return ModeProperties[mode].minConsumption.Consumption;
         }
@@ -85,7 +87,8 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
             if (IsOn)
             {
                 MaxTemp = temp;
-            } else
+            }
+            else
             {
                 // cannot set temp if airfryer is off
             }
@@ -101,7 +104,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// returns the current consumption based on the state of the airfryer (if it is heating or maintaining temperature) if off returns 0
         /// </summary>
         /// <returns></returns>
-        public int GetConsumption()
+        public float GetConsumption()
         {
             if (IsOn && Temp == MaxTemp)
             {
@@ -227,4 +230,11 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         {
             double kWh = ConsumptionKiloWattHours();
             return kWh * CostPerKWh.Value;
-        } }
+        }
+
+        public void Update(string name, bool isOn, int temperature)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

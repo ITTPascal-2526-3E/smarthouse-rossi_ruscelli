@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamps.Repositories
+namespace BlaisePascal.SmartHouse.Domain.Lightning.Repositories
 {
     public interface ILampRepository
     {
         void Add(Lamp lamp);
-        void Update(Lamp lamp);
         void Remove(Lamp lamp);
-        void SwitchOn(Lamp lamp);
-        void SwitchOff(Lamp lamp);
         Lamp GetById(Guid id);
         List<Lamp> GetAll();
     }

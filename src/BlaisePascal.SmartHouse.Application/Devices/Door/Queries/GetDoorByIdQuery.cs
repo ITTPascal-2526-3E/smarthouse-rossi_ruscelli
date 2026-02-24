@@ -18,7 +18,12 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Door.Queries
 
         public Domain.Door.Door Execute(Guid id)
         {
-            return doorRepository.GetById(id);
+            var door = doorRepository.GetById(id);
+            if (door == null)
+            {
+                throw new Exception("Door not found");
+            }
+            return door;
         }
     }
 }

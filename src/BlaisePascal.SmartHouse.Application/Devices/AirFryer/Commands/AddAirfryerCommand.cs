@@ -11,11 +11,11 @@ using BlaisePascal.SmartHouse.Domain.AirFryerDevice.AirFryerInterfaces;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
-    internal class AddAirfryerCommand // Correggi il nome della classe da "AdAirfryerCommand" a "AddAirfryerCommand"
+    internal class AddAirFryerCommand // Correggi il nome della classe da "AdAirfryerCommand" a "AddAirfryerCommand"
     {
         private readonly IAirFryerRepository airFryerRepository;
 
-        public AddAirfryerCommand(IAirFryerRepository airFryerRepository)
+        public AddAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
             this.airFryerRepository = airFryerRepository;
         }

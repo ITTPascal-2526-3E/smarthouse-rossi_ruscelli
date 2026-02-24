@@ -29,7 +29,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.CCTV.Commands
             {
                 throw new Exception("CCTV not found");
             }
-            cctvRepository.Delete(cctv);
+            cctvRepository.Remove(cctv);
         }
     }
 }

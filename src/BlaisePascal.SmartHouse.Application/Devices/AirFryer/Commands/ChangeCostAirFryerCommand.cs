@@ -1,5 +1,4 @@
-﻿
-using BlaisePascal.SmartHouse.Domain.AirFryerDevice;
+﻿using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 using BlaisePascal.SmartHouse.Domain.AirFryerDevice.Repositories;
 using System;
 using System.Collections.Generic;
@@ -7,26 +6,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
+namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
-    public class GetAirFryerByIDQuery
+    public class ChangeCostAirFryerCommand
     {
         private readonly IAirFryerRepository airFryerRepository;
-        public GetAirFryerByIDQuery(IAirFryerRepository airFryerRepository)
+
+        public ChangeCostAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
             this.airFryerRepository = airFryerRepository;
         }
 
-        public Domain.AirFryerDevice.AirFryer Execute(Guid id)
+        public void Execute(Guid id, CostPerKWh cost)
         {
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {
                 throw new Exception("Airfryer not found");
             }
-            return airFryer;
+            airFryer.ChangeCost(cost);
         }
     }
 }

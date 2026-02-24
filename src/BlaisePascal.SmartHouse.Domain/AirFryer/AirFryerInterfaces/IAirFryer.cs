@@ -10,8 +10,7 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice.AirFryerInterfaces
 {
     public interface IAirFryer : IChangeableCost, ITimerSettable, IGetEnergyConsumption, IGetCost, Iswitch, ITemperatureAdjustable, IGetConsumption
     {
-        int GetMaxConsumption();
-        float GetMinConspumption();
-       
+        float GetMaxConsumption();
+        float GetMinConsumption();
     }
 }

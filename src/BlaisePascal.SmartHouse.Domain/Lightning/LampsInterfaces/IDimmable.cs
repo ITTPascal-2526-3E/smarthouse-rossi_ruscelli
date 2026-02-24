@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces
+namespace BlaisePascal.SmartHouse.Domain.Lightning.LampsInterfaces
 {
     public interface IDimmable
     {

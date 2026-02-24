@@ -1,5 +1,5 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
-using BlaisePascal.SmartHouse.Domain.Lamps.Repositories;
+using BlaisePascal.SmartHouse.Domain.Lightning.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +23,8 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Commands
                 if (lamp != null)
                 {
                     lamp.ChangeBrightness(brightness);
-                    lampRepository.Update(lamp);
+                    lampRepository.Remove(lamp);
                 }
-        }
+            }
     }
 }

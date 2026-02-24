@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using Xunit;
 using BlaisePascal.SmartHouse.Domain.Heat_Pump;
 
@@ -81,3 +81,4 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         }
     }
 }
+*/

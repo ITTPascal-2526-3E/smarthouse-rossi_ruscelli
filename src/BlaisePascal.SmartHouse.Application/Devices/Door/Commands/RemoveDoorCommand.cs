@@ -15,5 +15,15 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Door.Commands
         {
             this.doorRepository = doorRepository;
         }
+
+        public void Execute(Guid id)
+        {
+            var door = doorRepository.GetById(id);
+            if (door == null)
+            {
+                throw new Exception("Door not found");
+            }
+            doorRepository.Remove(door);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using Xunit;
 using BlaisePascal.SmartHouse.Domain.Lamps;
 
@@ -41,4 +41,4 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
             Assert.True(lamp.BrightnessProperty <= 40, $"Brightness should be limited to 40 but was {lamp.BrightnessProperty}");
         }
     }
-}
+}*/

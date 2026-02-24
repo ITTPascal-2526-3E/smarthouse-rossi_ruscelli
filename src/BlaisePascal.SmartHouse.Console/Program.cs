@@ -1,5 +1,5 @@
 ﻿using System;
-using BlaisePascal.SmartHouse.Domain.Lamps;
+using BlaisePascal.SmartHouse.Domain.Lightning;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.App

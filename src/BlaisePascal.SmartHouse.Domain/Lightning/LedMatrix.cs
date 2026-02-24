@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
+using BlaisePascal.SmartHouse.Domain.Lightning.LampsInterfaces;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamps
+namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public sealed class LedMatrix : AbstractDevice, IMultipleDevices, IMultipleDevicesDimmable, ILedMatrix
     {

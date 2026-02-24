@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
-    public class TurnOnAirfryerCommand
+    public class TurnOnAirFryerCommand
     {
         private readonly IAirFryerRepository airFryerRepository;
 
-        public TurnOnAirfryerCommand(IAirFryerRepository airFryerRepository)
+        public TurnOnAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
             this.airFryerRepository = airFryerRepository;
         }
@@ -24,7 +24,7 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
             {
                 throw new Exception("Airfryer not found");
             }
-            airFryer.Tur;
+            airFryer.TurnOn();
         }
     }
 }

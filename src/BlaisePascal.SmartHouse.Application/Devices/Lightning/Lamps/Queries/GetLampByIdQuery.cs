@@ -1,5 +1,5 @@
-﻿using BlaisePascal.SmartHouse.Domain.Lamps;
-using BlaisePascal.SmartHouse.Domain.Lamps.Repositories;
+﻿using BlaisePascal.SmartHouse.Domain.Lightning;
+using BlaisePascal.SmartHouse.Domain.Lightning.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,12 @@ namespace BlaisePascal.SmartHouse.Application.Devices.Lightning.Lamps.Queries
         }
         public Lamp Execute(Guid id)
         {
-            return lampRepository.GetById(id);
+            var lamp = lampRepository.GetById(id);
+            if (lamp == null)
+            {
+                throw new Exception("Lamp not found");
+            }
+            return lamp;
         }
     }
 }

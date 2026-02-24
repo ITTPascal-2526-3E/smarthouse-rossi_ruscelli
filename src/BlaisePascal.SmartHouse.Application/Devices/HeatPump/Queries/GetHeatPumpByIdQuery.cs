@@ -15,7 +15,12 @@ namespace BlaisePascal.SmartHouse.Application.Devices.HeatPump.Queries
         }
         public Domain.Heat_Pump.HeatPump Execute(Guid id)
         {
-            return heatPumpRepository.GetById(id);
+            var heatPump = heatPumpRepository.GetById(id);
+            if (heatPump == null)
+            {
+                throw new Exception("Heat pump not found");
+            }
+            return heatPump;
         }
     }
 }

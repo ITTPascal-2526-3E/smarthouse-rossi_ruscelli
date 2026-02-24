@@ -1,8 +1,8 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
 using System;
-using BlaisePascal.SmartHouse.Domain.Lamps.LampsInterfaces;
+using BlaisePascal.SmartHouse.Domain.Lightning.LampsInterfaces;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
-namespace BlaisePascal.SmartHouse.Domain.Lamps
+namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public sealed class TwoLampDevice : AbstractDevice, IMultipleDevices, I2DevicesDimmable
     {

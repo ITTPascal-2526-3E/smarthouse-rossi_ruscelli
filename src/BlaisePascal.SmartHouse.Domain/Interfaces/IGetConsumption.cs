@@ -8,6 +8,6 @@ namespace BlaisePascal.SmartHouse.Domain.Interfaces
 {
     public interface IGetConsumption
     {
-        int GetConsumption();
+        float GetConsumption();
     }
 }

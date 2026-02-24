@@ -1,6 +1,6 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
-using BlaisePascal.SmartHouse.Domain.Lamps;
-using BlaisePascal.SmartHouse.Domain.Lamps.Repositories;
+using BlaisePascal.SmartHouse.Domain.Lightning;
+using BlaisePascal.SmartHouse.Domain.Lightning.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

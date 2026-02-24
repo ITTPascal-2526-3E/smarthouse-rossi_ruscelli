@@ -7,18 +7,23 @@ using System.Threading.Tasks;
 
 namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
 {
-    public class GetAllAirfryerQuery
+    public class GetMaxConsumptionAirFryerQuery
     {
         private readonly IAirFryerRepository airFryerRepository;
 
-        public GetAllAirfryerQuery(IAirFryerRepository airFryerRepository)
+        public GetMaxConsumptionAirFryerQuery(IAirFryerRepository airFryerRepository)
         {
             this.airFryerRepository = airFryerRepository;
         }
 
-        public Domain.AirFryerDevice.AirFryer[] Execute()
+        public float Execute()
         {
-            return airFryerRepository.GetAll().ToArray();
+            var airFryers = airFryerRepository.GetAll();
+            if (!airFryers.Any())
+            {
+                throw new Exception("No airfryers found");
+            }
+            return airFryers.Max(a => a.GetMaxConsumption());
         }
     }
 }

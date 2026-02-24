@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamps
+namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public enum LampType
     {

@@ -17,6 +17,5 @@ namespace BlaisePascal.SmartHouse.Domain.CCTV.Repositories
         void StartRecording(CCTV cctv, bool isRecording);
         CCTV GetById(Guid id);
         List<CCTV> GetAll();
-        void Delete(CCTV cctv);
     }
 }

@@ -13,10 +13,14 @@ namespace BlaisePascal.SmartHouse.Application.Devices.CCTV.Queries
         {
             this.cctvRepository = cctvRepository;
         }
-
         public Domain.CCTV.CCTV Execute(Guid id)
         {
-            return cctvRepository.GetById(id);
+            var cctv = cctvRepository.GetById(id);
+            if (cctv == null)
+            {
+                throw new Exception("CCTV not found");
+            }
+            return cctv;
         }
     }
 }

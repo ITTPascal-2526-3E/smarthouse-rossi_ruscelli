@@ -2,7 +2,7 @@
 using BlaisePascal.SmartHouse.Domain.Abstractions;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
-namespace BlaisePascal.SmartHouse.Domain.Lamps
+namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public sealed class Lamp : AbstractLamp
     {
@@ -19,12 +19,12 @@ namespace BlaisePascal.SmartHouse.Domain.Lamps
 
         public void SwitchOff()
         {
-            throw new NotImplementedException();
+            IsOn = false;
         }
 
         public void SwitchOn()
         {
-            throw new NotImplementedException();
+            IsOn = true;
         }
 
         public void Update(string name, int brightness)
