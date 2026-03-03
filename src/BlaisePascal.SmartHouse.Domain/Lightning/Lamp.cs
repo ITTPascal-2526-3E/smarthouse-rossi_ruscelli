@@ -6,6 +6,10 @@ namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public sealed class Lamp : AbstractLamp
     {
+        public Lamp(Guid guid, string v1, int v2, bool v3)
+        {
+        }
+
         public Lamp(bool isOn, NameDevice name, ColorType color, Brightness brightness, LampType lampType) : base(isOn, name, color, brightness, lampType)
         {
 
