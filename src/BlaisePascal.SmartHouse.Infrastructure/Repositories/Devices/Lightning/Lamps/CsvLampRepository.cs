@@ -8,6 +8,6 @@ namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.
 {
     public class CsvLampRepository
     {
-
+        public CsvLampRepository() { }
     }
 }
