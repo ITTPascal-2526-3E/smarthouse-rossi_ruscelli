@@ -15,8 +15,11 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
         {
             Name = name;
             Id = Guid.NewGuid();
+            // synchronize public properties so callers can access them
+            Idproperty = Id;
+            Nameproperty = name.Value;
         }
-        public Guid Idproperty { get; private set; }
+        public Guid Idproperty { get; set; }
         public string Nameproperty { get; set; }
     }
 }

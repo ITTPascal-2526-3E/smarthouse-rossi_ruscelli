@@ -6,6 +6,17 @@ namespace BlaisePascal.SmartHouse.App
 {
     internal static class Program
     {
+        private static void PrintLampStatus(Lamp lamp)
+        {
+            Console.WriteLine("=== Lamp status ===");
+            Console.WriteLine($"Name: {lamp.NameProperty}");
+            Console.WriteLine($"Is On: {lamp.IsOnProperty}");
+            Console.WriteLine($"Brightness: {lamp.BrightnessProperty.Value}");
+            Console.WriteLine($"Color: {lamp.ColorProperty}");
+            Console.WriteLine($"Lamp Type: {lamp.LampTypeProperty}");
+            Console.WriteLine($"Power Consumption: {lamp.PowerConsumption} W");
+            Console.WriteLine("====================\n");
+        }
         private static void Main()
         {
             var lamp = new Lamp(false, new NameDevice("Living Lamp"), ColorType.Daylight, new Brightness(75), LampType.LED);
@@ -45,7 +56,7 @@ namespace BlaisePascal.SmartHouse.App
                         if (int.TryParse(Console.ReadLine(), out var b))
                         {
                             lamp.ChangeBrightness(new Brightness(b));
-                            Console.WriteLine($"Brightness set to {lamp.BrightnessProperty}.");
+                            Console.WriteLine($"Brightness set to {lamp.BrightnessProperty.Value}.");
                         }
                         else
                         {
@@ -84,16 +95,6 @@ namespace BlaisePascal.SmartHouse.App
             }
         }
 
-        private static void PrintLampStatus(Lamp lamp)
-        {
-            Console.WriteLine("=== Lamp status ===");
-            Console.WriteLine($"Name: {lamp.NameProperty}");
-            Console.WriteLine($"Is On: {lamp.IsOnProperty}");
-            Console.WriteLine($"Brightness: {lamp.BrightnessProperty}");
-            Console.WriteLine($"Color: {lamp.ColorProperty}");
-            Console.WriteLine($"Lamp Type: {lamp.LampTypeProperty}");
-            Console.WriteLine($"Power Consumption: {lamp.PowerConsumption} W");
-            Console.WriteLine("====================\n");
-        }
+        
     }
 }

@@ -135,8 +135,8 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             // Change the brightness of the lamp
             public virtual void ChangeBrightness(Brightness newBrightness)
             {
-            
-                    Brightness= newBrightness;
+                Brightness = newBrightness;
+                BrightnessProperty = newBrightness;
             }
 
             // Change the color of the lamp

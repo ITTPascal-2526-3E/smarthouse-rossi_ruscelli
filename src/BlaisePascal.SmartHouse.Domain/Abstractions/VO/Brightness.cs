@@ -10,13 +10,9 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions.VO
     {
         public int Value { get; }
 
-        public Brightness(int value) { 
-        
-            if (value < 0 || value > 100)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "Brightness must be between 0 and 100.");
-            }
-            Value = value;
+        public Brightness(int value) {
+            // Ensure value is clamped between 0 and 100
+            Value = Math.Clamp(value, 0, 100);
         }
     }
 }
