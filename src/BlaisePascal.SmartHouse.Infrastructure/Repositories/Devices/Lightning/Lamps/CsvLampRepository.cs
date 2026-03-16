@@ -11,152 +11,100 @@ using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 
 namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.Lamps
 {
-    // Repository che persiste le lampade su file CSV
-    public class CsvLampRepository : ILampRepository
+    public class CsvLampRepository
     {
-        // Percorso del file CSV usato per persistere le lampade
-        private string _filePath;
-        // Lock per operazioni thread-safe sul file
-        private  object _lock = new();
-        // Header del CSV
-        private const string Header = "Id,Name,IsOn,Color,Brightness,LampType";
+        private readonly string _filePath = "lamps.csv";
 
-        // Costruttore: se non viene passato un percorso, usa la directory base 
-        public CsvLampRepository(string? filePath)
+        public CsvLampRepository()
         {
-            _filePath = string.IsNullOrWhiteSpace(filePath)
-                ? Path.Combine(AppContext.BaseDirectory, "lamps.csv")
-                : filePath!;
+            var solutionRoot = LocalPathHelper.GetSolutionRoot();
+            var dataFolder = Path.Combine(solutionRoot, "Data");
+            Directory.CreateDirectory(dataFolder);
 
-            // Assicura che il file esista e contenga l'header
-            lock (_lock)
+            _filePath = Path.Combine(dataFolder, "lamps.csv");
+            if (!File.Exists(_filePath))
             {
-                if (!File.Exists(_filePath))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(_filePath) ?? string.Empty);
-                    File.WriteAllText(_filePath, Header + Environment.NewLine);
-                }
-                else
-                {
-                    // Se il file esiste ma è vuoto, scrive l'header
-                    var info = new FileInfo(_filePath);
-                    if (info.Length == 0) File.WriteAllText(_filePath, Header + Environment.NewLine);
-                }
+                Save(new List<Lamp>());
             }
         }
 
-        // Aggiunge una lampada al CSV (in coda)
-        public void Add(Lamp lamp)
-        {
-            if (lamp == null) throw new ArgumentNullException(nameof(lamp));
-
-            lock (_lock)
-            {
-                var lines = File.ReadAllLines(_filePath).ToList();
-
-                // Aggiunge una nuova riga CSV rappresentante la lampada
-                var row = ToCsv(lamp);
-                lines.Add(row);
-                File.WriteAllLines(_filePath, lines);
-            }
-        }
-
-        // Rimuove tutte le righe relative alla lamp specificata (confronto per Id)
-        public void Remove(Lamp lamp)
-        {
-            if (lamp == null) throw new ArgumentNullException(nameof(lamp));
-
-            lock (_lock)
-            {
-                var lamps = ReadAll();
-                var remaining = lamps.Where(l => l.Idproperty != lamp.Idproperty).Select(ToCsv).ToList();
-                // Scrive header + righe rimanenti
-                var output = new List<string> { Header };
-                output.AddRange(remaining);
-                File.WriteAllLines(_filePath, output);
-            }
-        }
-
-        // Restituisce la lamp con l'Id specificato oppure null
-        public Lamp GetById(Guid id)
-        {
-            var lamps = ReadAll();
-            return lamps.FirstOrDefault(l => l.Idproperty == id)!;
-        }
-
-        // Restituisce tutte le lamp dal CSV
         public List<Lamp> GetAll()
         {
-            return ReadAll();
+            return Load();
         }
 
-        // Legge tutto il file e costruisce le istanze di Lamp
-        private List<Lamp> ReadAll()
+        public Lamp GetById(Guid id)
         {
-            lock (_lock)
+            return Load().First(l => l.Idproperty == id);
+        }
+
+        private void Save(List<Lamp> lamps)
+        {
+            var lines = new List<string>
             {
-                var result = new List<Lamp>();
-                if (!File.Exists(_filePath)) return result;
+                "Id,Name,Color,Brightness,IsOn,LampType"
+            };
 
-                var lines = File.ReadAllLines(_filePath);
-                foreach (var line in lines.Skip(1)) // salta l'header
-                {
-                    if (string.IsNullOrWhiteSpace(line)) continue;
-                    var parts = SplitCsv(line);
-                    if (parts.Length < 6) continue;
-
-                    // Formato: Id,Name,IsOn,Color,Brightness,LampType
-                    if (!Guid.TryParse(parts[0], out var id)) continue;
-                    var name = parts[1];
-                    if (!bool.TryParse(parts[2], out var isOn)) isOn = false;
-                    if (!Enum.TryParse<ColorType>(parts[3], true, out var color)) color = ColorType.Daylight;
-                    if (!int.TryParse(parts[4], NumberStyles.Integer, CultureInfo.InvariantCulture, out var brightness)) brightness = 0;
-                    if (!Enum.TryParse<LampType>(parts[5], true, out var lampType)) lampType = LampType.LED;
-
-                    var lamp = new Lamp(isOn, new NameDevice(name), color, new Brightness(brightness), lampType);
-                    // Ripristina Id e nome pubblici per compatibilità con il resto dell'app
-                    lamp.Idproperty = id;
-                    lamp.NameProperty = name;
-                    try { lamp.GetType().GetProperty("Nameproperty")?.SetValue(lamp, name); } catch { }
-
-                    result.Add(lamp);
-                }
-
-                return result;
-            }
-        }
-
-        // Converte una Lamp in una riga CSV
-        private static string ToCsv(Lamp lamp)
-        {
-            // Id,Name,IsOn,Color,Brightness,LampType
-            var id = lamp.Idproperty;
-            var name = Escape(lamp.NameProperty ?? lamp.Nameproperty ?? string.Empty);
-            var isOn = lamp.IsOnProperty;
-            var color = lamp.ColorProperty.ToString();
-            var brightness = lamp.BrightnessProperty?.Value ?? 0;
-            var lampType = lamp.LampTypeProperty.ToString();
-
-            return string.Join(',', id.ToString(), name, isOn.ToString(), color, brightness.ToString(CultureInfo.InvariantCulture), lampType);
-        }
-
-        // Escape minimale per campi CSV (gestisce virgole e doppi apici)
-        private static string Escape(string s)
-        {
-            if (s.Contains(',') || s.Contains('"') || s.Contains('\n') || s.Contains('\r'))
+            foreach (var lamp in lamps)
             {
-                var escaped = s.Replace("\"", "\"\"");
-                return '"' + escaped + '"';
+                lines.Add(string.Join(",",
+                    lamp.Idproperty,
+                    EscapeCsv(lamp.Nameproperty),
+                    lamp.ColorProperty.ToString(),
+                    lamp.BrightnessProperty.Value.ToString(CultureInfo.InvariantCulture),
+                    lamp.IsOnProperty.ToString(),
+                    lamp.LampTypeProperty.ToString()));
             }
-            return s;
+
+            File.WriteAllLines(_filePath, lines, Encoding.UTF8);
         }
 
-        // Split CSV che rispetta i campi tra virgolette
-        private static string[] SplitCsv(string line)
+        private static string EscapeCsv(string value)
+        {
+            if (value == null) return string.Empty;
+            if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
+            {
+                return '"' + value.Replace("\"", "\"\"") + '"';
+            }
+            return value;
+        }
+
+        private List<Lamp> Load()
+        {
+            if (!File.Exists(_filePath)) return new List<Lamp>();
+
+            var lines = File.ReadAllLines(_filePath);
+            var lamps = new List<Lamp>();
+            if (lines.Length <= 1) return lamps; // no data rows
+
+            foreach (var line in lines.Skip(1))
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                var parts = SplitCsvLine(line);
+                if (parts.Length < 6) continue;
+
+                // Parse fields with fallbacks
+                if (!Guid.TryParse(parts[0], out var id)) id = Guid.NewGuid();
+                var name = parts[1];
+
+                if (!Enum.TryParse<ColorType>(parts[2], true, out var color)) color = ColorType.White;
+                if (!int.TryParse(parts[3], NumberStyles.Integer, CultureInfo.InvariantCulture, out var brightness)) brightness = 100;
+                if (!bool.TryParse(parts[4], out var isOn)) isOn = false;
+                if (!Enum.TryParse<LampType>(parts[5], true, out var lampType)) lampType = LampType.LED;
+
+                var lamp = new Lamp(isOn, new NameDevice(name), color, new Brightness(brightness), lampType);
+                // preserve original id
+                lamp.Idproperty = id;
+                lamps.Add(lamp);
+            }
+            return lamps;
+        }
+
+        private static string[] SplitCsvLine(string line)
         {
             var parts = new List<string>();
-            var sb = new StringBuilder();
-            bool inQuotes = false;
+            var current = new StringBuilder();
+            var inQuotes = false;
             for (int i = 0; i < line.Length; i++)
             {
                 var c = line[i];
@@ -164,29 +112,53 @@ namespace BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.
                 {
                     if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
                     {
-                        // doppia virgoletta -> carattere quote
-                        sb.Append('"');
-                        i++; // salta il successivo
+                        // escaped quote
+                        current.Append('"');
+                        i++; // skip next
                     }
                     else
                     {
                         inQuotes = !inQuotes;
                     }
-                    continue;
                 }
-
-                if (c == ',' && !inQuotes)
+                else if (c == ',' && !inQuotes)
                 {
-                    parts.Add(sb.ToString());
-                    sb.Clear();
+                    parts.Add(current.ToString());
+                    current.Clear();
                 }
                 else
                 {
-                    sb.Append(c);
+                    current.Append(c);
                 }
             }
-            parts.Add(sb.ToString());
+            parts.Add(current.ToString());
             return parts.ToArray();
+        }
+
+        public void Update(Lamp lamp)
+        {
+            var lamps = Load();
+            var index = lamps.FindIndex(l => l.Idproperty == lamp.Idproperty);
+            if (index >= 0)
+            {
+                lamps[index] = lamp;
+                Save(lamps);
+            }
+        }
+
+        public void Add(Lamp lamp)
+        {
+            var lamps = Load();
+            lamps.Add(lamp);
+            Save(lamps);
+        }
+
+
+        public void Remove(Lamp lamp)
+        {
+            var lamps = Load();
+            lamps.RemoveAll(l => l.Idproperty == lamp.Idproperty);
+            Save(lamps);
         }
     }
 }
