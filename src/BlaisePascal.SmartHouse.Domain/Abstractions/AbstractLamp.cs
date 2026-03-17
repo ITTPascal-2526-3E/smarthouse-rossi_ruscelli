@@ -118,7 +118,8 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                     IsOn = true;
                     IsOnProperty = true;
                     TurnedOnAt = DateTime.Now;
-                }
+                    Brightness= new Brightness(100); // Default to full brightness when turned on
+            }
             }
 
             // Turn off the lamp
@@ -129,6 +130,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                     IsOn = false;
                     IsOnProperty = false;
                     TurnedOffAt = DateTime.Now;
+                    Brightness= new Brightness(0);
                 }
             }
 
@@ -137,6 +139,14 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
             {
                 Brightness = newBrightness;
                 BrightnessProperty = newBrightness;
+                if(newBrightness== new Brightness(0) )
+                {
+                    TurnOff();
+                }
+                else if (!IsOn)
+                {
+                    TurnOn();
+                }
             }
 
             // Change the color of the lamp
