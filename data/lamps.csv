@@ -1,2 +1,4 @@
-Id,Name,ImageUrl,Status,Brightness,CreatedAtUtc,LastModifiedAtUtc
-635c8ea1-1993-4a56-afc6-14b3ee3299c8,Lucs' Lamp,,ON,50,2026-02-25T10:25:08.3504167Z,2026-02-25T10:25:15.8665241Z
+﻿Id,Name,Color,Brightness,IsOn,LampType
+635c8ea1-1993-4a56-afc6-14b3ee3299c8,Lucs' Lamp,White,100,False,LED
+ce01ef17-8195-4154-be06-ae77469b3154,Living Lamp,Daylight,75,True,LED
+1a7e9423-c232-4ea3-a311-47191a1e6b65,Living Lamp,Purple,75,False,LED

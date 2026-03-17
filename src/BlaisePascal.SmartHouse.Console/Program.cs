@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using BlaisePascal.SmartHouse.Domain.Lightning;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
+using BlaisePascal.SmartHouse.Infrastructure.Repositories.Devices.Lightning.Lamps;
 
 namespace BlaisePascal.SmartHouse.App
 {
@@ -21,7 +23,7 @@ namespace BlaisePascal.SmartHouse.App
         {
             var lamp = new Lamp(false, new NameDevice("Living Lamp"), ColorType.Daylight, new Brightness(75), LampType.LED);
 
-            // No repository used; operate on the lamp in-memory without persistence.
+            // No repository used by default; operate on the lamp in-memory without persistence.
 
             while (true)
             {
@@ -39,7 +41,36 @@ namespace BlaisePascal.SmartHouse.App
 
                 var input = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(input)) continue;
-                if (input.Equals("X", StringComparison.OrdinalIgnoreCase)) break;
+                if (input.Equals("X", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Ask user if they want to save the lamp to CSV using the existing repository
+                    Console.Write("Vuoi salvare la lamp in CSV? (S/N): ");
+                    var saveInput = Console.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(saveInput) && (saveInput.Equals("S", StringComparison.OrdinalIgnoreCase) || saveInput.Equals("Y", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        try
+                        {
+                            var repo = new CsvLampRepository();
+                            var all = repo.GetAll();
+                            if (all.Any(l => l.Idproperty == lamp.Idproperty))
+                            {
+                                repo.Update(lamp);
+                                Console.WriteLine("Lamp aggiornata nel file CSV.");
+                            }
+                            else
+                            {
+                                repo.Add(lamp);
+                                Console.WriteLine("Lamp salvata nel file CSV.");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Errore durante il salvataggio: {ex.Message}");
+                        }
+                    }
+
+                    break;
+                }
 
                 switch (input.Trim())
                 {
@@ -94,7 +125,5 @@ namespace BlaisePascal.SmartHouse.App
                 Console.ReadLine();
             }
         }
-
-        
     }
 }
