@@ -10,15 +10,18 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     public class TurnOnAirFryerCommand
     {
+        //ok
         private readonly IAirFryerRepository airFryerRepository;
 
         public TurnOnAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public void Execute(Guid id)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {

@@ -10,15 +10,18 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     public class SelectModeAirFryerCommand
     {
+        //ok
         private readonly IAirFryerRepository airFryerRepository;
 
         public SelectModeAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public void Execute(Guid id, Mode mode)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {

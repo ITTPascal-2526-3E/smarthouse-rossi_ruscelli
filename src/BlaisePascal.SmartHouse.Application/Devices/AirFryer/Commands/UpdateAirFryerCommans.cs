@@ -8,15 +8,18 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     public class UpdateAirFryerCommans
     {
+        //ok
         private readonly Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository;
 
         public UpdateAirFryerCommans(Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public void Execute(Guid id, string name, bool isOn, int temperature)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {

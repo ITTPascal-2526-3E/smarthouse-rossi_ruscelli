@@ -9,13 +9,16 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Commands
 {
     public class SetTimerAirFryerCommand
     {
+        //ok
         private readonly IAirFryerRepository airFryerRepository;
         public SetTimerAirFryerCommand(IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
         public void Execute(Guid id, TimeSpan timer)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {
