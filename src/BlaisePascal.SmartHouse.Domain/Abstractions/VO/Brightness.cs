@@ -14,5 +14,6 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions.VO
             // Ensure value is clamped between 0 and 100
             Value = Math.Clamp(value, 0, 100);
         }
+       
     }
 }

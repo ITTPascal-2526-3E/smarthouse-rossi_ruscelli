@@ -119,7 +119,8 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                     IsOnProperty = true;
                     TurnedOnAt = DateTime.Now;
                     Brightness= new Brightness(100); // Default to full brightness when turned on
-            }
+                    BrightnessProperty = new Brightness(100);
+                }
             }
 
             // Turn off the lamp
@@ -131,21 +132,34 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions
                     IsOnProperty = false;
                     TurnedOffAt = DateTime.Now;
                     Brightness= new Brightness(0);
-                }
+                    BrightnessProperty = new Brightness(0);
+            }
             }
 
             // Change the brightness of the lamp
             public virtual void ChangeBrightness(Brightness newBrightness)
             {
-                Brightness = newBrightness;
-                BrightnessProperty = newBrightness;
-                if(newBrightness== new Brightness(0) )
+                // Compare by value instead of reference: Brightness is a class, so '==' compares references
+                if (newBrightness != null && newBrightness.Value == 0)
                 {
+                    // Setting brightness to 0 should turn off the lamp
+                    IsOn = false;
+                    IsOnProperty = false;
                     TurnOff();
+                    Brightness = new Brightness(0);
+                    BrightnessProperty = new Brightness(0);
+                    return;
                 }
-                else if (!IsOn)
+                else if (!IsOn && newBrightness.Value > 0)
                 {
                     TurnOn();
+                    Brightness = newBrightness;
+                    BrightnessProperty = newBrightness;
+                }
+                else if (IsOn)
+                {
+                    Brightness = newBrightness;
+                    BrightnessProperty = newBrightness;
                 }
             }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using BlaisePascal.SmartHouse.Domain.Abstractions;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
+using BlaisePascal.SmartHouse.Domain.Lightning.LampsInterfaces;
+using BlaisePascal.SmartHouse.Domain.Interfaces;
 
 namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
@@ -16,16 +18,6 @@ namespace BlaisePascal.SmartHouse.Domain.Lightning
             { TurnedOffAt = DateTime.Now; }
 
             MaxConsumption = GetMaxConsumption(lampType);
-        }
-
-        public void SwitchOff()
-        {
-            IsOn = false;
-        }
-
-        public void SwitchOn()
-        {
-            IsOn = true;
         }
 
         public void Update(string name, int brightness)

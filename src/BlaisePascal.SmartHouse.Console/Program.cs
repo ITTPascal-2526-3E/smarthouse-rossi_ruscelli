@@ -21,7 +21,7 @@ namespace BlaisePascal.SmartHouse.App
         }
         private static void Main()
         {
-            var lamp = new Lamp(false, new NameDevice("Living Lamp"), ColorType.Daylight, new Brightness(75), LampType.LED);
+            var lamp = new Lamp(true, new NameDevice("Living Lamp"), ColorType.Daylight, new Brightness(10), LampType.LED);
 
             // No repository used by default; operate on the lamp in-memory without persistence.
 
