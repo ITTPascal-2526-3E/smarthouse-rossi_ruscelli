@@ -10,3 +10,6 @@ prima correggere il domain poi i test
 
 aggiungere le classi della nuova modellazione smarthouse
 
+Code review #3 17/03/2026
+-
+

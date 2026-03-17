@@ -1,1 +1,2 @@
-https://docs.google.com/document/d/1wat2DSwdwFExCdnefeylYlBM-VV-C3ux/edit?usp=sharing&ouid=100748211105216657680&rtpof=true&sd=true
+Documentation: https://docs.google.com/document/d/1wat2DSwdwFExCdnefeylYlBM-VV-C3ux/edit?usp=sharing&ouid=100748211105216657680&rtpof=true&sd=true
+Class Diagram: https://excalidraw.com/#room=36cb1ef2e24d43ca1d81,c0cEmh7u0K4XCOuGoKLRiQ
