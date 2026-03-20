@@ -9,7 +9,7 @@ namespace BlaisePascal.SmartHouse.Domain.Abstractions.VO
     public sealed class Height
     {
         public float Value { get; }
-        public Height(float value)
+        public Height(int value)
         {
             if (value < 0)
             {

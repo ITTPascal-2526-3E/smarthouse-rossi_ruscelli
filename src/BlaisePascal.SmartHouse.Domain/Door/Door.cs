@@ -9,12 +9,15 @@ namespace BlaisePascal.SmartHouse.Domain.Door
     {
         public bool IsLocked { get; private set; }
         public bool IsOpen { get; private set; }
+        public bool IsOpenProperty { get; private set; }
+        public NameDevice NameProperty { get; private set; }
 
         public Door(bool isLocked, bool isOpen, NameDevice name) : base(name)
         {
             IsLocked = isLocked;
             IsOpen = isOpen;
-            
+            IsOpenProperty = isOpen; // expose public property for tests
+            NameProperty = name; // expose NameDevice for tests
         }
 
         public void Lock()
@@ -40,6 +43,7 @@ namespace BlaisePascal.SmartHouse.Domain.Door
         public void Close()
         {
             IsOpen = false;
+            IsOpenProperty = false;
         }
 
         public void Update(bool isLocked, bool isOpen)

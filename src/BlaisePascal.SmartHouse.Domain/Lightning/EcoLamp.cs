@@ -1,9 +1,10 @@
 ﻿using BlaisePascal.SmartHouse.Domain.Abstractions;
+using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 using BlaisePascal.SmartHouse.Domain.Lightning.LampsInterfaces;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Security.Cryptography.X509Certificates;
-using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
 namespace BlaisePascal.SmartHouse.Domain.Lightning
 {
     public sealed class EcoLamp : AbstractLamp, IEcoModality

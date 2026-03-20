@@ -53,13 +53,15 @@ namespace BlaisePascal.SmartHouse.Domain.Lightning
         }
         public void TurnOffAll()
         {
-            Lamp.TurnOn();
-            EcoLamp.TurnOn();
+            // turn off both lamps
+            Lamp.TurnOff();
+            EcoLamp.TurnOff();
         }
         public void TurnOnAll()
         {
-            Lamp.TurnOff();
-            EcoLamp.TurnOff();
+            // turn on both lamps
+            Lamp.TurnOn();
+            EcoLamp.TurnOn();
         }
     }
 }

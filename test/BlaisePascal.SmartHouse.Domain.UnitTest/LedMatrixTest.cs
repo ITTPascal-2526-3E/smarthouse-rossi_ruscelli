@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 using BlaisePascal.SmartHouse.Domain.Lightning;
 using BlaisePascal.SmartHouse.Domain.Abstractions.VO;
@@ -11,22 +7,39 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 {
     public class LedMatrixTest
     {
+        private LedMatrix CreateMatrix(bool isOn = true, int brightness = 100)
+        {
+            return new LedMatrix(
+                new Width(2),
+                new Height(2),
+                ColorType.CoolWhite,
+                isOn,
+                new NameDevice("test"),
+                new Brightness(brightness),
+                LampType.LED
+            );
+        }
+
         [Fact]
         public void ConstructorAndProperties_ShouldInitializeCorrectly()
         {
-            var ledMatrix = new LedMatrix(new Width(2), new Height(2), ColorType.CoolWhite, true, new NameDevice("test"), new Brightness(100), LampType.LED);
-            Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
+            var ledMatrix = CreateMatrix();
+
+            var matrix = ledMatrix.MatrixProperty;
+
             Assert.Equal(2, ledMatrix.HeightProperty);
             Assert.Equal(2, ledMatrix.WidthProperty);
-            for (int i = 0; i < 2; i++)
+            Assert.NotNull(matrix);
+
+            for (int i = 0; i < ledMatrix.HeightProperty; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < ledMatrix.WidthProperty; j++)
                 {
-                    Assert.True(ledmatrixtest[i, j].IsOnProperty);
-                    Assert.Equal("test", ledmatrixtest[i, j].NameProperty);
-                    Assert.Equal(ColorType.CoolWhite, ledmatrixtest[i, j].ColorProperty);
-                    Assert.Equal(100, ledmatrixtest[i, j].BrightnessProperty.Value);
-                    Assert.Equal(LampType.LED, ledmatrixtest[i, j].LampTypeProperty);
+                    Assert.True(matrix[i, j].IsOnProperty);
+                    Assert.Equal("test", matrix[i, j].NameProperty);
+                    Assert.Equal(ColorType.CoolWhite, matrix[i, j].ColorProperty);
+                    Assert.Equal(100, matrix[i, j].BrightnessProperty.Value);
+                    Assert.Equal(LampType.LED, matrix[i, j].LampTypeProperty);
                 }
             }
         }
@@ -34,14 +47,17 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void TurnOnAllLamps_ShouldUpdateTheirState()
         {
-            var ledMatrix = new LedMatrix(new Width(2), new Height(2), ColorType.CoolWhite, false, new NameDevice("test"), new Brightness(100), LampType.LED);
+            var ledMatrix = CreateMatrix(isOn: false);
+
             ledMatrix.TurnOnAll();
-            Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
-            for (int i = 0; i < 2; i++)
+
+            var matrix = ledMatrix.MatrixProperty;
+
+            for (int i = 0; i < ledMatrix.HeightProperty; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < ledMatrix.WidthProperty; j++)
                 {
-                    Assert.True(ledmatrixtest[i, j].IsOnProperty);
+                    Assert.True(matrix[i, j].IsOnProperty);
                 }
             }
         }
@@ -49,46 +65,82 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
         [Fact]
         public void TurnOffAllLamps_ShouldUpdateTheirState()
         {
-            var ledMatrix = new LedMatrix(new Width(2), new Height(2), ColorType.CoolWhite, true, new NameDevice("test"), new Brightness(100), LampType.LED);
+            var ledMatrix = CreateMatrix(isOn: true);
+
             ledMatrix.TurnOffAll();
-            Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
-            for (int i = 0; i < 2; i++)
+
+            var matrix = ledMatrix.MatrixProperty;
+
+            for (int i = 0; i < ledMatrix.HeightProperty; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < ledMatrix.WidthProperty; j++)
                 {
-                    Assert.False(ledmatrixtest[i, j].IsOnProperty);
+                    Assert.False(matrix[i, j].IsOnProperty);
                 }
             }
         }
 
         [Fact]
-        public void SetIntensityAll_ShouldUpdateTheirBrightness()
+        public void SetSameBrightness_ShouldUpdateTheirBrightness()
         {
-            var ledMatrix = new LedMatrix(new Width(2), new Height(2), ColorType.CoolWhite, true, new NameDevice("test"), new Brightness(100), LampType.LED);
+            var ledMatrix = CreateMatrix(brightness: 100);
+
             ledMatrix.SetSameBrightness(new Brightness(10));
-            Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
-            for (int i = 0; i < 2; i++)
+
+            var matrix = ledMatrix.MatrixProperty;
+
+            for (int i = 0; i < ledMatrix.HeightProperty; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < ledMatrix.WidthProperty; j++)
                 {
-                    Assert.Equal(10, ledmatrixtest[i, j].BrightnessProperty.Value);
+                    Assert.Equal(10, matrix[i, j].BrightnessProperty.Value);
                 }
             }
         }
 
         [Fact]
-        public void SetIntensityAll_InvalidValue_ShouldNotUpdateTheirBrightness()
+        public void SetSameBrightness_ClampedValue_ShouldUpdateTheirBrightness()
         {
-            var ledMatrix = new LedMatrix(new Width(2), new Height(2), ColorType.CoolWhite, true, new NameDevice("test"), new Brightness(100), LampType.LED);
+            var ledMatrix = CreateMatrix(brightness: 100);
+
             ledMatrix.SetSameBrightness(new Brightness(-10));
-            Lamp[,] ledmatrixtest = ledMatrix.MatrixProperty;
-            for (int i = 0; i < 2; i++)
+
+            var matrix = ledMatrix.MatrixProperty;
+
+            for (int i = 0; i < ledMatrix.HeightProperty; i++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int j = 0; j < ledMatrix.WidthProperty; j++)
                 {
-                    Assert.Equal(0, ledmatrixtest[i, j].BrightnessProperty.Value);
+                    // rimane invariato (100)
+                    Assert.Equal(0, matrix[i, j].BrightnessProperty.Value);
                 }
             }
+        }
+        [Fact]
+        public void GetLampsInRowAndColumn_ShouldReturnSameInstances_AsMatrix()
+        {
+            var ledMatrix = new LedMatrix(
+                new Width(2),
+                new Height(2),
+                ColorType.CoolWhite,
+                true,
+                new NameDevice("test"),
+                new Brightness(100),
+                LampType.LED
+            );
+
+            var matrix = ledMatrix.MatrixProperty;
+
+            var row = ledMatrix.GetLampsInRow(1);
+            var column = ledMatrix.GetLampsInColumn(1);
+
+            // stessa istanza nella riga
+            Assert.Same(matrix[1, 0], row[0]);
+            Assert.Same(matrix[1, 1], row[1]);
+
+            // stessa istanza nella colonna
+            Assert.Same(matrix[0, 1], column[0]);
+            Assert.Same(matrix[1, 1], column[1]);
         }
     }
 }
