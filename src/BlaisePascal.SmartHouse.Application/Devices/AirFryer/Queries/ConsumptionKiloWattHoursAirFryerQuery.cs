@@ -8,13 +8,16 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
 {
     public class ConsumptionKiloWattHoursAirFryerQuery
     {
+        //ok
         private readonly Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository;
         public ConsumptionKiloWattHoursAirFryerQuery(Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
         public double Execute(Guid id)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {

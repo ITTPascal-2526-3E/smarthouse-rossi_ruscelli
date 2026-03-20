@@ -9,15 +9,18 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
 {
     public class GetAllAirfryerQuery
     {
+        //ok
         private readonly IAirFryerRepository airFryerRepository;
 
         public GetAllAirfryerQuery(IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public Domain.AirFryerDevice.AirFryer[] Execute()
         {
+            //ok
             return airFryerRepository.GetAll().ToArray();
         }
     }

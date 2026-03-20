@@ -13,14 +13,17 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
 {
     public class GetAirFryerByIDQuery
     {
+        //ok
         private readonly IAirFryerRepository airFryerRepository;
         public GetAirFryerByIDQuery(IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public Domain.AirFryerDevice.AirFryer Execute(Guid id)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {

@@ -8,15 +8,18 @@ namespace BlaisePascal.SmartHouse.Application.Devices.AirFryer.Queries
 {
     public class TimeOn
     {
+        //ok
         private readonly Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository;
 
         public TimeOn(Domain.AirFryerDevice.Repositories.IAirFryerRepository airFryerRepository)
         {
+            //ok
             this.airFryerRepository = airFryerRepository;
         }
 
         public TimeSpan Execute(Guid id)
         {
+            //ok
             var airFryer = airFryerRepository.GetById(id);
             if (airFryer == null)
             {
