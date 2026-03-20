@@ -1,4 +1,3 @@
 ﻿Id,Name,Color,Brightness,IsOn,LampType
-635c8ea1-1993-4a56-afc6-14b3ee3299c8,Lucs' Lamp,White,100,False,LED
-ce01ef17-8195-4154-be06-ae77469b3154,Living Lamp,Daylight,75,True,LED
-1a7e9423-c232-4ea3-a311-47191a1e6b65,Living Lamp,Purple,75,False,LED
+aca8fbe4-b03a-4ed4-afbe-fcc10ea0dd87,Living Lamp,Daylight,10,True,LED
+09c1726f-ff1c-452e-9829-2c07a93c3db0,ciao,WarmWhite,0,False,LED
