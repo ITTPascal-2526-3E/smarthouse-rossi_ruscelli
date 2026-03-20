@@ -67,12 +67,45 @@ namespace BlaisePascal.SmartHouse.Domain.AirFryerDevice
         /// <param name="isOn"></param>
         public AirFryer(TemperatureDevice temp, TemperatureDevice maxTemp, bool isOn, CostPerKWh costPerKWh, NameDevice name, Mode Mode) : base(name)
         {
-            /// <summary>
-            /// methods to get max and min consumption based on mode
-            /// </summary>
-            /// <param name="mode"></param>
-            /// <returns></returns>
+            // initialize fields
+            this.Temp = temp;
+            this.MaxTemp = maxTemp;
+            this.IsOn = isOn;
+            this.CostPerKWh = costPerKWh;
+            this.mode = Mode;
+
+            // set consumption devices based on mode
+            (ConsumptionDevice maxConsumption, ConsumptionDevice minConsumption) = ModeProperties[this.mode];
+            this.MaxConsumption = maxConsumption;
+            this.MinConsumption = minConsumption;
+
+            // set public properties to reflect initial state
+            TempProperty = this.Temp;
+            MaxTempProperty = this.MaxTemp;
+            IsOnProperty = this.IsOn;
+            CostPerKWhProperty = this.CostPerKWh;
+            MinConsumptionProperty = this.MinConsumption;
+            MaxConsumptionProperty = this.MaxConsumption;
+            ModeProperty = this.mode;
+
+            if (this.IsOn)
+            {
+                TurnedOnAt = DateTime.Now;
+                TurnedOnAtProperty = TurnedOnAt;
+                // when turned on, assume current temperature becomes max temperature (device starts up at target)
+                this.Temp = this.MaxTemp;
+                TempProperty = this.Temp;
+            }
+            else
+            {
+                TurnedOffAt = DateTime.Now;
+                TurnedOffAtProperty = TurnedOffAt;
+            }
+
+            // initialize current consumption property
+            CurrentConsumptionProperty = new ConsumptionDevice((int)GetConsumption());
         }
+
         public float GetMaxConsumption()
         {
             return ModeProperties[mode].maxConsumption.Consumption;

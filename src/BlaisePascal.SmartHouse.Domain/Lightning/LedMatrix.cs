@@ -30,9 +30,14 @@ namespace BlaisePascal.SmartHouse.Domain.Lightning
                     matrix[r, c] = new Lamp(isOn, name, color, brightness, lampType);
                 }
             }
+
+            // synchronize public properties so tests can read them
+            WidthProperty = (int)width.Value;
+            HeightProperty = (int)height.Value;
+            MatrixProperty = matrix;
         }
-        public int WidthProperty { get; private set; }  //todo
-        public int HeightProperty { get; private set; }  //todo
+        public int WidthProperty { get; private set; }
+        public int HeightProperty { get; private set; }
         public Lamp[,] MatrixProperty { get; private set; } 
 
         public void TurnOnAll()

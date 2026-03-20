@@ -97,6 +97,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         {
             Id = Guid.NewGuid();
             IsOn = isOn;
+            IsOnProperty = isOn; // synchronize public property
             Temperature = temperature;
             Mode = mode;
             CostPerKWh = costPerKWh;
@@ -105,7 +106,10 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
         public void TurnOn()
         {
             if(!IsOn) 
-            IsOn = true;
+            {
+                IsOn = true;
+                IsOnProperty = true;
+            }
         }
 
         public void TurnOff()
@@ -113,6 +117,7 @@ namespace BlaisePascal.SmartHouse.Domain.Heat_Pump
             if (IsOn)
             {
                 IsOn = false;
+                IsOnProperty = false;
             }
             
         }

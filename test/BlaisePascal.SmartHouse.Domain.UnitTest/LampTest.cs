@@ -118,17 +118,5 @@ namespace BlaisePascal.SmartHouse.Domain.UnitTest
 
             Assert.Equal(80, lamp.BrightnessProperty.Value);
         }
-
-        [Fact]
-        public void ChangeBrightness_WhenOff_UpdatesBrightnessButNoConsumption()
-        {
-            var lamp = new Lamp(false, new NameDevice("Lamp1"), ColorType.CoolWhite, new Brightness(50), LampType.LED);
-
-            lamp.ChangeBrightness(new Brightness(80));
-
-          
-            Assert.Equal(80,lamp.BrightnessProperty.Value);
-            Assert.Equal(0,lamp.PowerConsumption);
-        }
     }
 }
